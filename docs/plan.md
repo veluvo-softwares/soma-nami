@@ -2,18 +2,18 @@
 
 Rules for every card: [hackathon.md](hackathon.md). One branch and one PR per card. At most 2 cards in progress at once.
 
-This file mirrors the `soma-nami` Kanban board. Until the board exists, it is the source of truth for status; once the board exists, the board wins and this file is updated at each card's close.
+The live status is on the `soma-nami` Kanban board; the board wins over this file. Each card's worker updates its row here when the card closes. Each card clones the repo into `/workspace/soma-nami-<card>` so parallel workers never share a working tree.
 
-| Card | Title | Depends on | Status | Branch / PR |
-|---|---|---|---|---|
-| C1 | Technical scope → `docs/scope.md` | none | done | `docs/scope` |
-| C2 | VPS spike: OCR, TTS, grounded Q&A, Swahili ASR in Node; go/no-go by Sun 25 Oct 21:00 | C1 | ready | |
-| C3 | Expo dev-build + QVAC app scaffold with CI (lint, typecheck, tests) | C1 | todo | |
-| C4 | Camera → OCR → read aloud | C2, C3 | todo | |
-| C5 | Ask about the label: grounded, cites the line, refuses when unsure | C4 | todo | |
-| C6 | Accessibility and language: large controls, TalkBack, sw/en toggle, low-confidence handling | C4 | todo | |
-| C7 | Stretch: pharmacist send over Pears | C4, C5, C6 working offline | todo | |
-| C8 | Submission pack: README sections and demo video script | C4, C5, C6 | todo | |
+| Card | Board id | Title | Depends on | Status | Branch / PR |
+|---|---|---|---|---|---|
+| C1 | `t_3d199e48` | Technical scope → `docs/scope.md` | none | done | `docs/scope` |
+| C2 | `t_250daa6d` | VPS spike: OCR, TTS, grounded Q&A, Swahili ASR in Node; go/no-go by Sun 25 Oct 21:00 | C1 | ready | |
+| C3 | `t_22903510` | Expo dev-build + QVAC app scaffold with CI (lint, typecheck, tests) | C1 | todo | |
+| C4 | `t_ad242ab0` | Camera → OCR → read aloud | C2, C3 | todo | |
+| C5 | `t_99e45430` | Ask about the label: grounded, cites the line, refuses when unsure | C4 | todo | |
+| C6 | `t_cebb50ba` | Accessibility and language: large controls, TalkBack, sw/en toggle, low-confidence handling | C4 | todo | |
+| C7 | `t_3605b8f3` | Stretch: pharmacist send over Pears | C4, C5, C6 working offline | todo | |
+| C8 | `t_55dd85be` | Submission pack: README sections and demo video script | C4, C5, C6 | todo | |
 
 ## Card details
 
