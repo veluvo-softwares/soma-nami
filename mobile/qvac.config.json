@@ -1,0 +1,8 @@
+{
+  "plugins": [
+    "@qvac/sdk/ggml-ocr/plugin",
+    "@qvac/sdk/tts-ggml/plugin",
+    "@qvac/sdk/llamacpp-completion/plugin"
+  ],
+  "includeAudioDecoder": false
+}
