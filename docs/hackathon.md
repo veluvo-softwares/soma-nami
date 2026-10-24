@@ -60,8 +60,8 @@ Offline reader. Point the camera at a medicine box, letter or notice; it reads t
 
 | When | Milestone | Owner |
 |---|---|---|
-| Sun 25 Oct, 21:00 | Spike verdict: go/no-go on OCR, Swahili TTS, grounded Q&A, Swahili ASR | Bond |
-| Tue 27 Oct | Core read-aloud working on a real phone | Wesley (device), Bond (code) |
+| Sun 25 Oct, 21:00 | Spike verdict: go/no-go on OCR, Swahili TTS, grounded Q&A, Swahili ASR, TranslatePsy | Bond |
+| Tue 27 Oct | Core read-aloud working on Wesley's iPhone | Wesley (device), Bond (code) |
 | Tue 27 Oct, night | Airplane-mode build ready | Bond |
 | Wed 28 Oct | Offline check at Node NBO | Wesley |
 | Fri 30 Oct, 12:00 | Ready to submit | Bond prepares, Wesley submits |
