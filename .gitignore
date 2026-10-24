@@ -147,3 +147,15 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Expo / React Native
+.expo/
+android/
+ios/
+*.apk
+*.aab
+
+# Downloaded models (fetched by setup, never committed)
+models/
+*.gguf
+*.bin
