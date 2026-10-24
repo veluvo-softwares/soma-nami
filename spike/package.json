@@ -1,0 +1,9 @@
+{
+  "name": "soma-nami-spike",
+  "private": true,
+  "type": "module",
+  "description": "C2 spike: QVAC OCR, TTS, Q&A, ASR and translation in Node on the VPS",
+  "dependencies": {
+    "@qvac/sdk": "0.22.0"
+  }
+}
