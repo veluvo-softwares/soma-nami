@@ -12,7 +12,7 @@ Hand-offs to Wesley (C3a, C4a, C12) are not separate board cards: the Bond card 
 |---|---|---|---|---|---|---|
 | C1 | `t_3d199e48` | Technical scope → `docs/scope.md` | none | Bond | done | `docs/scope`, #2 |
 | C2 | `t_250daa6d` | VPS spike: OCR, TTS, Q&A, ASR, TranslatePsy; go/no-go by Sun 25 Oct 21:00 | C1 | Bond | in progress | `spike/c2` |
-| C3 | `t_22903510` | Expo dev-build + QVAC app scaffold, CI, Android APK job | C1 | Bond | in progress | `feat/c3-app-scaffold`, #7 |
+| C3 | `t_22903510` | Expo dev-build + QVAC app scaffold, CI, Android APK job | C1 | Bond | in review: CI and APK build green; iOS hand-off (C3a) next | `feat/c3-app-scaffold`, #7 |
 | C3a | (block on C3 or C10) | iOS hand-off: first build on Wesley's iPhone | C3 | Wesley | todo | |
 | C3b | none | Android APK on an arm64 emulator on Wesley's Mac (record what happens) | C3 | Wesley | optional | |
 | C4 | `t_ad242ab0` | Home, Aiming, Reading: camera → OCR → read aloud | C2, C3 | Bond | todo | |
