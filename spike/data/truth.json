@@ -1,0 +1,75 @@
+{
+  "print": {
+    "p1_paracetamol": [
+      "PARACETAMOL",
+      "Tablets BP 500 mg",
+      "100 Tablets",
+      "Dosage: Adults and children over 12 years:",
+      "1 to 2 tablets every 4 to 6 hours.",
+      "Do not take more than 8 tablets in 24 hours.",
+      "Store below 30°C. Keep out of reach of children.",
+      "Batch No: PX2417  Exp: 08/2028",
+      "Manufactured by: Generic Pharma Ltd"
+    ],
+    "p2_amoxicillin": [
+      "AMOXICILLIN",
+      "Capsules BP 250 mg",
+      "21 Capsules",
+      "Take one capsule three times a day",
+      "for 7 days, or as directed by the prescriber.",
+      "Complete the full course.",
+      "Prescription only medicine.",
+      "Batch: AM0391  Mfg: 03/2026  Exp: 02/2028"
+    ],
+    "p3_metformin": [
+      "Metformin Hydrochloride",
+      "Tablets 500 mg",
+      "28 film-coated tablets",
+      "Take 1 tablet twice daily with meals.",
+      "Swallow whole with water.",
+      "Read the leaflet before use.",
+      "Batch No: MF5520  Exp: 11/2027"
+    ],
+    "p4_ors_sw": [
+      "ORAL REHYDRATION SALTS",
+      "Chumvi ya Kurejesha Maji Mwilini",
+      "Dissolve one sachet in 1 litre of clean water.",
+      "Yeyusha pakiti moja katika lita 1 ya maji safi.",
+      "Use within 24 hours.",
+      "Tumia ndani ya saa 24.",
+      "Batch: OR8812  Exp: 05/2028"
+    ],
+    "p5_ibuprofen_small": [
+      "IBUPROFEN 200 mg",
+      "24 Tablets",
+      "Adults: 1 or 2 tablets up to 3 times a day.",
+      "Take with or after food.",
+      "Leave at least 4 hours between doses.",
+      "Do not exceed 6 tablets in 24 hours.",
+      "Not for children under 12.",
+      "Batch IB7734 Exp 01/2028"
+    ]
+  },
+  "hand": {
+    "h1_1x3": [
+      "1x3"
+    ],
+    "h2_2bd": [
+      "2 bd"
+    ],
+    "h3_1x3_5days": [
+      "1 x 3",
+      "x 5 days"
+    ],
+    "h4_2bd_7days": [
+      "2 bd x 7/7"
+    ],
+    "h5_tds": [
+      "Tab 1 tds",
+      "after food"
+    ],
+    "h6_nocte": [
+      "1 nocte"
+    ]
+  }
+}
