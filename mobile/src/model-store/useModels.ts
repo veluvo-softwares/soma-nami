@@ -11,7 +11,7 @@ export interface UseModels {
 }
 
 /**
- * Checks the models on mount; downloads only when the user asks (about 2.4 GB,
+ * Checks the models on mount; downloads only when the user asks (about 1.5 GB,
  * so it should be on Wi-Fi). Everything stops when the component unmounts.
  */
 export function useModels(client: ModelClient, manifest: readonly ModelEntry[]): UseModels {
