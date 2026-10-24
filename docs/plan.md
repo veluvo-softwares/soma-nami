@@ -6,8 +6,8 @@ This file mirrors the `soma-nami` Kanban board. Until the board exists, it is th
 
 | Card | Title | Depends on | Status | Branch / PR |
 |---|---|---|---|---|
-| C1 | Technical scope → `docs/scope.md` | none | in progress | `docs/scope` |
-| C2 | VPS spike: OCR, TTS, grounded Q&A, Swahili ASR in Node; go/no-go by Sun 25 Oct 21:00 | C1 | todo | |
+| C1 | Technical scope → `docs/scope.md` | none | done | `docs/scope` |
+| C2 | VPS spike: OCR, TTS, grounded Q&A, Swahili ASR in Node; go/no-go by Sun 25 Oct 21:00 | C1 | ready | |
 | C3 | Expo dev-build + QVAC app scaffold with CI (lint, typecheck, tests) | C1 | todo | |
 | C4 | Camera → OCR → read aloud | C2, C3 | todo | |
 | C5 | Ask about the label: grounded, cites the line, refuses when unsure | C4 | todo | |
