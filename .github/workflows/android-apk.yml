@@ -1,0 +1,98 @@
+name: Android dev APK
+
+# Builds a standalone arm64 APK (JavaScript bundled in, signed with the debug
+# key) that installs on a physical phone without a dev server. Not for the
+# Play Store. The VPS can't build APKs, so this is the only build path besides
+# a developer laptop.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'mobile/**'
+      - '.github/workflows/android-apk.yml'
+  pull_request:
+    paths:
+      - 'mobile/package.json'
+      - 'mobile/package-lock.json'
+      - 'mobile/app.json'
+      - 'mobile/qvac.config.json'
+      - '.github/workflows/android-apk.yml'
+
+concurrency:
+  group: apk-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  EXPO_NO_TELEMETRY: '1'
+  # Must match DEFAULT_NDK_VERSION in @qvac/sdk/expo-plugin (0.22.0).
+  QVAC_NDK_VERSION: '29.0.14206865'
+
+jobs:
+  apk:
+    name: Build dev APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - name: Free disk space
+        working-directory: /
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL
+          df -h /
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install Android NDK ${{ env.QVAC_NDK_VERSION }}
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;${QVAC_NDK_VERSION}" > /dev/null
+
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      # Prebuild also bundles the QVAC worker and links its native addons.
+      # --no-install: a reinstall after prebuild would unlink them.
+      - name: Expo prebuild (android)
+        run: npx expo prebuild --platform android --no-install
+
+      - name: Give Gradle more memory
+        run: |
+          sed -i '/^org.gradle.jvmargs=/d' android/gradle.properties
+          echo 'org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=1g' >> android/gradle.properties
+
+      - name: Build APK
+        working-directory: mobile/android
+        run: ./gradlew assembleRelease --no-daemon -PreactNativeArchitectures=arm64-v8a
+
+      - name: Name the APK
+        id: apk
+        run: |
+          name="soma-nami-dev-${GITHUB_SHA::7}.apk"
+          cp android/app/build/outputs/apk/release/app-release.apk "$name"
+          ls -lh "$name"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: soma-nami-dev-apk
+          path: mobile/${{ steps.apk.outputs.name }}
+          retention-days: 14
+          if-no-files-found: error
