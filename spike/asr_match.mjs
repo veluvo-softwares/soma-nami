@@ -27,10 +27,12 @@ if (arg === 'texts') {
   mkdirSync(join(HERE, 'data/asr/q'), { recursive: true });
   for (const lang of ['sw', 'en']) {
     writeFileSync(join(HERE, `data/asr/q/${lang}_texts.json`), JSON.stringify(Q[lang].map((q) => q.text)) + '\n');
+    writeFileSync(join(HERE, `data/asr/q/${lang}_neg_texts.json`), JSON.stringify(Q[`${lang}_neg`]) + '\n');
   }
-  console.log('wrote data/asr/q/{sw,en}_texts.json');
+  console.log('wrote data/asr/q/{sw,en}{,_neg}_texts.json');
   process.exit(0);
 }
+if (arg === 'count') { console.log(Q.sw.length); process.exit(0); }
 
 const squash = (s) => [...normalise(s).replace(/\s+/g, '')];
 const sim = (a, b) => {
@@ -68,14 +70,16 @@ for (const lang of ['sw', 'en']) {
   const listPrompt = Q[lang].map((q) => q.text).join(' ');
   for (const f of mine) {
     const [, n, variant] = f.match(/^\w+_(\d+)_(\w+)\.wav$/);
-    const truth = Q[lang][Number(n) - 1].id;
+    const truth = Q[lang][Number(n) - 1]?.id ?? null; // null = out-of-list, must reject
     for (const mode of ['plain', 'prompted']) {
       const { value: segs, ms, cpuS } = await timedCpu(mem, () => sdk.transcribe({
         modelId, audioChunk: join(dir, f), ...(mode === 'prompted' ? { prompt: listPrompt } : {}),
       }));
       const hyp = (Array.isArray(segs) ? segs.map((s) => (typeof s === 'string' ? s : s.text)).join('') : String(segs)).trim();
       const m = match(lang, hyp);
-      const outcome = m.pick === null ? 'reject' : m.pick === truth ? 'right' : 'WRONG';
+      const outcome = truth === null
+        ? (m.pick === null ? 'rejected_neg' : 'WRONG_neg')
+        : (m.pick === null ? 'reject' : m.pick === truth ? 'right' : 'WRONG');
       results.push({ lang, file: f, variant, mode, truth, hyp, ...m, outcome, ms, cpuS });
       console.log(`${lang} ${f} ${mode}: ${outcome} (best ${m.best.id} ${m.best.sim}, 2nd ${m.second.id} ${m.second.sim}) ${ms} ms | ${hyp}`);
     }
@@ -85,10 +89,14 @@ for (const lang of ['sw', 'en']) {
 const m = mem.stop();
 const summary = {};
 for (const r of results) {
-  for (const k of [`${r.lang}_${r.mode}`, `${r.lang}_${r.mode}_${r.variant}`]) {
+  const neg = r.truth === null ? '_neg' : '';
+  for (const k of [`${r.lang}${neg}_${r.mode}`, `${r.lang}${neg}_${r.mode}_${r.variant}`]) {
     const s = (summary[k] ??= { clips: 0, right: 0, reject: 0, wrong: 0, msSum: 0 });
     s.clips++; s.msSum += r.ms;
-    if (r.outcome === 'right') s.right++; else if (r.outcome === 'reject') s.reject++; else s.wrong++;
+    // for out-of-list clips a reject is the right outcome
+    if (r.outcome === 'right' || r.outcome === 'rejected_neg') s.right++;
+    else if (r.outcome === 'reject') s.reject++;
+    else s.wrong++;
   }
 }
 for (const s of Object.values(summary)) { s.meanMs = Math.round(s.msSum / s.clips); delete s.msSum; }

@@ -1,0 +1,264 @@
+{
+  "threshold": 0.5,
+  "retry": false,
+  "config": {
+    "magRatio": 1.5,
+    "canvasSize": 1280,
+    "recognizerBatchSize": 8
+  },
+  "loadMs": 8401,
+  "peakAfterLoadMb": 577.2,
+  "cpuS": 258.6,
+  "peakRssMb": 2406.7,
+  "baselineRssMb": 100.6,
+  "procs": 2,
+  "summary": {
+    "print_photo": {
+      "images": 1,
+      "meanPageCer": 0.089,
+      "lineExactRate": 0.778,
+      "numberRecall": 1,
+      "meanConf": 0.902,
+      "flaggedRate": 0,
+      "meanMs": 101959,
+      "meanCpuS": 84.9,
+      "wrongButConfident": 2,
+      "wrongLines": 2
+    },
+    "print_hard": {
+      "images": 1,
+      "meanPageCer": 0,
+      "lineExactRate": 1,
+      "numberRecall": 1,
+      "meanConf": 0.854,
+      "flaggedRate": 0,
+      "meanMs": 116130,
+      "meanCpuS": 87.5,
+      "wrongButConfident": 0,
+      "wrongLines": 0
+    },
+    "hand": {
+      "images": 1,
+      "meanPageCer": 0.05,
+      "lineExactRate": 0.5,
+      "numberRecall": 0,
+      "meanConf": 0.951,
+      "flaggedRate": 0,
+      "meanMs": 134328,
+      "meanCpuS": 77.1,
+      "wrongButConfident": 1,
+      "wrongLines": 1
+    }
+  },
+  "results": [
+    {
+      "set": "print",
+      "file": "p1_paracetamol_photo.jpg",
+      "ms": 101959,
+      "cpuS": 84.93,
+      "blocks": 13,
+      "meanConf": 0.902,
+      "minConf": 0.531,
+      "text": [
+        "PARACETAMOL",
+        "Tablets BP 500 mg",
+        "100 Tablets",
+        "Dosage: Adults and children over 12 years:",
+        "1 to 2 tablets every 4 to 6 hours.",
+        "Do not take more than 8 tablets in 24 hours. 30*C. Keep out of reach of children ",
+        "Store below",
+        "Batch No: PX2417 Exp: 08/2028",
+        "Manufactured by: Generic Pharma Ltd"
+      ],
+      "pageCer": 0.089,
+      "lineExact": 7,
+      "lines": 9,
+      "numberRecall": 1,
+      "perLine": [
+        {
+          "ref": "PARACETAMOL",
+          "hyp": "PARACETAMOL",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.928
+        },
+        {
+          "ref": "Tablets BP 500 mg",
+          "hyp": "Tablets BP 500 mg",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.986
+        },
+        {
+          "ref": "100 Tablets",
+          "hyp": "100 Tablets",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.941
+        },
+        {
+          "ref": "Dosage: Adults and children over 12 years:",
+          "hyp": "Dosage: Adults and children over 12 years:",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.972
+        },
+        {
+          "ref": "1 to 2 tablets every 4 to 6 hours.",
+          "hyp": "1 to 2 tablets every 4 to 6 hours.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.889
+        },
+        {
+          "ref": "Do not take more than 8 tablets in 24 hours.",
+          "hyp": "1 to 2 tablets every 4 to 6 hours.",
+          "cer": 0.651,
+          "exact": false,
+          "minConf": 0.889
+        },
+        {
+          "ref": "Store below 30°C. Keep out of reach of children.",
+          "hyp": "1 to 2 tablets every 4 to 6 hours.",
+          "cer": 0.761,
+          "exact": false,
+          "minConf": 0.889
+        },
+        {
+          "ref": "Batch No: PX2417  Exp: 08/2028",
+          "hyp": "Batch No: PX2417 Exp: 08/2028",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.77
+        },
+        {
+          "ref": "Manufactured by: Generic Pharma Ltd",
+          "hyp": "Manufactured by: Generic Pharma Ltd",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.926
+        }
+      ],
+      "flagged": false,
+      "peakSoFarMb": 2391.5
+    },
+    {
+      "set": "print",
+      "file": "p2_amoxicillin_hard.jpg",
+      "ms": 116130,
+      "cpuS": 87.45,
+      "blocks": 12,
+      "meanConf": 0.854,
+      "minConf": 0.642,
+      "text": [
+        "AMOXICILLIN",
+        "Capsules BP 250 mg",
+        "21 Capsules",
+        "Take one capsule three times a day",
+        "for 7 days, or as directed by the prescriber ",
+        "Complete the full course.",
+        "Prescription only medicine.",
+        "Batch: AM0391 Mfg: 03/2026 Exp: 02/2028"
+      ],
+      "pageCer": 0,
+      "lineExact": 8,
+      "lines": 8,
+      "numberRecall": 1,
+      "perLine": [
+        {
+          "ref": "AMOXICILLIN",
+          "hyp": "AMOXICILLIN",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.981
+        },
+        {
+          "ref": "Capsules BP 250 mg",
+          "hyp": "Capsules BP 250 mg",
+          "cer": 0,
+          "exact": true,
+          "minConf": 1
+        },
+        {
+          "ref": "21 Capsules",
+          "hyp": "21 Capsules",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.642
+        },
+        {
+          "ref": "Take one capsule three times a day",
+          "hyp": "Take one capsule three times a day",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.845
+        },
+        {
+          "ref": "for 7 days, or as directed by the prescriber.",
+          "hyp": "for 7 days, or as directed by the prescriber ",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.701
+        },
+        {
+          "ref": "Complete the full course.",
+          "hyp": "Complete the full course.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.799
+        },
+        {
+          "ref": "Prescription only medicine.",
+          "hyp": "Prescription only medicine.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.721
+        },
+        {
+          "ref": "Batch: AM0391  Mfg: 03/2026  Exp: 02/2028",
+          "hyp": "Batch: AM0391 Mfg: 03/2026 Exp: 02/2028",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.674
+        }
+      ],
+      "flagged": false,
+      "peakSoFarMb": 2406.7
+    },
+    {
+      "set": "hand",
+      "file": "h5_tds_indieflower.jpg",
+      "ms": 134328,
+      "cpuS": 77.05,
+      "blocks": 4,
+      "meanConf": 0.951,
+      "minConf": 0.902,
+      "text": [
+        "Tab 4 tds",
+        "after food"
+      ],
+      "pageCer": 0.05,
+      "lineExact": 1,
+      "lines": 2,
+      "numberRecall": 0,
+      "perLine": [
+        {
+          "ref": "Tab 1 tds",
+          "hyp": "Tab 4 tds",
+          "cer": 0.111,
+          "exact": false,
+          "minConf": 0.902
+        },
+        {
+          "ref": "after food",
+          "hyp": "after food",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.973
+        }
+      ],
+      "flagged": false,
+      "peakSoFarMb": 2406.7
+    }
+  ]
+}

@@ -19,5 +19,18 @@
     { "id": "what_is_it", "text": "What medicine is this?" },
     { "id": "with_food", "text": "Before or after food?" },
     { "id": "read_again", "text": "Read it again." }
+  ],
+  "_neg_note": "Out-of-list questions. Clip numbers continue after the list (9, 10, ...). The matcher must reject these.",
+  "sw_neg": [
+    "Naweza kunywa na pombe?",
+    "Ni salama kwa mtoto wangu?",
+    "Nikisahau dozi nifanye nini?",
+    "Habari ya asubuhi."
+  ],
+  "en_neg": [
+    "Can I drink alcohol with it?",
+    "Is it safe for my child?",
+    "What if I miss a dose?",
+    "Good morning."
   ]
 }

@@ -1,0 +1,97 @@
+{
+  "engine": "supertonic",
+  "modelConfig": {
+    "ttsEngine": "supertonic",
+    "language": "en",
+    "voice": "F1",
+    "ttsSpeed": 0.95,
+    "threads": 1
+  },
+  "loadMs": 10664,
+  "cpuS": 20,
+  "peakRssMb": 1178.4,
+  "baselineRssMb": 103.9,
+  "procs": 2,
+  "runs": [
+    {
+      "text": "How many do I take?",
+      "ms": 1604,
+      "cpuS": 1.42,
+      "audioS": 1.71,
+      "rtf": 0.94,
+      "cpuRtf": 0.83,
+      "sampleRate": 44100,
+      "file": "data/asr/q/raw/supertonic_q_en_f1_1.wav"
+    },
+    {
+      "text": "How many times a day?",
+      "ms": 1125,
+      "cpuS": 1.1,
+      "audioS": 1.9,
+      "rtf": 0.59,
+      "cpuRtf": 0.58,
+      "sampleRate": 44100,
+      "file": "data/asr/q/raw/supertonic_q_en_f1_2.wav"
+    },
+    {
+      "text": "For how many days?",
+      "ms": 1500,
+      "cpuS": 1.04,
+      "audioS": 1.7,
+      "rtf": 0.88,
+      "cpuRtf": 0.61,
+      "sampleRate": 44100,
+      "file": "data/asr/q/raw/supertonic_q_en_f1_3.wav"
+    },
+    {
+      "text": "When does it expire?",
+      "ms": 1100,
+      "cpuS": 1.08,
+      "audioS": 1.9,
+      "rtf": 0.58,
+      "cpuRtf": 0.57,
+      "sampleRate": 44100,
+      "file": "data/asr/q/raw/supertonic_q_en_f1_4.wav"
+    },
+    {
+      "text": "How do I store it?",
+      "ms": 1183,
+      "cpuS": 1.02,
+      "audioS": 1.7,
+      "rtf": 0.69,
+      "cpuRtf": 0.6,
+      "sampleRate": 44100,
+      "file": "data/asr/q/raw/supertonic_q_en_f1_5.wav"
+    },
+    {
+      "text": "What medicine is this?",
+      "ms": 1167,
+      "cpuS": 1.17,
+      "audioS": 1.95,
+      "rtf": 0.6,
+      "cpuRtf": 0.6,
+      "sampleRate": 44100,
+      "file": "data/asr/q/raw/supertonic_q_en_f1_6.wav"
+    },
+    {
+      "text": "Before or after food?",
+      "ms": 1252,
+      "cpuS": 1.1,
+      "audioS": 1.82,
+      "rtf": 0.69,
+      "cpuRtf": 0.6,
+      "sampleRate": 44100,
+      "file": "data/asr/q/raw/supertonic_q_en_f1_7.wav"
+    },
+    {
+      "text": "Read it again.",
+      "ms": 1022,
+      "cpuS": 1.01,
+      "audioS": 1.62,
+      "rtf": 0.63,
+      "cpuRtf": 0.62,
+      "sampleRate": 44100,
+      "file": "data/asr/q/raw/supertonic_q_en_f1_8.wav"
+    }
+  ]
+}

@@ -1,0 +1,3119 @@
+{
+  "model": "WHISPER_SMALL_Q8_0",
+  "minSim": 0.5,
+  "minMargin": 0.15,
+  "loads": {
+    "sw": 78954,
+    "en": 28303
+  },
+  "peakRssMb": 967.1,
+  "cpuS": 2193.2,
+  "summary": {
+    "sw_neg_plain": {
+      "clips": 12,
+      "right": 12,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 14038
+    },
+    "sw_neg_plain_clean": {
+      "clips": 4,
+      "right": 4,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 14223
+    },
+    "sw_neg_prompted": {
+      "clips": 12,
+      "right": 12,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 14949
+    },
+    "sw_neg_prompted_clean": {
+      "clips": 4,
+      "right": 4,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 14378
+    },
+    "sw_neg_plain_noisy": {
+      "clips": 4,
+      "right": 4,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 13783
+    },
+    "sw_neg_prompted_noisy": {
+      "clips": 4,
+      "right": 4,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 15213
+    },
+    "sw_neg_plain_slow": {
+      "clips": 4,
+      "right": 4,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 14107
+    },
+    "sw_neg_prompted_slow": {
+      "clips": 4,
+      "right": 4,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 15258
+    },
+    "sw_plain": {
+      "clips": 24,
+      "right": 24,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 14442
+    },
+    "sw_plain_clean": {
+      "clips": 8,
+      "right": 8,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 14487
+    },
+    "sw_prompted": {
+      "clips": 24,
+      "right": 24,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 15003
+    },
+    "sw_prompted_clean": {
+      "clips": 8,
+      "right": 8,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 14831
+    },
+    "sw_plain_noisy": {
+      "clips": 8,
+      "right": 8,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 14310
+    },
+    "sw_prompted_noisy": {
+      "clips": 8,
+      "right": 8,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 15133
+    },
+    "sw_plain_slow": {
+      "clips": 8,
+      "right": 8,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 14528
+    },
+    "sw_prompted_slow": {
+      "clips": 8,
+      "right": 8,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 15047
+    },
+    "en_neg_plain": {
+      "clips": 12,
+      "right": 12,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 14496
+    },
+    "en_neg_plain_clean": {
+      "clips": 4,
+      "right": 4,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 13917
+    },
+    "en_neg_prompted": {
+      "clips": 12,
+      "right": 12,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 15906
+    },
+    "en_neg_prompted_clean": {
+      "clips": 4,
+      "right": 4,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 15620
+    },
+    "en_neg_plain_noisy": {
+      "clips": 4,
+      "right": 4,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 14077
+    },
+    "en_neg_prompted_noisy": {
+      "clips": 4,
+      "right": 4,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 15733
+    },
+    "en_neg_plain_slow": {
+      "clips": 4,
+      "right": 4,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 15496
+    },
+    "en_neg_prompted_slow": {
+      "clips": 4,
+      "right": 4,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 16366
+    },
+    "en_plain": {
+      "clips": 24,
+      "right": 24,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 13794
+    },
+    "en_plain_clean": {
+      "clips": 8,
+      "right": 8,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 13690
+    },
+    "en_prompted": {
+      "clips": 24,
+      "right": 24,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 14806
+    },
+    "en_prompted_clean": {
+      "clips": 8,
+      "right": 8,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 15301
+    },
+    "en_plain_noisy": {
+      "clips": 8,
+      "right": 8,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 13778
+    },
+    "en_prompted_noisy": {
+      "clips": 8,
+      "right": 8,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 14402
+    },
+    "en_plain_slow": {
+      "clips": 8,
+      "right": 8,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 13913
+    },
+    "en_prompted_slow": {
+      "clips": 8,
+      "right": 8,
+      "reject": 0,
+      "wrong": 0,
+      "meanMs": 14715
+    }
+  },
+  "results": [
+    {
+      "lang": "sw",
+      "file": "sw_10_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Misalama kumto toangu, ani",
+      "pick": null,
+      "best": {
+        "id": "what_is_it",
+        "sim": 0.318
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.273
+      },
+      "outcome": "rejected_neg",
+      "ms": 15085,
+      "cpuS": 14.04
+    },
+    {
+      "lang": "sw",
+      "file": "sw_10_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Misalama kwa mtotu angu? Ani?",
+      "pick": null,
+      "best": {
+        "id": "how_long",
+        "sim": 0.391
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.348
+      },
+      "outcome": "rejected_neg",
+      "ms": 14011,
+      "cpuS": 13.99
+    },
+    {
+      "lang": "sw",
+      "file": "sw_10_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Misalama kumto duwangu, ani",
+      "pick": null,
+      "best": {
+        "id": "what_is_it",
+        "sim": 0.348
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.304
+      },
+      "outcome": "rejected_neg",
+      "ms": 14379,
+      "cpuS": 14.37
+    },
+    {
+      "lang": "sw",
+      "file": "sw_10_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Misalama kwonto duwangu? Ani?",
+      "pick": null,
+      "best": {
+        "id": "what_is_it",
+        "sim": 0.375
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.333
+      },
+      "outcome": "rejected_neg",
+      "ms": 16534,
+      "cpuS": 16.47
+    },
+    {
+      "lang": "sw",
+      "file": "sw_10_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Misalama kwa mtotu angu, ani",
+      "pick": null,
+      "best": {
+        "id": "how_long",
+        "sim": 0.391
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.348
+      },
+      "outcome": "rejected_neg",
+      "ms": 15920,
+      "cpuS": 15.21
+    },
+    {
+      "lang": "sw",
+      "file": "sw_10_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Misalama komto toanku? Ani?",
+      "pick": null,
+      "best": {
+        "id": "read_again",
+        "sim": 0.318
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.273
+      },
+      "outcome": "rejected_neg",
+      "ms": 15063,
+      "cpuS": 15.06
+    },
+    {
+      "lang": "sw",
+      "file": "sw_11_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Nikisa hau dozenifanya ni mi?",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.375
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.333
+      },
+      "outcome": "rejected_neg",
+      "ms": 13975,
+      "cpuS": 13.94
+    },
+    {
+      "lang": "sw",
+      "file": "sw_11_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Nikisa hau dhozeni fange nii nii?",
+      "pick": null,
+      "best": {
+        "id": "how_many",
+        "sim": 0.333
+      },
+      "second": {
+        "id": "storage",
+        "sim": 0.333
+      },
+      "outcome": "rejected_neg",
+      "ms": 15430,
+      "cpuS": 15.44
+    },
+    {
+      "lang": "sw",
+      "file": "sw_11_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Nikisa hau dozenifanya nemi",
+      "pick": null,
+      "best": {
+        "id": "how_many",
+        "sim": 0.333
+      },
+      "second": {
+        "id": "storage",
+        "sim": 0.333
+      },
+      "outcome": "rejected_neg",
+      "ms": 13284,
+      "cpuS": 12.91
+    },
+    {
+      "lang": "sw",
+      "file": "sw_11_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Nikisa hau dho zinifa nii nii?",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.375
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.25
+      },
+      "outcome": "rejected_neg",
+      "ms": 14473,
+      "cpuS": 14.48
+    },
+    {
+      "lang": "sw",
+      "file": "sw_11_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Nikisa hau dozenifayne ni mi?",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.375
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.292
+      },
+      "outcome": "rejected_neg",
+      "ms": 13378,
+      "cpuS": 13.37
+    },
+    {
+      "lang": "sw",
+      "file": "sw_11_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Nikisa hau dhozeni fainge nii nii?",
+      "pick": null,
+      "best": {
+        "id": "how_many",
+        "sim": 0.321
+      },
+      "second": {
+        "id": "storage",
+        "sim": 0.321
+      },
+      "outcome": "rejected_neg",
+      "ms": 15328,
+      "cpuS": 15.14
+    },
+    {
+      "lang": "sw",
+      "file": "sw_12_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Habariya asubuhi",
+      "pick": null,
+      "best": {
+        "id": "expiry",
+        "sim": 0.318
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.267
+      },
+      "outcome": "rejected_neg",
+      "ms": 14170,
+      "cpuS": 13.72
+    },
+    {
+      "lang": "sw",
+      "file": "sw_12_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Habaari ya asubuhi.",
+      "pick": null,
+      "best": {
+        "id": "expiry",
+        "sim": 0.318
+      },
+      "second": {
+        "id": "with_food",
+        "sim": 0.259
+      },
+      "outcome": "rejected_neg",
+      "ms": 13846,
+      "cpuS": 13.83
+    },
+    {
+      "lang": "sw",
+      "file": "sw_12_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Habariya asubuhi.",
+      "pick": null,
+      "best": {
+        "id": "expiry",
+        "sim": 0.318
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.267
+      },
+      "outcome": "rejected_neg",
+      "ms": 12983,
+      "cpuS": 12.97
+    },
+    {
+      "lang": "sw",
+      "file": "sw_12_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Habariya asubuhi.",
+      "pick": null,
+      "best": {
+        "id": "expiry",
+        "sim": 0.318
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.267
+      },
+      "outcome": "rejected_neg",
+      "ms": 15187,
+      "cpuS": 15.11
+    },
+    {
+      "lang": "sw",
+      "file": "sw_12_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Habari asubuhi",
+      "pick": null,
+      "best": {
+        "id": "expiry",
+        "sim": 0.318
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.263
+      },
+      "outcome": "rejected_neg",
+      "ms": 13419,
+      "cpuS": 13.27
+    },
+    {
+      "lang": "sw",
+      "file": "sw_12_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Habaari ya asubuhi.",
+      "pick": null,
+      "best": {
+        "id": "expiry",
+        "sim": 0.318
+      },
+      "second": {
+        "id": "with_food",
+        "sim": 0.259
+      },
+      "outcome": "rejected_neg",
+      "ms": 14073,
+      "cpuS": 13.73
+    },
+    {
+      "lang": "sw",
+      "file": "sw_1_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "how_many",
+      "hyp": "Nimesi bidongi bingapi.",
+      "pick": "how_many",
+      "best": {
+        "id": "how_many",
+        "sim": 0.75
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.45
+      },
+      "outcome": "right",
+      "ms": 13717,
+      "cpuS": 13.73
+    },
+    {
+      "lang": "sw",
+      "file": "sw_1_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "how_many",
+      "hyp": "Nimeze vidonge vingapi?",
+      "pick": "how_many",
+      "best": {
+        "id": "how_many",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 14587,
+      "cpuS": 14.54
+    },
+    {
+      "lang": "sw",
+      "file": "sw_1_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "how_many",
+      "hyp": "Ni nmesa bi don't kibingatbi.",
+      "pick": "how_many",
+      "best": {
+        "id": "how_many",
+        "sim": 0.565
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.348
+      },
+      "outcome": "right",
+      "ms": 16278,
+      "cpuS": 16.27
+    },
+    {
+      "lang": "sw",
+      "file": "sw_1_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "how_many",
+      "hyp": "Nimeze vidonge vingapi?",
+      "pick": "how_many",
+      "best": {
+        "id": "how_many",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 14938,
+      "cpuS": 14.27
+    },
+    {
+      "lang": "sw",
+      "file": "sw_1_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "how_many",
+      "hyp": "Nene sebedo ngibingapi",
+      "pick": "how_many",
+      "best": {
+        "id": "how_many",
+        "sim": 0.65
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.4
+      },
+      "outcome": "right",
+      "ms": 12838,
+      "cpuS": 12.84
+    },
+    {
+      "lang": "sw",
+      "file": "sw_1_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "how_many",
+      "hyp": "Nimeze vidonge vingapi?",
+      "pick": "how_many",
+      "best": {
+        "id": "how_many",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 15909,
+      "cpuS": 15.68
+    },
+    {
+      "lang": "sw",
+      "file": "sw_2_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "times_a_day",
+      "hyp": "Nimesi marangapi kwa siku?",
+      "pick": "times_a_day",
+      "best": {
+        "id": "times_a_day",
+        "sim": 0.909
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.409
+      },
+      "outcome": "right",
+      "ms": 14738,
+      "cpuS": 14.72
+    },
+    {
+      "lang": "sw",
+      "file": "sw_2_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "times_a_day",
+      "hyp": "Nimeze mara ngapi kwa siku?",
+      "pick": "times_a_day",
+      "best": {
+        "id": "times_a_day",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 15222,
+      "cpuS": 14.86
+    },
+    {
+      "lang": "sw",
+      "file": "sw_2_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "times_a_day",
+      "hyp": "Nimesi marangabi kwa siku",
+      "pick": "times_a_day",
+      "best": {
+        "id": "times_a_day",
+        "sim": 0.864
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.409
+      },
+      "outcome": "right",
+      "ms": 14987,
+      "cpuS": 14.98
+    },
+    {
+      "lang": "sw",
+      "file": "sw_2_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "times_a_day",
+      "hyp": "Nimeze mara ngapi kwa siku?",
+      "pick": "times_a_day",
+      "best": {
+        "id": "times_a_day",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 16198,
+      "cpuS": 15.96
+    },
+    {
+      "lang": "sw",
+      "file": "sw_2_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "times_a_day",
+      "hyp": "Nimesi marangabi kwa siku?",
+      "pick": "times_a_day",
+      "best": {
+        "id": "times_a_day",
+        "sim": 0.864
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.409
+      },
+      "outcome": "right",
+      "ms": 14632,
+      "cpuS": 14.58
+    },
+    {
+      "lang": "sw",
+      "file": "sw_2_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "times_a_day",
+      "hyp": "Nimeze mara ngapi kwa siku?",
+      "pick": "times_a_day",
+      "best": {
+        "id": "times_a_day",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 15768,
+      "cpuS": 15.26
+    },
+    {
+      "lang": "sw",
+      "file": "sw_3_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "how_long",
+      "hyp": "nitu mi e kwa sikungapi.",
+      "pick": "how_long",
+      "best": {
+        "id": "how_long",
+        "sim": 1
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.368
+      },
+      "outcome": "right",
+      "ms": 13571,
+      "cpuS": 13.56
+    },
+    {
+      "lang": "sw",
+      "file": "sw_3_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "how_long",
+      "hyp": "Nitumie kwasi kungapi?",
+      "pick": "how_long",
+      "best": {
+        "id": "how_long",
+        "sim": 1
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.368
+      },
+      "outcome": "right",
+      "ms": 15612,
+      "cpuS": 15.56
+    },
+    {
+      "lang": "sw",
+      "file": "sw_3_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "how_long",
+      "hyp": "nitu mihe kwa sikungapi.",
+      "pick": "how_long",
+      "best": {
+        "id": "how_long",
+        "sim": 0.95
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.35
+      },
+      "outcome": "right",
+      "ms": 13716,
+      "cpuS": 13.37
+    },
+    {
+      "lang": "sw",
+      "file": "sw_3_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "how_long",
+      "hyp": "Nitumie kwasi kungapi?",
+      "pick": "how_long",
+      "best": {
+        "id": "how_long",
+        "sim": 1
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.368
+      },
+      "outcome": "right",
+      "ms": 16528,
+      "cpuS": 14.99
+    },
+    {
+      "lang": "sw",
+      "file": "sw_3_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "how_long",
+      "hyp": "Nitu mi e kwasikuungapi.",
+      "pick": "how_long",
+      "best": {
+        "id": "how_long",
+        "sim": 0.95
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.35
+      },
+      "outcome": "right",
+      "ms": 14605,
+      "cpuS": 13.98
+    },
+    {
+      "lang": "sw",
+      "file": "sw_3_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "how_long",
+      "hyp": "Nitumie kwasi kungapi?",
+      "pick": "how_long",
+      "best": {
+        "id": "how_long",
+        "sim": 1
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.368
+      },
+      "outcome": "right",
+      "ms": 15047,
+      "cpuS": 14.58
+    },
+    {
+      "lang": "sw",
+      "file": "sw_4_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "expiry",
+      "hyp": "Dawahi Naisha Muna Lini.",
+      "pick": "expiry",
+      "best": {
+        "id": "expiry",
+        "sim": 0.864
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.35
+      },
+      "outcome": "right",
+      "ms": 13926,
+      "cpuS": 13.85
+    },
+    {
+      "lang": "sw",
+      "file": "sw_4_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "expiry",
+      "hyp": "Dawahii inaisha muda lini?",
+      "pick": "expiry",
+      "best": {
+        "id": "expiry",
+        "sim": 1
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.409
+      },
+      "outcome": "right",
+      "ms": 15277,
+      "cpuS": 14.66
+    },
+    {
+      "lang": "sw",
+      "file": "sw_4_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "expiry",
+      "hyp": "Dawahi Naisha Mudalini",
+      "pick": "expiry",
+      "best": {
+        "id": "expiry",
+        "sim": 0.909
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.35
+      },
+      "outcome": "right",
+      "ms": 12947,
+      "cpuS": 12.86
+    },
+    {
+      "lang": "sw",
+      "file": "sw_4_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "expiry",
+      "hyp": "Dawahi inaisha muda lini?",
+      "pick": "expiry",
+      "best": {
+        "id": "expiry",
+        "sim": 0.955
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.429
+      },
+      "outcome": "right",
+      "ms": 14848,
+      "cpuS": 14.85
+    },
+    {
+      "lang": "sw",
+      "file": "sw_4_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "expiry",
+      "hyp": "Dawahi Naisha Munalini",
+      "pick": "expiry",
+      "best": {
+        "id": "expiry",
+        "sim": 0.864
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.35
+      },
+      "outcome": "right",
+      "ms": 13416,
+      "cpuS": 13.41
+    },
+    {
+      "lang": "sw",
+      "file": "sw_4_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "expiry",
+      "hyp": "Dawahi inaisha muda lini?",
+      "pick": "expiry",
+      "best": {
+        "id": "expiry",
+        "sim": 0.955
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.429
+      },
+      "outcome": "right",
+      "ms": 13754,
+      "cpuS": 13.76
+    },
+    {
+      "lang": "sw",
+      "file": "sw_5_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "storage",
+      "hyp": "Ni ihifa di VIPi.",
+      "pick": "storage",
+      "best": {
+        "id": "storage",
+        "sim": 0.929
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.385
+      },
+      "outcome": "right",
+      "ms": 15967,
+      "cpuS": 15.96
+    },
+    {
+      "lang": "sw",
+      "file": "sw_5_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "storage",
+      "hyp": "Niihifa di vipi?",
+      "pick": "storage",
+      "best": {
+        "id": "storage",
+        "sim": 0.929
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.385
+      },
+      "outcome": "right",
+      "ms": 15574,
+      "cpuS": 15.54
+    },
+    {
+      "lang": "sw",
+      "file": "sw_5_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "storage",
+      "hyp": "Ni Ihifa di BP",
+      "pick": "storage",
+      "best": {
+        "id": "storage",
+        "sim": 0.714
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.316
+      },
+      "outcome": "right",
+      "ms": 14677,
+      "cpuS": 14.64
+    },
+    {
+      "lang": "sw",
+      "file": "sw_5_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "storage",
+      "hyp": "Niihifadhi vipi?",
+      "pick": "storage",
+      "best": {
+        "id": "storage",
+        "sim": 1
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.357
+      },
+      "outcome": "right",
+      "ms": 15659,
+      "cpuS": 15.65
+    },
+    {
+      "lang": "sw",
+      "file": "sw_5_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "storage",
+      "hyp": "ni ihipa di VIPI",
+      "pick": "storage",
+      "best": {
+        "id": "storage",
+        "sim": 0.857
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.385
+      },
+      "outcome": "right",
+      "ms": 14133,
+      "cpuS": 14.14
+    },
+    {
+      "lang": "sw",
+      "file": "sw_5_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "storage",
+      "hyp": "Niihifa dhi vipi?",
+      "pick": "storage",
+      "best": {
+        "id": "storage",
+        "sim": 1
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.357
+      },
+      "outcome": "right",
+      "ms": 14519,
+      "cpuS": 14.49
+    },
+    {
+      "lang": "sw",
+      "file": "sw_6_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "what_is_it",
+      "hyp": "Hini dawagani?",
+      "pick": "what_is_it",
+      "best": {
+        "id": "what_is_it",
+        "sim": 0.923
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.368
+      },
+      "outcome": "right",
+      "ms": 14930,
+      "cpuS": 14.95
+    },
+    {
+      "lang": "sw",
+      "file": "sw_6_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "what_is_it",
+      "hyp": "Hii ni dawa gani?",
+      "pick": "what_is_it",
+      "best": {
+        "id": "what_is_it",
+        "sim": 1
+      },
+      "second": {
+        "id": "expiry",
+        "sim": 0.409
+      },
+      "outcome": "right",
+      "ms": 14144,
+      "cpuS": 13.8
+    },
+    {
+      "lang": "sw",
+      "file": "sw_6_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "what_is_it",
+      "hyp": "Inida wagani?",
+      "pick": "what_is_it",
+      "best": {
+        "id": "what_is_it",
+        "sim": 0.846
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.368
+      },
+      "outcome": "right",
+      "ms": 13521,
+      "cpuS": 13.15
+    },
+    {
+      "lang": "sw",
+      "file": "sw_6_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "what_is_it",
+      "hyp": "Ini dawa gani?",
+      "pick": "what_is_it",
+      "best": {
+        "id": "what_is_it",
+        "sim": 0.846
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.368
+      },
+      "outcome": "right",
+      "ms": 14907,
+      "cpuS": 14.89
+    },
+    {
+      "lang": "sw",
+      "file": "sw_6_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "what_is_it",
+      "hyp": "Heeni dawagani.",
+      "pick": "what_is_it",
+      "best": {
+        "id": "what_is_it",
+        "sim": 0.846
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.35
+      },
+      "outcome": "right",
+      "ms": 17758,
+      "cpuS": 17.69
+    },
+    {
+      "lang": "sw",
+      "file": "sw_6_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "what_is_it",
+      "hyp": "Hii ni dawa gani?",
+      "pick": "what_is_it",
+      "best": {
+        "id": "what_is_it",
+        "sim": 1
+      },
+      "second": {
+        "id": "expiry",
+        "sim": 0.409
+      },
+      "outcome": "right",
+      "ms": 15259,
+      "cpuS": 15.25
+    },
+    {
+      "lang": "sw",
+      "file": "sw_7_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "with_food",
+      "hyp": "Nemeze kabla aw baadia cha kula?",
+      "pick": "with_food",
+      "best": {
+        "id": "with_food",
+        "sim": 0.852
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.385
+      },
+      "outcome": "right",
+      "ms": 15486,
+      "cpuS": 15.49
+    },
+    {
+      "lang": "sw",
+      "file": "sw_7_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "with_food",
+      "hyp": "Nimeze kabla au baada ya chakula?",
+      "pick": "with_food",
+      "best": {
+        "id": "with_food",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.444
+      },
+      "outcome": "right",
+      "ms": 15277,
+      "cpuS": 15.19
+    },
+    {
+      "lang": "sw",
+      "file": "sw_7_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "with_food",
+      "hyp": "Nimeze kabla aw baadia cha kula?",
+      "pick": "with_food",
+      "best": {
+        "id": "with_food",
+        "sim": 0.889
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.423
+      },
+      "outcome": "right",
+      "ms": 15312,
+      "cpuS": 15.31
+    },
+    {
+      "lang": "sw",
+      "file": "sw_7_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "with_food",
+      "hyp": "Nimeze kabla au baada ya chakula?",
+      "pick": "with_food",
+      "best": {
+        "id": "with_food",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.444
+      },
+      "outcome": "right",
+      "ms": 14808,
+      "cpuS": 14.79
+    },
+    {
+      "lang": "sw",
+      "file": "sw_7_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "with_food",
+      "hyp": "Nimeze kabla au ba recha kula?",
+      "pick": "with_food",
+      "best": {
+        "id": "with_food",
+        "sim": 0.815
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.417
+      },
+      "outcome": "right",
+      "ms": 14369,
+      "cpuS": 14.2
+    },
+    {
+      "lang": "sw",
+      "file": "sw_7_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "with_food",
+      "hyp": "Nimeze kabla au baada ya chakula?",
+      "pick": "with_food",
+      "best": {
+        "id": "with_food",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.444
+      },
+      "outcome": "right",
+      "ms": 14796,
+      "cpuS": 14.8
+    },
+    {
+      "lang": "sw",
+      "file": "sw_8_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "read_again",
+      "hyp": "Niso metena.",
+      "pick": "read_again",
+      "best": {
+        "id": "read_again",
+        "sim": 0.909
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.316
+      },
+      "outcome": "right",
+      "ms": 13564,
+      "cpuS": 13.57
+    },
+    {
+      "lang": "sw",
+      "file": "sw_8_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "read_again",
+      "hyp": "Nisomee tena.",
+      "pick": "read_again",
+      "best": {
+        "id": "read_again",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.316
+      },
+      "outcome": "right",
+      "ms": 12954,
+      "cpuS": 12.95
+    },
+    {
+      "lang": "sw",
+      "file": "sw_8_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "read_again",
+      "hyp": "Niso metena.",
+      "pick": "read_again",
+      "best": {
+        "id": "read_again",
+        "sim": 0.909
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.316
+      },
+      "outcome": "right",
+      "ms": 13042,
+      "cpuS": 13.04
+    },
+    {
+      "lang": "sw",
+      "file": "sw_8_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "read_again",
+      "hyp": "Nisomee tena.",
+      "pick": "read_again",
+      "best": {
+        "id": "read_again",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.316
+      },
+      "outcome": "right",
+      "ms": 13174,
+      "cpuS": 13.17
+    },
+    {
+      "lang": "sw",
+      "file": "sw_8_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "read_again",
+      "hyp": "Ni sometena.",
+      "pick": "read_again",
+      "best": {
+        "id": "read_again",
+        "sim": 0.909
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.316
+      },
+      "outcome": "right",
+      "ms": 14473,
+      "cpuS": 14.26
+    },
+    {
+      "lang": "sw",
+      "file": "sw_8_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "read_again",
+      "hyp": "Nisomee tena.",
+      "pick": "read_again",
+      "best": {
+        "id": "read_again",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.316
+      },
+      "outcome": "right",
+      "ms": 15322,
+      "cpuS": 15.33
+    },
+    {
+      "lang": "sw",
+      "file": "sw_9_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Naweza kuyona pombe.",
+      "pick": null,
+      "best": {
+        "id": "times_a_day",
+        "sim": 0.273
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.25
+      },
+      "outcome": "rejected_neg",
+      "ms": 13661,
+      "cpuS": 13.64
+    },
+    {
+      "lang": "sw",
+      "file": "sw_9_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Naweza kwiyona pombe?",
+      "pick": null,
+      "best": {
+        "id": "how_many",
+        "sim": 0.25
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.227
+      },
+      "outcome": "rejected_neg",
+      "ms": 14223,
+      "cpuS": 14.24
+    },
+    {
+      "lang": "sw",
+      "file": "sw_9_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Naweza puhiyona pombe",
+      "pick": null,
+      "best": {
+        "id": "with_food",
+        "sim": 0.222
+      },
+      "second": {
+        "id": "storage",
+        "sim": 0.211
+      },
+      "outcome": "rejected_neg",
+      "ms": 14487,
+      "cpuS": 14.48
+    },
+    {
+      "lang": "sw",
+      "file": "sw_9_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Naweza puhiyona pombe?",
+      "pick": null,
+      "best": {
+        "id": "with_food",
+        "sim": 0.222
+      },
+      "second": {
+        "id": "storage",
+        "sim": 0.211
+      },
+      "outcome": "rejected_neg",
+      "ms": 14656,
+      "cpuS": 14.65
+    },
+    {
+      "lang": "sw",
+      "file": "sw_9_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Naweza kuyona pombe.",
+      "pick": null,
+      "best": {
+        "id": "times_a_day",
+        "sim": 0.273
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.25
+      },
+      "outcome": "rejected_neg",
+      "ms": 13712,
+      "cpuS": 13.7
+    },
+    {
+      "lang": "sw",
+      "file": "sw_9_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Naweza kuya na pombe?",
+      "pick": null,
+      "best": {
+        "id": "times_a_day",
+        "sim": 0.318
+      },
+      "second": {
+        "id": "with_food",
+        "sim": 0.259
+      },
+      "outcome": "rejected_neg",
+      "ms": 16568,
+      "cpuS": 15.33
+    },
+    {
+      "lang": "en",
+      "file": "en_10_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Is it safe for my child?",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.167
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.111
+      },
+      "outcome": "rejected_neg",
+      "ms": 13961,
+      "cpuS": 13.96
+    },
+    {
+      "lang": "en",
+      "file": "en_10_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Is it safe for my child?",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.167
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.111
+      },
+      "outcome": "rejected_neg",
+      "ms": 15025,
+      "cpuS": 14.63
+    },
+    {
+      "lang": "en",
+      "file": "en_10_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Is it safe for my child?",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.167
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.111
+      },
+      "outcome": "rejected_neg",
+      "ms": 15040,
+      "cpuS": 15.02
+    },
+    {
+      "lang": "en",
+      "file": "en_10_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Is it safe for my child?",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.167
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.111
+      },
+      "outcome": "rejected_neg",
+      "ms": 14495,
+      "cpuS": 14.48
+    },
+    {
+      "lang": "en",
+      "file": "en_10_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Is it safe for my child?",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.167
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.111
+      },
+      "outcome": "rejected_neg",
+      "ms": 13823,
+      "cpuS": 13.81
+    },
+    {
+      "lang": "en",
+      "file": "en_10_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Is it safe for my child?",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.167
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.111
+      },
+      "outcome": "rejected_neg",
+      "ms": 15636,
+      "cpuS": 15.28
+    },
+    {
+      "lang": "en",
+      "file": "en_11_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "What if I miss a dose?",
+      "pick": null,
+      "best": {
+        "id": "what_is_it",
+        "sim": 0.389
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.313
+      },
+      "outcome": "rejected_neg",
+      "ms": 13848,
+      "cpuS": 13.76
+    },
+    {
+      "lang": "en",
+      "file": "en_11_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "What if I miss a dose?",
+      "pick": null,
+      "best": {
+        "id": "what_is_it",
+        "sim": 0.389
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.313
+      },
+      "outcome": "rejected_neg",
+      "ms": 15128,
+      "cpuS": 15.12
+    },
+    {
+      "lang": "en",
+      "file": "en_11_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "What if I miss a dose?",
+      "pick": null,
+      "best": {
+        "id": "what_is_it",
+        "sim": 0.389
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.313
+      },
+      "outcome": "rejected_neg",
+      "ms": 13339,
+      "cpuS": 13.33
+    },
+    {
+      "lang": "en",
+      "file": "en_11_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "What if I miss a dose?",
+      "pick": null,
+      "best": {
+        "id": "what_is_it",
+        "sim": 0.389
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.313
+      },
+      "outcome": "rejected_neg",
+      "ms": 14220,
+      "cpuS": 13.93
+    },
+    {
+      "lang": "en",
+      "file": "en_11_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "What if I miss a dose?",
+      "pick": null,
+      "best": {
+        "id": "what_is_it",
+        "sim": 0.389
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.313
+      },
+      "outcome": "rejected_neg",
+      "ms": 13413,
+      "cpuS": 13.41
+    },
+    {
+      "lang": "en",
+      "file": "en_11_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "What if I miss a dose?",
+      "pick": null,
+      "best": {
+        "id": "what_is_it",
+        "sim": 0.389
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.313
+      },
+      "outcome": "rejected_neg",
+      "ms": 16491,
+      "cpuS": 16.31
+    },
+    {
+      "lang": "en",
+      "file": "en_12_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Good morning.",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.308
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.214
+      },
+      "outcome": "rejected_neg",
+      "ms": 14535,
+      "cpuS": 14.55
+    },
+    {
+      "lang": "en",
+      "file": "en_12_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Good morning.",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.308
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.214
+      },
+      "outcome": "rejected_neg",
+      "ms": 16935,
+      "cpuS": 16.45
+    },
+    {
+      "lang": "en",
+      "file": "en_12_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Good morning.",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.308
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.214
+      },
+      "outcome": "rejected_neg",
+      "ms": 14268,
+      "cpuS": 14.22
+    },
+    {
+      "lang": "en",
+      "file": "en_12_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Good morning.",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.308
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.214
+      },
+      "outcome": "rejected_neg",
+      "ms": 15398,
+      "cpuS": 15.38
+    },
+    {
+      "lang": "en",
+      "file": "en_12_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Good morning.",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.308
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.214
+      },
+      "outcome": "rejected_neg",
+      "ms": 13623,
+      "cpuS": 13.65
+    },
+    {
+      "lang": "en",
+      "file": "en_12_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Good morning.",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.308
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.214
+      },
+      "outcome": "rejected_neg",
+      "ms": 14780,
+      "cpuS": 14.35
+    },
+    {
+      "lang": "en",
+      "file": "en_1_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "how_many",
+      "hyp": "How many do I take?",
+      "pick": "how_many",
+      "best": {
+        "id": "how_many",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 13708,
+      "cpuS": 13.7
+    },
+    {
+      "lang": "en",
+      "file": "en_1_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "how_many",
+      "hyp": "How many do I take?",
+      "pick": "how_many",
+      "best": {
+        "id": "how_many",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 16604,
+      "cpuS": 16.57
+    },
+    {
+      "lang": "en",
+      "file": "en_1_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "how_many",
+      "hyp": "How many do I take?",
+      "pick": "how_many",
+      "best": {
+        "id": "how_many",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 14151,
+      "cpuS": 13.74
+    },
+    {
+      "lang": "en",
+      "file": "en_1_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "how_many",
+      "hyp": "How many do I take?",
+      "pick": "how_many",
+      "best": {
+        "id": "how_many",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 15356,
+      "cpuS": 15.13
+    },
+    {
+      "lang": "en",
+      "file": "en_1_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "how_many",
+      "hyp": "How many do I take?",
+      "pick": "how_many",
+      "best": {
+        "id": "how_many",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 13921,
+      "cpuS": 13.92
+    },
+    {
+      "lang": "en",
+      "file": "en_1_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "how_many",
+      "hyp": "How many do I take?",
+      "pick": "how_many",
+      "best": {
+        "id": "how_many",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 15172,
+      "cpuS": 15.16
+    },
+    {
+      "lang": "en",
+      "file": "en_2_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "times_a_day",
+      "hyp": "How many times a day?",
+      "pick": "times_a_day",
+      "best": {
+        "id": "times_a_day",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 14361,
+      "cpuS": 13.94
+    },
+    {
+      "lang": "en",
+      "file": "en_2_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "times_a_day",
+      "hyp": "How many times a day?",
+      "pick": "times_a_day",
+      "best": {
+        "id": "times_a_day",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 14047,
+      "cpuS": 14.04
+    },
+    {
+      "lang": "en",
+      "file": "en_2_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "times_a_day",
+      "hyp": "How many times a day?",
+      "pick": "times_a_day",
+      "best": {
+        "id": "times_a_day",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 12200,
+      "cpuS": 12.17
+    },
+    {
+      "lang": "en",
+      "file": "en_2_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "times_a_day",
+      "hyp": "How many times a day?",
+      "pick": "times_a_day",
+      "best": {
+        "id": "times_a_day",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 13756,
+      "cpuS": 13.71
+    },
+    {
+      "lang": "en",
+      "file": "en_2_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "times_a_day",
+      "hyp": "How many times a day?",
+      "pick": "times_a_day",
+      "best": {
+        "id": "times_a_day",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 13014,
+      "cpuS": 13.01
+    },
+    {
+      "lang": "en",
+      "file": "en_2_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "times_a_day",
+      "hyp": "How many times a day?",
+      "pick": "times_a_day",
+      "best": {
+        "id": "times_a_day",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.5
+      },
+      "outcome": "right",
+      "ms": 14067,
+      "cpuS": 13.29
+    },
+    {
+      "lang": "en",
+      "file": "en_3_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "how_long",
+      "hyp": "For how many days?",
+      "pick": "how_long",
+      "best": {
+        "id": "how_long",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.429
+      },
+      "outcome": "right",
+      "ms": 12969,
+      "cpuS": 12.94
+    },
+    {
+      "lang": "en",
+      "file": "en_3_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "how_long",
+      "hyp": "For how many days?",
+      "pick": "how_long",
+      "best": {
+        "id": "how_long",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.429
+      },
+      "outcome": "right",
+      "ms": 17779,
+      "cpuS": 15.9
+    },
+    {
+      "lang": "en",
+      "file": "en_3_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "how_long",
+      "hyp": "for how many days.",
+      "pick": "how_long",
+      "best": {
+        "id": "how_long",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.429
+      },
+      "outcome": "right",
+      "ms": 14799,
+      "cpuS": 14.79
+    },
+    {
+      "lang": "en",
+      "file": "en_3_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "how_long",
+      "hyp": "For how many days?",
+      "pick": "how_long",
+      "best": {
+        "id": "how_long",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.429
+      },
+      "outcome": "right",
+      "ms": 15474,
+      "cpuS": 15.42
+    },
+    {
+      "lang": "en",
+      "file": "en_3_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "how_long",
+      "hyp": "For how many days?",
+      "pick": "how_long",
+      "best": {
+        "id": "how_long",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.429
+      },
+      "outcome": "right",
+      "ms": 14269,
+      "cpuS": 14.26
+    },
+    {
+      "lang": "en",
+      "file": "en_3_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "how_long",
+      "hyp": "For how many days?",
+      "pick": "how_long",
+      "best": {
+        "id": "how_long",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.429
+      },
+      "outcome": "right",
+      "ms": 15492,
+      "cpuS": 15.49
+    },
+    {
+      "lang": "en",
+      "file": "en_4_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "expiry",
+      "hyp": "When does it expire?",
+      "pick": "expiry",
+      "best": {
+        "id": "expiry",
+        "sim": 1
+      },
+      "second": {
+        "id": "storage",
+        "sim": 0.375
+      },
+      "outcome": "right",
+      "ms": 14087,
+      "cpuS": 14.09
+    },
+    {
+      "lang": "en",
+      "file": "en_4_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "expiry",
+      "hyp": "When does it expire?",
+      "pick": "expiry",
+      "best": {
+        "id": "expiry",
+        "sim": 1
+      },
+      "second": {
+        "id": "storage",
+        "sim": 0.375
+      },
+      "outcome": "right",
+      "ms": 14434,
+      "cpuS": 14.41
+    },
+    {
+      "lang": "en",
+      "file": "en_4_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "expiry",
+      "hyp": "When does it expire?",
+      "pick": "expiry",
+      "best": {
+        "id": "expiry",
+        "sim": 1
+      },
+      "second": {
+        "id": "storage",
+        "sim": 0.375
+      },
+      "outcome": "right",
+      "ms": 13374,
+      "cpuS": 13.37
+    },
+    {
+      "lang": "en",
+      "file": "en_4_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "expiry",
+      "hyp": "When does it expire?",
+      "pick": "expiry",
+      "best": {
+        "id": "expiry",
+        "sim": 1
+      },
+      "second": {
+        "id": "storage",
+        "sim": 0.375
+      },
+      "outcome": "right",
+      "ms": 15221,
+      "cpuS": 15.22
+    },
+    {
+      "lang": "en",
+      "file": "en_4_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "expiry",
+      "hyp": "When does it expire?",
+      "pick": "expiry",
+      "best": {
+        "id": "expiry",
+        "sim": 1
+      },
+      "second": {
+        "id": "storage",
+        "sim": 0.375
+      },
+      "outcome": "right",
+      "ms": 14493,
+      "cpuS": 14.48
+    },
+    {
+      "lang": "en",
+      "file": "en_4_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "expiry",
+      "hyp": "When does it expire?",
+      "pick": "expiry",
+      "best": {
+        "id": "expiry",
+        "sim": 1
+      },
+      "second": {
+        "id": "storage",
+        "sim": 0.375
+      },
+      "outcome": "right",
+      "ms": 14088,
+      "cpuS": 14.08
+    },
+    {
+      "lang": "en",
+      "file": "en_5_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "storage",
+      "hyp": "How do I store it?",
+      "pick": "storage",
+      "best": {
+        "id": "storage",
+        "sim": 1
+      },
+      "second": {
+        "id": "expiry",
+        "sim": 0.375
+      },
+      "outcome": "right",
+      "ms": 13333,
+      "cpuS": 13.34
+    },
+    {
+      "lang": "en",
+      "file": "en_5_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "storage",
+      "hyp": "How do I store it?",
+      "pick": "storage",
+      "best": {
+        "id": "storage",
+        "sim": 1
+      },
+      "second": {
+        "id": "expiry",
+        "sim": 0.375
+      },
+      "outcome": "right",
+      "ms": 15019,
+      "cpuS": 15.01
+    },
+    {
+      "lang": "en",
+      "file": "en_5_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "storage",
+      "hyp": "How do I store it?",
+      "pick": "storage",
+      "best": {
+        "id": "storage",
+        "sim": 1
+      },
+      "second": {
+        "id": "expiry",
+        "sim": 0.375
+      },
+      "outcome": "right",
+      "ms": 14229,
+      "cpuS": 14.23
+    },
+    {
+      "lang": "en",
+      "file": "en_5_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "storage",
+      "hyp": "How do I store it?",
+      "pick": "storage",
+      "best": {
+        "id": "storage",
+        "sim": 1
+      },
+      "second": {
+        "id": "expiry",
+        "sim": 0.375
+      },
+      "outcome": "right",
+      "ms": 14586,
+      "cpuS": 14.57
+    },
+    {
+      "lang": "en",
+      "file": "en_5_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "storage",
+      "hyp": "How do I store it?",
+      "pick": "storage",
+      "best": {
+        "id": "storage",
+        "sim": 1
+      },
+      "second": {
+        "id": "expiry",
+        "sim": 0.375
+      },
+      "outcome": "right",
+      "ms": 13623,
+      "cpuS": 13.61
+    },
+    {
+      "lang": "en",
+      "file": "en_5_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "storage",
+      "hyp": "How do I store it?",
+      "pick": "storage",
+      "best": {
+        "id": "storage",
+        "sim": 1
+      },
+      "second": {
+        "id": "expiry",
+        "sim": 0.375
+      },
+      "outcome": "right",
+      "ms": 13447,
+      "cpuS": 13.44
+    },
+    {
+      "lang": "en",
+      "file": "en_6_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "what_is_it",
+      "hyp": "What medicine is this?",
+      "pick": "what_is_it",
+      "best": {
+        "id": "what_is_it",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.278
+      },
+      "outcome": "right",
+      "ms": 13612,
+      "cpuS": 13.5
+    },
+    {
+      "lang": "en",
+      "file": "en_6_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "what_is_it",
+      "hyp": "What medicine is this?",
+      "pick": "what_is_it",
+      "best": {
+        "id": "what_is_it",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.278
+      },
+      "outcome": "right",
+      "ms": 13928,
+      "cpuS": 13.95
+    },
+    {
+      "lang": "en",
+      "file": "en_6_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "what_is_it",
+      "hyp": "What medicine is this?",
+      "pick": "what_is_it",
+      "best": {
+        "id": "what_is_it",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.278
+      },
+      "outcome": "right",
+      "ms": 12809,
+      "cpuS": 12.8
+    },
+    {
+      "lang": "en",
+      "file": "en_6_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "what_is_it",
+      "hyp": "What medicine is this?",
+      "pick": "what_is_it",
+      "best": {
+        "id": "what_is_it",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.278
+      },
+      "outcome": "right",
+      "ms": 13576,
+      "cpuS": 13.58
+    },
+    {
+      "lang": "en",
+      "file": "en_6_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "what_is_it",
+      "hyp": "What medicine is this?",
+      "pick": "what_is_it",
+      "best": {
+        "id": "what_is_it",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.278
+      },
+      "outcome": "right",
+      "ms": 15199,
+      "cpuS": 14.85
+    },
+    {
+      "lang": "en",
+      "file": "en_6_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "what_is_it",
+      "hyp": "What medicine is this?",
+      "pick": "what_is_it",
+      "best": {
+        "id": "what_is_it",
+        "sim": 1
+      },
+      "second": {
+        "id": "times_a_day",
+        "sim": 0.278
+      },
+      "outcome": "right",
+      "ms": 15943,
+      "cpuS": 15.9
+    },
+    {
+      "lang": "en",
+      "file": "en_7_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "with_food",
+      "hyp": "Before after food?",
+      "pick": "with_food",
+      "best": {
+        "id": "with_food",
+        "sim": 0.882
+      },
+      "second": {
+        "id": "expiry",
+        "sim": 0.25
+      },
+      "outcome": "right",
+      "ms": 14834,
+      "cpuS": 14.83
+    },
+    {
+      "lang": "en",
+      "file": "en_7_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "with_food",
+      "hyp": "Before or after food?",
+      "pick": "with_food",
+      "best": {
+        "id": "with_food",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.235
+      },
+      "outcome": "right",
+      "ms": 15703,
+      "cpuS": 15.69
+    },
+    {
+      "lang": "en",
+      "file": "en_7_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "with_food",
+      "hyp": "Before after food?",
+      "pick": "with_food",
+      "best": {
+        "id": "with_food",
+        "sim": 0.882
+      },
+      "second": {
+        "id": "expiry",
+        "sim": 0.25
+      },
+      "outcome": "right",
+      "ms": 15410,
+      "cpuS": 15.38
+    },
+    {
+      "lang": "en",
+      "file": "en_7_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "with_food",
+      "hyp": "Before or after food?",
+      "pick": "with_food",
+      "best": {
+        "id": "with_food",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.235
+      },
+      "outcome": "right",
+      "ms": 13756,
+      "cpuS": 13.76
+    },
+    {
+      "lang": "en",
+      "file": "en_7_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "with_food",
+      "hyp": "Before after food?",
+      "pick": "with_food",
+      "best": {
+        "id": "with_food",
+        "sim": 0.882
+      },
+      "second": {
+        "id": "expiry",
+        "sim": 0.25
+      },
+      "outcome": "right",
+      "ms": 13678,
+      "cpuS": 13.67
+    },
+    {
+      "lang": "en",
+      "file": "en_7_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "with_food",
+      "hyp": "Before or after food?",
+      "pick": "with_food",
+      "best": {
+        "id": "with_food",
+        "sim": 1
+      },
+      "second": {
+        "id": "how_long",
+        "sim": 0.235
+      },
+      "outcome": "right",
+      "ms": 14149,
+      "cpuS": 14.14
+    },
+    {
+      "lang": "en",
+      "file": "en_8_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": "read_again",
+      "hyp": "Read again.",
+      "pick": "read_again",
+      "best": {
+        "id": "read_again",
+        "sim": 0.818
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.214
+      },
+      "outcome": "right",
+      "ms": 12617,
+      "cpuS": 12.62
+    },
+    {
+      "lang": "en",
+      "file": "en_8_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": "read_again",
+      "hyp": "Read again.",
+      "pick": "read_again",
+      "best": {
+        "id": "read_again",
+        "sim": 0.818
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.214
+      },
+      "outcome": "right",
+      "ms": 14890,
+      "cpuS": 14.88
+    },
+    {
+      "lang": "en",
+      "file": "en_8_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": "read_again",
+      "hyp": "Read again.",
+      "pick": "read_again",
+      "best": {
+        "id": "read_again",
+        "sim": 0.818
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.214
+      },
+      "outcome": "right",
+      "ms": 13253,
+      "cpuS": 13.24
+    },
+    {
+      "lang": "en",
+      "file": "en_8_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": "read_again",
+      "hyp": "Read again.",
+      "pick": "read_again",
+      "best": {
+        "id": "read_again",
+        "sim": 0.818
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.214
+      },
+      "outcome": "right",
+      "ms": 13489,
+      "cpuS": 13.49
+    },
+    {
+      "lang": "en",
+      "file": "en_8_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": "read_again",
+      "hyp": "Read again.",
+      "pick": "read_again",
+      "best": {
+        "id": "read_again",
+        "sim": 0.818
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.214
+      },
+      "outcome": "right",
+      "ms": 13107,
+      "cpuS": 13.11
+    },
+    {
+      "lang": "en",
+      "file": "en_8_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": "read_again",
+      "hyp": "Read again.",
+      "pick": "read_again",
+      "best": {
+        "id": "read_again",
+        "sim": 0.818
+      },
+      "second": {
+        "id": "how_many",
+        "sim": 0.214
+      },
+      "outcome": "right",
+      "ms": 15365,
+      "cpuS": 15.33
+    },
+    {
+      "lang": "en",
+      "file": "en_9_clean.wav",
+      "variant": "clean",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Can I drink alcohol with it?",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.227
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.227
+      },
+      "outcome": "rejected_neg",
+      "ms": 13322,
+      "cpuS": 13.32
+    },
+    {
+      "lang": "en",
+      "file": "en_9_clean.wav",
+      "variant": "clean",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Can I drink alcohol with it?",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.227
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.227
+      },
+      "outcome": "rejected_neg",
+      "ms": 15392,
+      "cpuS": 15.39
+    },
+    {
+      "lang": "en",
+      "file": "en_9_noisy.wav",
+      "variant": "noisy",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Can I drink alcohol with it?",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.227
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.227
+      },
+      "outcome": "rejected_neg",
+      "ms": 13659,
+      "cpuS": 13.66
+    },
+    {
+      "lang": "en",
+      "file": "en_9_noisy.wav",
+      "variant": "noisy",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Can I drink alcohol with it?",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.227
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.227
+      },
+      "outcome": "rejected_neg",
+      "ms": 18818,
+      "cpuS": 18.36
+    },
+    {
+      "lang": "en",
+      "file": "en_9_slow.wav",
+      "variant": "slow",
+      "mode": "plain",
+      "truth": null,
+      "hyp": "Can I drink alcohol with it?",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.227
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.227
+      },
+      "outcome": "rejected_neg",
+      "ms": 21126,
+      "cpuS": 21.1
+    },
+    {
+      "lang": "en",
+      "file": "en_9_slow.wav",
+      "variant": "slow",
+      "mode": "prompted",
+      "truth": null,
+      "hyp": "Can I drink alcohol with it?",
+      "pick": null,
+      "best": {
+        "id": "storage",
+        "sim": 0.227
+      },
+      "second": {
+        "id": "what_is_it",
+        "sim": 0.227
+      },
+      "outcome": "rejected_neg",
+      "ms": 18557,
+      "cpuS": 18.48
+    }
+  ]
+}

@@ -1,0 +1,1961 @@
+{
+  "threshold": 0.5,
+  "retry": false,
+  "loadMs": 7395,
+  "cpuS": 3350.9,
+  "peakRssMb": 3308.1,
+  "baselineRssMb": 106.6,
+  "procs": 2,
+  "summary": {
+    "print_clean": {
+      "images": 5,
+      "meanPageCer": 0.001,
+      "lineExactRate": 0.974,
+      "numberRecall": 1,
+      "meanConf": 0.867,
+      "flaggedRate": 0,
+      "meanMs": 86276,
+      "meanCpuS": 85.7,
+      "wrongButConfident": 1,
+      "wrongLines": 1
+    },
+    "print_hard": {
+      "images": 5,
+      "meanPageCer": 0.143,
+      "lineExactRate": 0.59,
+      "numberRecall": 0.95,
+      "meanConf": 0.729,
+      "flaggedRate": 0.8,
+      "meanMs": 115564,
+      "meanCpuS": 114.2,
+      "wrongButConfident": 5,
+      "wrongLines": 16
+    },
+    "print_photo": {
+      "images": 5,
+      "meanPageCer": 0.012,
+      "lineExactRate": 0.897,
+      "numberRecall": 0.975,
+      "meanConf": 0.874,
+      "flaggedRate": 0,
+      "meanMs": 114206,
+      "meanCpuS": 113.8,
+      "wrongButConfident": 4,
+      "wrongLines": 4
+    },
+    "hand": {
+      "images": 24,
+      "meanPageCer": 0.257,
+      "lineExactRate": 0.313,
+      "numberRecall": 0.604,
+      "meanConf": 0.653,
+      "flaggedRate": 0.417,
+      "meanMs": 73995,
+      "meanCpuS": 73.9,
+      "wrongButConfident": 9,
+      "wrongLines": 22
+    }
+  },
+  "results": [
+    {
+      "set": "print",
+      "file": "p1_paracetamol_clean.png",
+      "ms": 102134,
+      "cpuS": 99.62,
+      "blocks": 11,
+      "meanConf": 0.867,
+      "minConf": 0.666,
+      "text": [
+        "PARACETAMOL",
+        "Tablets BP 500 mg",
+        "100 Tablets",
+        "Dosage: Adults and children over 12 years:",
+        "1 to 2 tablets every 4 to 6 hours .",
+        "Do not take more than 8 tablets in 24 hours",
+        "Store below 30 C. Keep out of reach of children",
+        "Batch No: PX2417 Exp: 08/2028",
+        "Manufactured by: Generic Pharma Ltd"
+      ],
+      "pageCer": 0,
+      "lineExact": 9,
+      "lines": 9,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "PARACETAMOL",
+          "hyp": "PARACETAMOL",
+          "cer": 0,
+          "exact": true,
+          "minConf": 1
+        },
+        {
+          "ref": "Tablets BP 500 mg",
+          "hyp": "Tablets BP 500 mg",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.824
+        },
+        {
+          "ref": "100 Tablets",
+          "hyp": "100 Tablets",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.841
+        },
+        {
+          "ref": "Dosage: Adults and children over 12 years:",
+          "hyp": "Dosage: Adults and children over 12 years:",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.837
+        },
+        {
+          "ref": "1 to 2 tablets every 4 to 6 hours.",
+          "hyp": "1 to 2 tablets every 4 to 6 hours .",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.666
+        },
+        {
+          "ref": "Do not take more than 8 tablets in 24 hours.",
+          "hyp": "Do not take more than 8 tablets in 24 hours",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.768
+        },
+        {
+          "ref": "Store below 30°C. Keep out of reach of children.",
+          "hyp": "Store below 30 C. Keep out of reach of children",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.847
+        },
+        {
+          "ref": "Batch No: PX2417  Exp: 08/2028",
+          "hyp": "Batch No: PX2417 Exp: 08/2028",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.993
+        },
+        {
+          "ref": "Manufactured by: Generic Pharma Ltd",
+          "hyp": "Manufactured by: Generic Pharma Ltd",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.971
+        }
+      ]
+    },
+    {
+      "set": "print",
+      "file": "p1_paracetamol_hard.jpg",
+      "ms": 135508,
+      "cpuS": 129.42,
+      "blocks": 25,
+      "meanConf": 0.554,
+      "minConf": 0.003,
+      "text": [
+        "PARACETAMOL",
+        "Tablets BP 500 mg",
+        "100 Tablets",
+        "Dosage: Adults and children over 12 years:",
+        "1to 2 tablets every 4to 6 hours .",
+        "Do not take more than 8 tablets Store below 30'€. in 24 hours",
+        "Baten No PX2417 Keep Oulor reach of children",
+        "Menutoctured Ezo 08/2028",
+        "707e Generic Phormo Ud"
+      ],
+      "pageCer": 0.256,
+      "lineExact": 4,
+      "lines": 9,
+      "numberRecall": 1,
+      "flagged": true,
+      "perLine": [
+        {
+          "ref": "PARACETAMOL",
+          "hyp": "PARACETAMOL",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.931
+        },
+        {
+          "ref": "Tablets BP 500 mg",
+          "hyp": "Tablets BP 500 mg",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.649
+        },
+        {
+          "ref": "100 Tablets",
+          "hyp": "100 Tablets",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.997
+        },
+        {
+          "ref": "Dosage: Adults and children over 12 years:",
+          "hyp": "Dosage: Adults and children over 12 years:",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.888
+        },
+        {
+          "ref": "1 to 2 tablets every 4 to 6 hours.",
+          "hyp": "1to 2 tablets every 4to 6 hours .",
+          "cer": 0.061,
+          "exact": false,
+          "minConf": 0.26
+        },
+        {
+          "ref": "Do not take more than 8 tablets in 24 hours.",
+          "hyp": "Do not take more than 8 tablets Store below 30'€. in 24 hours",
+          "cer": 0.349,
+          "exact": false,
+          "minConf": 0.108
+        },
+        {
+          "ref": "Store below 30°C. Keep out of reach of children.",
+          "hyp": "Baten No PX2417 Keep Oulor reach of children",
+          "cer": 0.391,
+          "exact": false,
+          "minConf": 0.066
+        },
+        {
+          "ref": "Batch No: PX2417  Exp: 08/2028",
+          "hyp": "Menutoctured Ezo 08/2028",
+          "cer": 0.593,
+          "exact": false,
+          "minConf": 0.247
+        },
+        {
+          "ref": "Manufactured by: Generic Pharma Ltd",
+          "hyp": "707e Generic Phormo Ud",
+          "cer": 0.529,
+          "exact": false,
+          "minConf": 0.003
+        }
+      ]
+    },
+    {
+      "set": "print",
+      "file": "p1_paracetamol_photo.jpg",
+      "ms": 129592,
+      "cpuS": 128.93,
+      "blocks": 11,
+      "meanConf": 0.828,
+      "minConf": 0.572,
+      "text": [
+        "PARACETAMOL",
+        "Tablets BP 500 mg",
+        "100 Tablets",
+        "Dosage: Adults and children over 12 years:",
+        "1 to 2 tablets every 4 to 6 hours.",
+        "Do not take more than 8 tablets in 24 hours.",
+        "below 30*C. Keep out of reach of children. ",
+        "Store",
+        "Batch No: PX2417 Exp: 08/2028",
+        "Manufactured by: Generic Pharma Ltd"
+      ],
+      "pageCer": 0.044,
+      "lineExact": 8,
+      "lines": 9,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "PARACETAMOL",
+          "hyp": "PARACETAMOL",
+          "cer": 0,
+          "exact": true,
+          "minConf": 1
+        },
+        {
+          "ref": "Tablets BP 500 mg",
+          "hyp": "Tablets BP 500 mg",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.884
+        },
+        {
+          "ref": "100 Tablets",
+          "hyp": "100 Tablets",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.657
+        },
+        {
+          "ref": "Dosage: Adults and children over 12 years:",
+          "hyp": "Dosage: Adults and children over 12 years:",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.827
+        },
+        {
+          "ref": "1 to 2 tablets every 4 to 6 hours.",
+          "hyp": "1 to 2 tablets every 4 to 6 hours.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.572
+        },
+        {
+          "ref": "Do not take more than 8 tablets in 24 hours.",
+          "hyp": "Do not take more than 8 tablets in 24 hours.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.793
+        },
+        {
+          "ref": "Store below 30°C. Keep out of reach of children.",
+          "hyp": "below 30*C. Keep out of reach of children. ",
+          "cer": 0.13,
+          "exact": false,
+          "minConf": 0.651
+        },
+        {
+          "ref": "Batch No: PX2417  Exp: 08/2028",
+          "hyp": "Batch No: PX2417 Exp: 08/2028",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.798
+        },
+        {
+          "ref": "Manufactured by: Generic Pharma Ltd",
+          "hyp": "Manufactured by: Generic Pharma Ltd",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.965
+        }
+      ]
+    },
+    {
+      "set": "print",
+      "file": "p2_amoxicillin_clean.png",
+      "ms": 91788,
+      "cpuS": 91.79,
+      "blocks": 13,
+      "meanConf": 0.877,
+      "minConf": 0.642,
+      "text": [
+        "AMOXICILLIN",
+        "Capsules BP 250 mg",
+        "21 Capsules",
+        "Take one capsule three times a day",
+        "for 7 days, or as directed by the prescriber.",
+        "Complete the full course",
+        "Prescription only medicine",
+        "Batch: AM0391 Mfg: 03/2026 Exp: 02/2028"
+      ],
+      "pageCer": 0,
+      "lineExact": 8,
+      "lines": 8,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "AMOXICILLIN",
+          "hyp": "AMOXICILLIN",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.95
+        },
+        {
+          "ref": "Capsules BP 250 mg",
+          "hyp": "Capsules BP 250 mg",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.996
+        },
+        {
+          "ref": "21 Capsules",
+          "hyp": "21 Capsules",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.997
+        },
+        {
+          "ref": "Take one capsule three times a day",
+          "hyp": "Take one capsule three times a day",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.889
+        },
+        {
+          "ref": "for 7 days, or as directed by the prescriber.",
+          "hyp": "for 7 days, or as directed by the prescriber.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.642
+        },
+        {
+          "ref": "Complete the full course.",
+          "hyp": "Complete the full course",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.709
+        },
+        {
+          "ref": "Prescription only medicine.",
+          "hyp": "Prescription only medicine",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.882
+        },
+        {
+          "ref": "Batch: AM0391  Mfg: 03/2026  Exp: 02/2028",
+          "hyp": "Batch: AM0391 Mfg: 03/2026 Exp: 02/2028",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.719
+        }
+      ]
+    },
+    {
+      "set": "print",
+      "file": "p2_amoxicillin_hard.jpg",
+      "ms": 117660,
+      "cpuS": 117.57,
+      "blocks": 14,
+      "meanConf": 0.829,
+      "minConf": 0.177,
+      "text": [
+        "AMOXICILLIN",
+        "Capsules BP 250 mg",
+        "21 Capsules",
+        "Take one capsule three times a day",
+        "for 7 days, or as directed bY the prescriber.",
+        "Complete the full course.",
+        "Prescription only medicine.",
+        "Batch: AM0391 Mfg: 03/2026 Exp: 02/2028"
+      ],
+      "pageCer": 0,
+      "lineExact": 8,
+      "lines": 8,
+      "numberRecall": 1,
+      "flagged": true,
+      "perLine": [
+        {
+          "ref": "AMOXICILLIN",
+          "hyp": "AMOXICILLIN",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.948
+        },
+        {
+          "ref": "Capsules BP 250 mg",
+          "hyp": "Capsules BP 250 mg",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.905
+        },
+        {
+          "ref": "21 Capsules",
+          "hyp": "21 Capsules",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.837
+        },
+        {
+          "ref": "Take one capsule three times a day",
+          "hyp": "Take one capsule three times a day",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.965
+        },
+        {
+          "ref": "for 7 days, or as directed by the prescriber.",
+          "hyp": "for 7 days, or as directed bY the prescriber.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.829
+        },
+        {
+          "ref": "Complete the full course.",
+          "hyp": "Complete the full course.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.799
+        },
+        {
+          "ref": "Prescription only medicine.",
+          "hyp": "Prescription only medicine.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.814
+        },
+        {
+          "ref": "Batch: AM0391  Mfg: 03/2026  Exp: 02/2028",
+          "hyp": "Batch: AM0391 Mfg: 03/2026 Exp: 02/2028",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.177
+        }
+      ]
+    },
+    {
+      "set": "print",
+      "file": "p2_amoxicillin_photo.jpg",
+      "ms": 121645,
+      "cpuS": 120.51,
+      "blocks": 14,
+      "meanConf": 0.845,
+      "minConf": 0.554,
+      "text": [
+        "AMOXICILLIN",
+        "Capsules BP 250 mg",
+        "21 Capsules",
+        "Take one capsule three times a day",
+        "for 7 days, or as directed by the prescriber.",
+        "Complete the full course.",
+        "Prescription only medicine.",
+        "Batch: AMO391 Mfg: 03/2026 Exp: 02/2028"
+      ],
+      "pageCer": 0.005,
+      "lineExact": 7,
+      "lines": 8,
+      "numberRecall": 0.875,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "AMOXICILLIN",
+          "hyp": "AMOXICILLIN",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.97
+        },
+        {
+          "ref": "Capsules BP 250 mg",
+          "hyp": "Capsules BP 250 mg",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.72
+        },
+        {
+          "ref": "21 Capsules",
+          "hyp": "21 Capsules",
+          "cer": 0,
+          "exact": true,
+          "minConf": 1
+        },
+        {
+          "ref": "Take one capsule three times a day",
+          "hyp": "Take one capsule three times a day",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.895
+        },
+        {
+          "ref": "for 7 days, or as directed by the prescriber.",
+          "hyp": "for 7 days, or as directed by the prescriber.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.554
+        },
+        {
+          "ref": "Complete the full course.",
+          "hyp": "Complete the full course.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.811
+        },
+        {
+          "ref": "Prescription only medicine.",
+          "hyp": "Prescription only medicine.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.894
+        },
+        {
+          "ref": "Batch: AM0391  Mfg: 03/2026  Exp: 02/2028",
+          "hyp": "Batch: AMO391 Mfg: 03/2026 Exp: 02/2028",
+          "cer": 0.028,
+          "exact": false,
+          "minConf": 0.695
+        }
+      ]
+    },
+    {
+      "set": "print",
+      "file": "p3_metformin_clean.png",
+      "ms": 81601,
+      "cpuS": 81.5,
+      "blocks": 10,
+      "meanConf": 0.938,
+      "minConf": 0.757,
+      "text": [
+        "Metformin Hydrochloride",
+        "Tablets 500 mg",
+        "28 film-coated tablets",
+        "Take 1 tablet twice daily with meals.",
+        "Swallow whole with water.",
+        "Read the leaflet before use",
+        "Batch No: MF5520 Exp: 11/2027"
+      ],
+      "pageCer": 0,
+      "lineExact": 7,
+      "lines": 7,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "Metformin Hydrochloride",
+          "hyp": "Metformin Hydrochloride",
+          "cer": 0,
+          "exact": true,
+          "minConf": 1
+        },
+        {
+          "ref": "Tablets 500 mg",
+          "hyp": "Tablets 500 mg",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.997
+        },
+        {
+          "ref": "28 film-coated tablets",
+          "hyp": "28 film-coated tablets",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.757
+        },
+        {
+          "ref": "Take 1 tablet twice daily with meals.",
+          "hyp": "Take 1 tablet twice daily with meals.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.803
+        },
+        {
+          "ref": "Swallow whole with water.",
+          "hyp": "Swallow whole with water.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.909
+        },
+        {
+          "ref": "Read the leaflet before use.",
+          "hyp": "Read the leaflet before use",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.927
+        },
+        {
+          "ref": "Batch No: MF5520  Exp: 11/2027",
+          "hyp": "Batch No: MF5520 Exp: 11/2027",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.983
+        }
+      ]
+    },
+    {
+      "set": "print",
+      "file": "p3_metformin_hard.jpg",
+      "ms": 112668,
+      "cpuS": 112.52,
+      "blocks": 10,
+      "meanConf": 0.857,
+      "minConf": 0.596,
+      "text": [
+        "Metformin Hydrochloride",
+        "Tablets 500 mg",
+        "28 film-coated tablets",
+        "Take 1 tablet twice daily with meals.",
+        "Swallow whole with water",
+        "Read the leaflet before use.",
+        "Batch No: MFSS20 Exp: 11/2027"
+      ],
+      "pageCer": 0.011,
+      "lineExact": 6,
+      "lines": 7,
+      "numberRecall": 0.833,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "Metformin Hydrochloride",
+          "hyp": "Metformin Hydrochloride",
+          "cer": 0,
+          "exact": true,
+          "minConf": 1
+        },
+        {
+          "ref": "Tablets 500 mg",
+          "hyp": "Tablets 500 mg",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.694
+        },
+        {
+          "ref": "28 film-coated tablets",
+          "hyp": "28 film-coated tablets",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.996
+        },
+        {
+          "ref": "Take 1 tablet twice daily with meals.",
+          "hyp": "Take 1 tablet twice daily with meals.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.596
+        },
+        {
+          "ref": "Swallow whole with water.",
+          "hyp": "Swallow whole with water",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.765
+        },
+        {
+          "ref": "Read the leaflet before use.",
+          "hyp": "Read the leaflet before use.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.923
+        },
+        {
+          "ref": "Batch No: MF5520  Exp: 11/2027",
+          "hyp": "Batch No: MFSS20 Exp: 11/2027",
+          "cer": 0.074,
+          "exact": false,
+          "minConf": 0.605
+        }
+      ]
+    },
+    {
+      "set": "print",
+      "file": "p3_metformin_photo.jpg",
+      "ms": 108551,
+      "cpuS": 108.41,
+      "blocks": 10,
+      "meanConf": 0.943,
+      "minConf": 0.749,
+      "text": [
+        "Metformin Hydrochloride",
+        "Tablets 500 mg",
+        "28 film-coated tablets",
+        "Take 1 tablet twice daily with meals.",
+        "Swallow whole with water.",
+        "Read the leaflet before use.",
+        "Batch No: MF5520 Exp: 11/2027"
+      ],
+      "pageCer": 0,
+      "lineExact": 7,
+      "lines": 7,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "Metformin Hydrochloride",
+          "hyp": "Metformin Hydrochloride",
+          "cer": 0,
+          "exact": true,
+          "minConf": 1
+        },
+        {
+          "ref": "Tablets 500 mg",
+          "hyp": "Tablets 500 mg",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.997
+        },
+        {
+          "ref": "28 film-coated tablets",
+          "hyp": "28 film-coated tablets",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.877
+        },
+        {
+          "ref": "Take 1 tablet twice daily with meals.",
+          "hyp": "Take 1 tablet twice daily with meals.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.749
+        },
+        {
+          "ref": "Swallow whole with water.",
+          "hyp": "Swallow whole with water.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.959
+        },
+        {
+          "ref": "Read the leaflet before use.",
+          "hyp": "Read the leaflet before use.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.94
+        },
+        {
+          "ref": "Batch No: MF5520  Exp: 11/2027",
+          "hyp": "Batch No: MF5520 Exp: 11/2027",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.959
+        }
+      ]
+    },
+    {
+      "set": "print",
+      "file": "p4_ors_sw_clean.png",
+      "ms": 80470,
+      "cpuS": 80.25,
+      "blocks": 10,
+      "meanConf": 0.787,
+      "minConf": 0.621,
+      "text": [
+        "ORAL REHYDRATION SALTS",
+        "Chumvi ya Kurejesha Maji Mwilini",
+        "Dissolve one sachet in 1 litre of clean water.",
+        "Yeyusha pakiti moja katika lita 1 ya maji safi.",
+        "Use within 24 hours.",
+        "Tumia ndani ya saa 24.",
+        "Batch: OR8812 Exp: 05/2028"
+      ],
+      "pageCer": 0,
+      "lineExact": 7,
+      "lines": 7,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "ORAL REHYDRATION SALTS",
+          "hyp": "ORAL REHYDRATION SALTS",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.739
+        },
+        {
+          "ref": "Chumvi ya Kurejesha Maji Mwilini",
+          "hyp": "Chumvi ya Kurejesha Maji Mwilini",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.719
+        },
+        {
+          "ref": "Dissolve one sachet in 1 litre of clean water.",
+          "hyp": "Dissolve one sachet in 1 litre of clean water.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.75
+        },
+        {
+          "ref": "Yeyusha pakiti moja katika lita 1 ya maji safi.",
+          "hyp": "Yeyusha pakiti moja katika lita 1 ya maji safi.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.714
+        },
+        {
+          "ref": "Use within 24 hours.",
+          "hyp": "Use within 24 hours.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.886
+        },
+        {
+          "ref": "Tumia ndani ya saa 24.",
+          "hyp": "Tumia ndani ya saa 24.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.621
+        },
+        {
+          "ref": "Batch: OR8812  Exp: 05/2028",
+          "hyp": "Batch: OR8812 Exp: 05/2028",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.678
+        }
+      ]
+    },
+    {
+      "set": "print",
+      "file": "p4_ors_sw_hard.jpg",
+      "ms": 106050,
+      "cpuS": 105.69,
+      "blocks": 26,
+      "meanConf": 0.674,
+      "minConf": 0.06,
+      "text": [
+        "SALTS",
+        "REHYDRATION",
+        "ORAL Maji Mwilini",
+        "Chumvi ' ya Kurejesha in 1 litre of clean Water",
+        "Dissolve one Socher lita 1 ya maji saf",
+        "pakiti ( molo kouka",
+        "Yeyusha",
+        "Use wihin 24 hours:",
+        "Jumia ndani ya sa0 24",
+        "Batch: 0R8812 Exp: 05/2028"
+      ],
+      "pageCer": 0.423,
+      "lineExact": 0,
+      "lines": 7,
+      "numberRecall": 1,
+      "flagged": true,
+      "perLine": [
+        {
+          "ref": "ORAL REHYDRATION SALTS",
+          "hyp": "REHYDRATION",
+          "cer": 0.5,
+          "exact": false,
+          "minConf": 0.701
+        },
+        {
+          "ref": "Chumvi ya Kurejesha Maji Mwilini",
+          "hyp": "ORAL Maji Mwilini",
+          "cer": 0.563,
+          "exact": false,
+          "minConf": 0.496
+        },
+        {
+          "ref": "Dissolve one sachet in 1 litre of clean water.",
+          "hyp": "Chumvi ' ya Kurejesha in 1 litre of clean Water",
+          "cer": 0.4,
+          "exact": false,
+          "minConf": 0.377
+        },
+        {
+          "ref": "Yeyusha pakiti moja katika lita 1 ya maji safi.",
+          "hyp": "Dissolve one Socher lita 1 ya maji saf",
+          "cer": 0.5,
+          "exact": false,
+          "minConf": 0.417
+        },
+        {
+          "ref": "Use within 24 hours.",
+          "hyp": "Use wihin 24 hours:",
+          "cer": 0.053,
+          "exact": false,
+          "minConf": 0.248
+        },
+        {
+          "ref": "Tumia ndani ya saa 24.",
+          "hyp": "Jumia ndani ya sa0 24",
+          "cer": 0.095,
+          "exact": false,
+          "minConf": 0.06
+        },
+        {
+          "ref": "Batch: OR8812  Exp: 05/2028",
+          "hyp": "Batch: 0R8812 Exp: 05/2028",
+          "cer": 0.042,
+          "exact": false,
+          "minConf": 0.622
+        }
+      ]
+    },
+    {
+      "set": "print",
+      "file": "p4_ors_sw_photo.jpg",
+      "ms": 107867,
+      "cpuS": 107.82,
+      "blocks": 12,
+      "meanConf": 0.918,
+      "minConf": 0.619,
+      "text": [
+        "ORAL REHYDRATION SALTS",
+        "Chumvi ya Kurejesha Maji Mwilini",
+        "Dissolve one sachet in 1 litre of clean water",
+        "Yeyusha pakiti moja katika lita 1 ya maji safi.",
+        "Use within 24 hours.",
+        "Tumia ndani ya saa 24.",
+        "Batch: 0R8812 Exp: 05/2028"
+      ],
+      "pageCer": 0.005,
+      "lineExact": 6,
+      "lines": 7,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "ORAL REHYDRATION SALTS",
+          "hyp": "ORAL REHYDRATION SALTS",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.873
+        },
+        {
+          "ref": "Chumvi ya Kurejesha Maji Mwilini",
+          "hyp": "Chumvi ya Kurejesha Maji Mwilini",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.959
+        },
+        {
+          "ref": "Dissolve one sachet in 1 litre of clean water.",
+          "hyp": "Dissolve one sachet in 1 litre of clean water",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.981
+        },
+        {
+          "ref": "Yeyusha pakiti moja katika lita 1 ya maji safi.",
+          "hyp": "Yeyusha pakiti moja katika lita 1 ya maji safi.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.771
+        },
+        {
+          "ref": "Use within 24 hours.",
+          "hyp": "Use within 24 hours.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.823
+        },
+        {
+          "ref": "Tumia ndani ya saa 24.",
+          "hyp": "Tumia ndani ya saa 24.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.989
+        },
+        {
+          "ref": "Batch: OR8812  Exp: 05/2028",
+          "hyp": "Batch: 0R8812 Exp: 05/2028",
+          "cer": 0.042,
+          "exact": false,
+          "minConf": 0.619
+        }
+      ]
+    },
+    {
+      "set": "print",
+      "file": "p5_ibuprofen_small_clean.png",
+      "ms": 75387,
+      "cpuS": 75.31,
+      "blocks": 10,
+      "meanConf": 0.866,
+      "minConf": 0.504,
+      "text": [
+        "IBUPROFEN 200 mg",
+        "24 Tablets",
+        "Adults: 1 or 2 tablets up to 3 times a day.",
+        "Take with or after food",
+        "Leave at least 4 hours between doses",
+        "Do not exceed 6 tablets in 24 hours",
+        "Not for children under 12",
+        "Batch 1B7734 Exp 01/2028"
+      ],
+      "pageCer": 0.005,
+      "lineExact": 7,
+      "lines": 8,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "IBUPROFEN 200 mg",
+          "hyp": "IBUPROFEN 200 mg",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.801
+        },
+        {
+          "ref": "24 Tablets",
+          "hyp": "24 Tablets",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.999
+        },
+        {
+          "ref": "Adults: 1 or 2 tablets up to 3 times a day.",
+          "hyp": "Adults: 1 or 2 tablets up to 3 times a day.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.504
+        },
+        {
+          "ref": "Take with or after food.",
+          "hyp": "Take with or after food",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.974
+        },
+        {
+          "ref": "Leave at least 4 hours between doses.",
+          "hyp": "Leave at least 4 hours between doses",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.965
+        },
+        {
+          "ref": "Do not exceed 6 tablets in 24 hours.",
+          "hyp": "Do not exceed 6 tablets in 24 hours",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.83
+        },
+        {
+          "ref": "Not for children under 12.",
+          "hyp": "Not for children under 12",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.853
+        },
+        {
+          "ref": "Batch IB7734 Exp 01/2028",
+          "hyp": "Batch 1B7734 Exp 01/2028",
+          "cer": 0.042,
+          "exact": false,
+          "minConf": 0.882
+        }
+      ]
+    },
+    {
+      "set": "print",
+      "file": "p5_ibuprofen_small_hard.jpg",
+      "ms": 105934,
+      "cpuS": 105.83,
+      "blocks": 9,
+      "meanConf": 0.731,
+      "minConf": 0.255,
+      "text": [
+        "IBUPROFEN 200 mg",
+        "24 Tablets",
+        "Adults: 1 or 2 tablets Up t0 3 times 0 day",
+        "Take with or after tood",
+        "Leave at least 4 hours between doses",
+        "Do not exceed 6 tablets in 24 hours",
+        "Not for children under 12",
+        "Batch 187734 Exp 01/2028"
+      ],
+      "pageCer": 0.023,
+      "lineExact": 5,
+      "lines": 8,
+      "numberRecall": 0.917,
+      "flagged": true,
+      "perLine": [
+        {
+          "ref": "IBUPROFEN 200 mg",
+          "hyp": "IBUPROFEN 200 mg",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.999
+        },
+        {
+          "ref": "24 Tablets",
+          "hyp": "24 Tablets",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.732
+        },
+        {
+          "ref": "Adults: 1 or 2 tablets up to 3 times a day.",
+          "hyp": "Adults: 1 or 2 tablets Up t0 3 times 0 day",
+          "cer": 0.049,
+          "exact": false,
+          "minConf": 0.255
+        },
+        {
+          "ref": "Take with or after food.",
+          "hyp": "Take with or after tood",
+          "cer": 0.043,
+          "exact": false,
+          "minConf": 0.763
+        },
+        {
+          "ref": "Leave at least 4 hours between doses.",
+          "hyp": "Leave at least 4 hours between doses",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.973
+        },
+        {
+          "ref": "Do not exceed 6 tablets in 24 hours.",
+          "hyp": "Do not exceed 6 tablets in 24 hours",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.809
+        },
+        {
+          "ref": "Not for children under 12.",
+          "hyp": "Not for children under 12",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.8
+        },
+        {
+          "ref": "Batch IB7734 Exp 01/2028",
+          "hyp": "Batch 187734 Exp 01/2028",
+          "cer": 0.083,
+          "exact": false,
+          "minConf": 0.897
+        }
+      ]
+    },
+    {
+      "set": "print",
+      "file": "p5_ibuprofen_small_photo.jpg",
+      "ms": 103377,
+      "cpuS": 103.33,
+      "blocks": 9,
+      "meanConf": 0.838,
+      "minConf": 0.731,
+      "text": [
+        "IBUPROFEN 200 mg",
+        "24 Tablets",
+        "Adults: 1 or 2 tablets up to 3 times a day",
+        "Take with or after food",
+        "Leave at least 4 hours between doses",
+        "Do not exceed 6 tablets in 24 hours.",
+        "Not for children under 12",
+        "Batch 1B7734 Exp 01/2028"
+      ],
+      "pageCer": 0.005,
+      "lineExact": 7,
+      "lines": 8,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "IBUPROFEN 200 mg",
+          "hyp": "IBUPROFEN 200 mg",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.776
+        },
+        {
+          "ref": "24 Tablets",
+          "hyp": "24 Tablets",
+          "cer": 0,
+          "exact": true,
+          "minConf": 1
+        },
+        {
+          "ref": "Adults: 1 or 2 tablets up to 3 times a day.",
+          "hyp": "Adults: 1 or 2 tablets up to 3 times a day",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.872
+        },
+        {
+          "ref": "Take with or after food.",
+          "hyp": "Take with or after food",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.761
+        },
+        {
+          "ref": "Leave at least 4 hours between doses.",
+          "hyp": "Leave at least 4 hours between doses",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.731
+        },
+        {
+          "ref": "Do not exceed 6 tablets in 24 hours.",
+          "hyp": "Do not exceed 6 tablets in 24 hours.",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.793
+        },
+        {
+          "ref": "Not for children under 12.",
+          "hyp": "Not for children under 12",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.887
+        },
+        {
+          "ref": "Batch IB7734 Exp 01/2028",
+          "hyp": "Batch 1B7734 Exp 01/2028",
+          "cer": 0.042,
+          "exact": false,
+          "minConf": 0.826
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h1_1x3_homemadeapple.jpg",
+      "ms": 65949,
+      "cpuS": 65.94,
+      "blocks": 1,
+      "meanConf": 0.356,
+      "minConf": 0.356,
+      "text": [
+        "I13"
+      ],
+      "pageCer": 0.667,
+      "lineExact": 0,
+      "lines": 1,
+      "numberRecall": 0,
+      "flagged": true,
+      "perLine": [
+        {
+          "ref": "1x3",
+          "hyp": "I13",
+          "cer": 0.667,
+          "exact": false,
+          "minConf": 0.356
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h1_1x3_indieflower.jpg",
+      "ms": 64013,
+      "cpuS": 63.98,
+      "blocks": 1,
+      "meanConf": 0.569,
+      "minConf": 0.569,
+      "text": [
+        "Ax3"
+      ],
+      "pageCer": 0.333,
+      "lineExact": 0,
+      "lines": 1,
+      "numberRecall": 0.5,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "1x3",
+          "hyp": "Ax3",
+          "cer": 0.333,
+          "exact": false,
+          "minConf": 0.569
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h1_1x3_reeniebeanie.jpg",
+      "ms": 65676,
+      "cpuS": 65.57,
+      "blocks": 1,
+      "meanConf": 0.589,
+      "minConf": 0.589,
+      "text": [
+        "1X3"
+      ],
+      "pageCer": 0,
+      "lineExact": 1,
+      "lines": 1,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "1x3",
+          "hyp": "1X3",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.589
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h1_1x3_shadowsintolight.jpg",
+      "ms": 68155,
+      "cpuS": 68.12,
+      "blocks": 1,
+      "meanConf": 0.773,
+      "minConf": 0.773,
+      "text": [
+        "1X3"
+      ],
+      "pageCer": 0,
+      "lineExact": 1,
+      "lines": 1,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "1x3",
+          "hyp": "1X3",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.773
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h2_2bd_homemadeapple.jpg",
+      "ms": 64435,
+      "cpuS": 64.43,
+      "blocks": 1,
+      "meanConf": 0.537,
+      "minConf": 0.537,
+      "text": [
+        "2 &d"
+      ],
+      "pageCer": 0.25,
+      "lineExact": 0,
+      "lines": 1,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "2 bd",
+          "hyp": "2 &d",
+          "cer": 0.25,
+          "exact": false,
+          "minConf": 0.537
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h2_2bd_indieflower.jpg",
+      "ms": 64847,
+      "cpuS": 64.84,
+      "blocks": 1,
+      "meanConf": 0.621,
+      "minConf": 0.621,
+      "text": [
+        "2 bd"
+      ],
+      "pageCer": 0,
+      "lineExact": 1,
+      "lines": 1,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "2 bd",
+          "hyp": "2 bd",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.621
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h2_2bd_reeniebeanie.jpg",
+      "ms": 68363,
+      "cpuS": 68.32,
+      "blocks": 2,
+      "meanConf": 0.416,
+      "minConf": 0.156,
+      "text": [
+        "bd",
+        "7"
+      ],
+      "pageCer": 1,
+      "lineExact": 0,
+      "lines": 1,
+      "numberRecall": 0,
+      "flagged": true,
+      "perLine": [
+        {
+          "ref": "2 bd",
+          "hyp": "bd",
+          "cer": 0.5,
+          "exact": false,
+          "minConf": 0.675
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h2_2bd_shadowsintolight.jpg",
+      "ms": 65823,
+      "cpuS": 65.69,
+      "blocks": 2,
+      "meanConf": 0.998,
+      "minConf": 0.998,
+      "text": [
+        "2 bd"
+      ],
+      "pageCer": 0,
+      "lineExact": 1,
+      "lines": 1,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "2 bd",
+          "hyp": "2 bd",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.998
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h3_1x3_5days_homemadeapple.jpg",
+      "ms": 85801,
+      "cpuS": 85.62,
+      "blocks": 4,
+      "meanConf": 0.445,
+      "minConf": 0.171,
+      "text": [
+        "1 K 3",
+        "Ks dayn"
+      ],
+      "pageCer": 0.357,
+      "lineExact": 0,
+      "lines": 2,
+      "numberRecall": 0.667,
+      "flagged": true,
+      "perLine": [
+        {
+          "ref": "1 x 3",
+          "hyp": "1 K 3",
+          "cer": 0.2,
+          "exact": false,
+          "minConf": 0.343
+        },
+        {
+          "ref": "x 5 days",
+          "hyp": "Ks dayn",
+          "cer": 0.5,
+          "exact": false,
+          "minConf": 0.171
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h3_1x3_5days_indieflower.jpg",
+      "ms": 85942,
+      "cpuS": 85.86,
+      "blocks": 3,
+      "meanConf": 0.698,
+      "minConf": 0.528,
+      "text": [
+        "1 x 3",
+        "x 5 days"
+      ],
+      "pageCer": 0,
+      "lineExact": 2,
+      "lines": 2,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "1 x 3",
+          "hyp": "1 x 3",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.577
+        },
+        {
+          "ref": "x 5 days",
+          "hyp": "x 5 days",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.528
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h3_1x3_5days_reeniebeanie.jpg",
+      "ms": 91961,
+      "cpuS": 91.73,
+      "blocks": 3,
+      "meanConf": 0.455,
+      "minConf": 0.41,
+      "text": [
+        "1  X 3",
+        "X < Jas"
+      ],
+      "pageCer": 0.286,
+      "lineExact": 1,
+      "lines": 2,
+      "numberRecall": 0.667,
+      "flagged": true,
+      "perLine": [
+        {
+          "ref": "1 x 3",
+          "hyp": "1  X 3",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.531
+        },
+        {
+          "ref": "x 5 days",
+          "hyp": "X < Jas",
+          "cer": 0.5,
+          "exact": false,
+          "minConf": 0.41
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h3_1x3_5days_shadowsintolight.jpg",
+      "ms": 88251,
+      "cpuS": 88.22,
+      "blocks": 3,
+      "meanConf": 0.465,
+      "minConf": 0.283,
+      "text": [
+        "1 x 2",
+        "X \" days"
+      ],
+      "pageCer": 0.214,
+      "lineExact": 0,
+      "lines": 2,
+      "numberRecall": 0.333,
+      "flagged": true,
+      "perLine": [
+        {
+          "ref": "1 x 3",
+          "hyp": "1 x 2",
+          "cer": 0.2,
+          "exact": false,
+          "minConf": 0.295
+        },
+        {
+          "ref": "x 5 days",
+          "hyp": "X \" days",
+          "cer": 0.25,
+          "exact": false,
+          "minConf": 0.283
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h4_2bd_7days_homemadeapple.jpg",
+      "ms": 66201,
+      "cpuS": 66.19,
+      "blocks": 1,
+      "meanConf": 0.181,
+      "minConf": 0.181,
+      "text": [
+        "ld + 7"
+      ],
+      "pageCer": 0.7,
+      "lineExact": 0,
+      "lines": 1,
+      "numberRecall": 0.333,
+      "flagged": true,
+      "perLine": [
+        {
+          "ref": "2 bd x 7/7",
+          "hyp": "ld + 7",
+          "cer": 0.7,
+          "exact": false,
+          "minConf": 0.181
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h4_2bd_7days_indieflower.jpg",
+      "ms": 66697,
+      "cpuS": 66.59,
+      "blocks": 3,
+      "meanConf": 0.91,
+      "minConf": 0.732,
+      "text": [
+        "2 bd X +/4"
+      ],
+      "pageCer": 0.3,
+      "lineExact": 0,
+      "lines": 1,
+      "numberRecall": 0.333,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "2 bd x 7/7",
+          "hyp": "2 bd X +/4",
+          "cer": 0.3,
+          "exact": false,
+          "minConf": 0.732
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h4_2bd_7days_reeniebeanie.jpg",
+      "ms": 67348,
+      "cpuS": 67.18,
+      "blocks": 2,
+      "meanConf": 0.551,
+      "minConf": 0.449,
+      "text": [
+        "1 bj x 7/7"
+      ],
+      "pageCer": 0.2,
+      "lineExact": 0,
+      "lines": 1,
+      "numberRecall": 0.667,
+      "flagged": true,
+      "perLine": [
+        {
+          "ref": "2 bd x 7/7",
+          "hyp": "1 bj x 7/7",
+          "cer": 0.2,
+          "exact": false,
+          "minConf": 0.449
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h4_2bd_7days_shadowsintolight.jpg",
+      "ms": 66344,
+      "cpuS": 66.29,
+      "blocks": 3,
+      "meanConf": 0.821,
+      "minConf": 0.674,
+      "text": [
+        "bd X 7/7",
+        "2"
+      ],
+      "pageCer": 0.4,
+      "lineExact": 0,
+      "lines": 1,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "2 bd x 7/7",
+          "hyp": "bd X 7/7",
+          "cer": 0.2,
+          "exact": false,
+          "minConf": 0.674
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h5_tds_homemadeapple.jpg",
+      "ms": 88441,
+      "cpuS": 88.28,
+      "blocks": 5,
+      "meanConf": 0.381,
+      "minConf": 0.147,
+      "text": [
+        "Yal 1 tda",
+        "antes '0od"
+      ],
+      "pageCer": 0.35,
+      "lineExact": 0,
+      "lines": 2,
+      "numberRecall": 1,
+      "flagged": true,
+      "perLine": [
+        {
+          "ref": "Tab 1 tds",
+          "hyp": "Yal 1 tda",
+          "cer": 0.333,
+          "exact": false,
+          "minConf": 0.147
+        },
+        {
+          "ref": "after food",
+          "hyp": "antes '0od",
+          "cer": 0.4,
+          "exact": false,
+          "minConf": 0.177
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h5_tds_indieflower.jpg",
+      "ms": 87012,
+      "cpuS": 86.95,
+      "blocks": 4,
+      "meanConf": 0.927,
+      "minConf": 0.772,
+      "text": [
+        "Tab 4 tds",
+        "after food"
+      ],
+      "pageCer": 0.05,
+      "lineExact": 1,
+      "lines": 2,
+      "numberRecall": 0,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "Tab 1 tds",
+          "hyp": "Tab 4 tds",
+          "cer": 0.111,
+          "exact": false,
+          "minConf": 0.772
+        },
+        {
+          "ref": "after food",
+          "hyp": "after food",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.996
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h5_tds_reeniebeanie.jpg",
+      "ms": 95198,
+      "cpuS": 94.82,
+      "blocks": 5,
+      "meanConf": 0.662,
+      "minConf": 0.292,
+      "text": [
+        "Tab 1 +ds",
+        "after 4o d"
+      ],
+      "pageCer": 0.15,
+      "lineExact": 0,
+      "lines": 2,
+      "numberRecall": 1,
+      "flagged": true,
+      "perLine": [
+        {
+          "ref": "Tab 1 tds",
+          "hyp": "Tab 1 +ds",
+          "cer": 0.111,
+          "exact": false,
+          "minConf": 0.292
+        },
+        {
+          "ref": "after food",
+          "hyp": "after 4o d",
+          "cer": 0.2,
+          "exact": false,
+          "minConf": 0.383
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h5_tds_shadowsintolight.jpg",
+      "ms": 90620,
+      "cpuS": 90.56,
+      "blocks": 3,
+      "meanConf": 0.704,
+      "minConf": 0.405,
+      "text": [
+        "Tab td5",
+        "after  fod"
+      ],
+      "pageCer": 0.2,
+      "lineExact": 0,
+      "lines": 2,
+      "numberRecall": 0,
+      "flagged": true,
+      "perLine": [
+        {
+          "ref": "Tab 1 tds",
+          "hyp": "Tab td5",
+          "cer": 0.333,
+          "exact": false,
+          "minConf": 0.709
+        },
+        {
+          "ref": "after food",
+          "hyp": "after  fod",
+          "cer": 0.1,
+          "exact": false,
+          "minConf": 0.405
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h6_nocte_homemadeapple.jpg",
+      "ms": 66905,
+      "cpuS": 66.82,
+      "blocks": 1,
+      "meanConf": 0.946,
+      "minConf": 0.946,
+      "text": [
+        "noete"
+      ],
+      "pageCer": 0.429,
+      "lineExact": 0,
+      "lines": 1,
+      "numberRecall": 0,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "1 nocte",
+          "hyp": "noete",
+          "cer": 0.429,
+          "exact": false,
+          "minConf": 0.946
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h6_nocte_indieflower.jpg",
+      "ms": 66972,
+      "cpuS": 66.95,
+      "blocks": 2,
+      "meanConf": 0.833,
+      "minConf": 0.666,
+      "text": [
+        "1 nocte"
+      ],
+      "pageCer": 0,
+      "lineExact": 1,
+      "lines": 1,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "1 nocte",
+          "hyp": "1 nocte",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.666
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h6_nocte_reeniebeanie.jpg",
+      "ms": 69034,
+      "cpuS": 68.95,
+      "blocks": 2,
+      "meanConf": 0.883,
+      "minConf": 0.766,
+      "text": [
+        "1 nocte"
+      ],
+      "pageCer": 0,
+      "lineExact": 1,
+      "lines": 1,
+      "numberRecall": 1,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "1 nocte",
+          "hyp": "1 nocte",
+          "cer": 0,
+          "exact": true,
+          "minConf": 0.766
+        }
+      ]
+    },
+    {
+      "set": "hand",
+      "file": "h6_nocte_shadowsintolight.jpg",
+      "ms": 65880,
+      "cpuS": 65.85,
+      "blocks": 1,
+      "meanConf": 0.955,
+      "minConf": 0.955,
+      "text": [
+        "nocte"
+      ],
+      "pageCer": 0.286,
+      "lineExact": 0,
+      "lines": 1,
+      "numberRecall": 0,
+      "flagged": false,
+      "perLine": [
+        {
+          "ref": "1 nocte",
+          "hyp": "nocte",
+          "cer": 0.286,
+          "exact": false,
+          "minConf": 0.955
+        }
+      ]
+    }
+  ]
+}
