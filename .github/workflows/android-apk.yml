@@ -29,6 +29,8 @@ concurrency:
 
 permissions:
   contents: read
+  # Only for the failure comment below.
+  pull-requests: write
 
 env:
   EXPO_NO_TELEMETRY: '1'
@@ -85,7 +87,31 @@ jobs:
 
       - name: Build APK
         working-directory: mobile/android
-        run: ./gradlew assembleRelease --no-daemon -PreactNativeArchitectures=arm64-v8a
+        run: |
+          set -o pipefail
+          ./gradlew assembleRelease --no-daemon -PreactNativeArchitectures=arm64-v8a 2>&1 | tee /tmp/gradle.log
+
+      # The Bond VPS can't download Actions logs (the log host isn't on its
+      # egress allowlist), so a failed PR build posts the Gradle error as a PR
+      # comment, which it can read through the API.
+      - name: Report Gradle failure on the PR
+        if: failure() && github.event_name == 'pull_request'
+        working-directory: /
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          [ -f /tmp/gradle.log ] || exit 0
+          {
+            echo "Android dev APK build failed at ${GITHUB_SHA::7} ([run](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}))."
+            echo
+            echo '```'
+            grep -n -A25 'What went wrong' /tmp/gradle.log | head -60 || true
+            echo '--- last 60 lines ---'
+            tail -n 60 /tmp/gradle.log
+            echo '```'
+          } > /tmp/comment.md
+          gh pr comment "$PR" -R "$GITHUB_REPOSITORY" --body-file /tmp/comment.md
 
       - name: Name the APK
         id: apk

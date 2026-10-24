@@ -26,6 +26,13 @@ describe('withNoNativeDebugSymbols', () => {
     expect(debug).not.toContain('debugSymbolLevel');
   });
 
+  it('disables the release debug-metadata merge task if it exists', () => {
+    const out: string = addNoDebugSymbols(GRADLE);
+    expect(out).toMatch(
+      /task\.name == 'mergeReleaseNativeDebugMetadata'\)\s*\{\s*task\.enabled = false/,
+    );
+  });
+
   it('is idempotent across repeated prebuilds', () => {
     const once: string = addNoDebugSymbols(GRADLE);
     expect(addNoDebugSymbols(once)).toBe(once);
