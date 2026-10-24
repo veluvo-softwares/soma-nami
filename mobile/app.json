@@ -5,12 +5,12 @@
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#0E0E0E"
     },
     "ios": {
       "supportsTablet": false,
@@ -20,7 +20,7 @@
       "package": "com.veluvo.somanami",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#0E0E0E"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
@@ -29,11 +29,24 @@
       [
         "expo-build-properties",
         {
+          "ios": {
+            "deploymentTarget": "17.0"
+          },
           "android": {
             "minSdkVersion": 29
           }
         }
       ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/AtkinsonHyperlegible-Regular.ttf",
+            "./assets/fonts/AtkinsonHyperlegible-Bold.ttf"
+          ]
+        }
+      ],
+      "./plugins/withNoNativeDebugSymbols",
       "@qvac/sdk/expo-plugin"
     ]
   }

@@ -2,22 +2,25 @@ name: Android dev APK
 
 # Builds a standalone arm64 APK (JavaScript bundled in, signed with the debug
 # key) that installs on a physical phone without a dev server. Not for the
-# Play Store. The VPS can't build APKs, so this is the only build path besides
-# a developer laptop.
+# Play Store. The VPS can't build APKs, so this is the only Android build path
+# besides a developer laptop.
+#
+# Runs on a version tag (v*), by hand, and on PRs that change native config.
+# It only uploads a workflow artifact; publishing to the public releases repo
+# is card C10. The iOS build is EAS (C10), never a macOS runner here: macOS
+# minutes on a private repo cost money.
 
 on:
   workflow_dispatch:
   push:
-    branches: [main]
-    paths:
-      - 'mobile/**'
-      - '.github/workflows/android-apk.yml'
+    tags: ['v*']
   pull_request:
     paths:
       - 'mobile/package.json'
       - 'mobile/package-lock.json'
       - 'mobile/app.json'
       - 'mobile/qvac.config.json'
+      - 'mobile/assets/fonts/**'
       - '.github/workflows/android-apk.yml'
 
 concurrency:
@@ -73,10 +76,12 @@ jobs:
       - name: Expo prebuild (android)
         run: npx expo prebuild --platform android --no-install
 
+      # The runner has 16 GB. Native debug symbols are off for release
+      # (plugins/withNoNativeDebugSymbols.js); merging them ran out of heap.
       - name: Give Gradle more memory
         run: |
           sed -i '/^org.gradle.jvmargs=/d' android/gradle.properties
-          echo 'org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=1g' >> android/gradle.properties
+          echo 'org.gradle.jvmargs=-Xmx8g -XX:MaxMetaspaceSize=1g' >> android/gradle.properties
 
       - name: Build APK
         working-directory: mobile/android
@@ -85,7 +90,8 @@ jobs:
       - name: Name the APK
         id: apk
         run: |
-          name="soma-nami-dev-${GITHUB_SHA::7}.apk"
+          # Tag builds are named after the tag (soma-nami-v0.1.0.apk), others after the commit.
+          if [ "$GITHUB_REF_TYPE" = tag ]; then name="soma-nami-${GITHUB_REF_NAME}.apk"; else name="soma-nami-dev-${GITHUB_SHA::7}.apk"; fi
           cp android/app/build/outputs/apk/release/app-release.apk "$name"
           ls -lh "$name"
           echo "name=$name" >> "$GITHUB_OUTPUT"
