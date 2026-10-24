@@ -36,6 +36,9 @@ env:
   EXPO_NO_TELEMETRY: '1'
   # Must match DEFAULT_NDK_VERSION in @qvac/sdk/expo-plugin (0.22.0).
   QVAC_NDK_VERSION: '29.0.14206865'
+  # The runner has 16 GB; R8 and the native merge steps need far more than
+  # Gradle's 512 MiB default.
+  GRADLE_JVMARGS: '-Xmx8g -XX:MaxMetaspaceSize=1g'
 
 jobs:
   apk:
@@ -82,14 +85,20 @@ jobs:
       # (plugins/withNoNativeDebugSymbols.js); merging them ran out of heap.
       - name: Give Gradle more memory
         run: |
+          # Project, user-home and command line (below) all get the same value:
+          # the first try still ran with Gradle's 512 MiB default.
           sed -i '/^org.gradle.jvmargs=/d' android/gradle.properties
-          echo 'org.gradle.jvmargs=-Xmx8g -XX:MaxMetaspaceSize=1g' >> android/gradle.properties
+          printf '\norg.gradle.jvmargs=%s\n' "$GRADLE_JVMARGS" >> android/gradle.properties
+          mkdir -p "${GRADLE_USER_HOME:-$HOME/.gradle}"
+          printf '\norg.gradle.jvmargs=%s\n' "$GRADLE_JVMARGS" >> "${GRADLE_USER_HOME:-$HOME/.gradle}/gradle.properties"
+          grep -H jvmargs android/gradle.properties "${GRADLE_USER_HOME:-$HOME/.gradle}/gradle.properties"
 
       - name: Build APK
         working-directory: mobile/android
         run: |
           set -o pipefail
-          ./gradlew assembleRelease --no-daemon -PreactNativeArchitectures=arm64-v8a 2>&1 | tee /tmp/gradle.log
+          ./gradlew assembleRelease --no-daemon -PreactNativeArchitectures=arm64-v8a \
+            "-Dorg.gradle.jvmargs=$GRADLE_JVMARGS" 2>&1 | tee /tmp/gradle.log
 
       # The Bond VPS can't download Actions logs (the log host isn't on its
       # egress allowlist), so a failed PR build posts the Gradle error as a PR
