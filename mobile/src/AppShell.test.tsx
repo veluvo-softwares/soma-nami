@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react-native';
 
 import { AppShell } from './AppShell';
 import { FakeModelClient, flush, TEST_MANIFEST } from './model-store/testing';
+import { themes } from './theme';
 
 jest.mock('expo-keep-awake', () => ({ useKeepAwake: jest.fn() }));
 
@@ -79,6 +80,20 @@ describe('AppShell read gate', () => {
       await flush(30);
     });
     expect(screen.getByTestId('read-screen')).toBeTruthy();
+  });
+
+  it('paints the screens from the chosen theme, dark by default', async () => {
+    const client = new FakeModelClient();
+    client.cached = new Set(['OCR_CRAFT', 'OCR_LATIN']);
+    const { rerender } = render(<AppShell client={client} manifest={TEST_MANIFEST} />);
+    await settle();
+    expect(screen.getByTestId('read-screen')).toHaveStyle({ backgroundColor: themes.dark.background });
+
+    rerender(<AppShell client={client} manifest={TEST_MANIFEST} theme="light" />);
+    await settle();
+    expect(screen.getByTestId('read-screen')).toHaveStyle({
+      backgroundColor: themes.light.background,
+    });
   });
 
   it('cancels the download when the app unmounts', async () => {
