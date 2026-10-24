@@ -159,3 +159,7 @@ ios/
 models/
 *.gguf
 *.bin
+
+# Symlinked node_modules and generated audio (attach audio to cards instead)
+node_modules
+*.wav
