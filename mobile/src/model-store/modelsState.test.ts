@@ -90,8 +90,18 @@ describe('manifest', () => {
   it('has unique names and a plausible total size', () => {
     const names = MODEL_MANIFEST.map((m) => m.name);
     expect(new Set(names).size).toBe(names.length);
-    expect(totalBytes(MODEL_MANIFEST)).toBeGreaterThan(2e9);
-    expect(totalBytes(MODEL_MANIFEST)).toBeLessThan(3e9);
+    expect(formatBytes(totalBytes(MODEL_MANIFEST))).toBe('1.5 GB');
+  });
+
+  it('follows the 24 Oct decisions: Whisper for questions, no Chatterbox on the phone', () => {
+    const names: string[] = MODEL_MANIFEST.map((m) => m.name);
+    expect(names).toContain('WHISPER_SMALL_Q8_0');
+    expect(names.filter((n) => n.includes('CHATTERBOX'))).toEqual([]);
+  });
+
+  it('offers the whole manifest size on the first download', () => {
+    const state = initialModelsState(MODEL_MANIFEST);
+    expect(formatBytes(missingBytes(state))).toBe('1.5 GB');
   });
 
   it('formats sizes for people', () => {

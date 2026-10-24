@@ -1,19 +1,21 @@
 /**
  * Every model the app needs, downloaded once on Wi-Fi before the app can read.
  *
- * The set follows the primary choices in docs/scope.md §1. Change it here only;
- * the models screen, the read gate and the README size all come from this list.
+ * The set follows docs/scope.md §1 and the 24 Oct decisions: no Chatterbox on
+ * the phone (the fixed Swahili phrases ship as pre-generated audio), Whisper
+ * small for hold-to-talk questions (C5). TranslatePsy is added by C11.
+ * Change the set here only; the models screen, the read gate and the size
+ * shown to the user all come from this list.
  * `name` must be the QVAC registry constant name exported by @qvac/sdk 0.22.0
  * (see `MODEL_DESCRIPTORS` in qvacClient.ts, which typechecks each one).
  */
-export type ModelJob = 'ocr' | 'speech-en' | 'speech-sw' | 'answer';
+export type ModelJob = 'ocr' | 'speech-en' | 'listen' | 'answer';
 
 export type ModelName =
   | 'OCR_CRAFT'
   | 'OCR_LATIN'
   | 'TTS_MULTILINGUAL_SUPERTONIC3_Q4_0'
-  | 'TTS_T3_MULTILINGUAL_CHATTERBOX_Q4_0'
-  | 'TTS_S3GEN_MULTILINGUAL_CHATTERBOX_Q4_0'
+  | 'WHISPER_SMALL_Q8_0'
   | 'QWEN3_1_7B_INST_Q4';
 
 export interface ModelEntry {
@@ -35,16 +37,10 @@ export const MODEL_MANIFEST: readonly ModelEntry[] = [
     approxBytes: 84_658_368,
   },
   {
-    name: 'TTS_T3_MULTILINGUAL_CHATTERBOX_Q4_0',
-    label: 'Swahili voice (part 1)',
-    job: 'speech-sw',
-    approxBytes: 344_985_408,
-  },
-  {
-    name: 'TTS_S3GEN_MULTILINGUAL_CHATTERBOX_Q4_0',
-    label: 'Swahili voice (part 2)',
-    job: 'speech-sw',
-    approxBytes: 788_432_672,
+    name: 'WHISPER_SMALL_Q8_0',
+    label: 'Listening to questions',
+    job: 'listen',
+    approxBytes: 264_464_607,
   },
   {
     name: 'QWEN3_1_7B_INST_Q4',
