@@ -75,6 +75,29 @@ Then in Xcode pick the iPhone connected by USB as the run destination and press 
 
 No Apple certificates, profiles or keys go in this repo (`.gitignore` blocks the usual files).
 
+## iOS: TestFlight through EAS Build
+
+iOS tester builds are made on Expo's macOS servers with EAS Build and sent to TestFlight with EAS Submit, so no Mac is needed for a release. Config is `eas.json`:
+
+| Profile | What it builds |
+|---|---|
+| `preview` | Store-signed build (not internal distribution) for a quick TestFlight check of a branch |
+| `production` | Store-signed build for TestFlight and, later, the App Store |
+
+Both use Node 24.11.0 (QVAC's bundler needs `^22.21 \|\| >=24.9`) and the newest Xcode image, and take their build number from EAS (`appVersionSource: remote`, `autoIncrement`), so every upload gets a new one. The version shown in TestFlight is `version` in `app.json`.
+
+```bash
+cd mobile
+npx eas-cli build -p ios --profile production --non-interactive --no-wait
+npx eas-cli submit -p ios --profile production --latest --non-interactive
+```
+
+- Credentials (distribution certificate, provisioning profile, App Store Connect API key) are set up once on Wesley's Mac with `eas credentials -p ios` and stored by Expo. Nothing Apple-related lives in this repo or on the Bond VPS; Bond only has an `EXPO_TOKEN`.
+- `eas submit` needs `ascAppId` (the app's Apple ID from App Store Connect → App Information) in the `submit` profile, and `eas build` needs `extra.eas.projectId` in `app.json` (written by `eas init`).
+- Expo's free plan has a small monthly allowance of iOS builds. Build only when a change needs a phone test, never upgrade or pay, and log every build in `docs/plan.md` (C10, EAS build log).
+- Info.plist: camera and microphone usage strings in Swahili and English (bilingual by default, plus `locales/sw.json` and `locales/en.json`), and `ITSAppUsesNonExemptEncryption = false`, so TestFlight doesn't ask the export-compliance question on every build.
+- Internal testers (users on the App Store Connect team) get a build as soon as Apple finishes processing it. External testers need Beta App Review first, which takes about a day.
+
 ## Android APK
 
 GitHub Actions (`.github/workflows/android-apk.yml`, Linux runner) builds a standalone arm64 APK, JavaScript bundled in and signed with the Android debug key. It runs:
@@ -83,7 +106,14 @@ GitHub Actions (`.github/workflows/android-apk.yml`, Linux runner) builds a stan
 - by hand: **Actions → Android dev APK → Run workflow**;
 - on pull requests that change native config (`package.json`, the lockfile, `app.json`, `qvac.config.json`, fonts).
 
-The APK is a workflow artifact on this private repo, so only collaborators can download it. Publishing it to the public releases repo for testers and judges is card C10.
+The APK is a workflow artifact on this private repo, so only collaborators can download it. On a version tag the `publish` job also creates a GitHub Release with the APK in the public releases repo (`veluvo-softwares/soma-nami-releases`, or the repo in the `RELEASES_REPO` Actions variable), with notes from `scripts/release-notes.sh`: version, commit, what's new (the annotated tag's message, or the commit subjects since the last tag) and the first-launch model download. It needs the Actions secret `RELEASES_TOKEN`, a fine-grained token with Contents read & write on the releases repo only; without it the tag build fails at the publish step and the APK stays in the run's artifacts. The releases repo's README is kept in `docs/releases-repo/README.md`. Tags with a suffix (`v0.2.0-rc1`) are published as pre-releases; re-running a tag's workflow replaces the APK and notes.
+
+Release a tester build (the release notes are public, so write the message for testers):
+
+```bash
+git tag -a v0.1.0 -m "What testers should know about this build"
+git push origin v0.1.0
+```
 
 Install it: open the run, download the `soma-nami-dev-apk` artifact (a zip), unzip it, copy the `.apk` to an Android 12+ arm64 phone, open it and allow "Install unknown apps" for the app you opened it with.
 

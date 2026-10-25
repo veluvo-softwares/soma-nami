@@ -19,7 +19,7 @@ Hand-offs to Wesley (C3a, C4a, C12) are not separate board cards: the Bond card 
 | C4a | (block on C4) | iOS hand-off: read-aloud on the iPhone, in airplane mode (Tue 27 Oct) | C4, C3a | Wesley | todo | |
 | C5 | `t_99e45430` | Ask: hold-to-talk, fixed questions, quotes the line, refuses when unsure | C4 | Bond | todo | |
 | C6 | `t_cebb50ba` | Accessibility, language, Not sure, caregiver setup, theme | C4 | Bond | todo | |
-| C10 | `t_c473c258` | Distribution: iOS via EAS to TestFlight, Android APK to the public releases repo | C3 | Bond, Wesley's accounts | todo | |
+| C10 | `t_c473c258` | Distribution: iOS via EAS to TestFlight, Android APK to the public releases repo | C3 | Bond, Wesley's accounts | in progress: `eas.json`, Info.plist strings, APK publish job and releases README in the PR; waiting on Wesley's accounts (Expo project, App Store Connect app, EXPO_TOKEN, releases repo, RELEASES_TOKEN) and the egress allowlist before the first EAS build | `feat/c10-distribution` |
 | C11 | `t_cb8e5f17` | Tafsiri: English → Swahili with the number check | C2, C4 | Bond | todo | |
 | C12 | (Wesley's checklist) | Android real-phone test at the Wed 28 Oct offline check (borrowed phone) | C4, C10 | Wesley | todo | |
 | C9 | `t_80394eb8` | Dawa zangu: saved medicines with caregiver-set times | C4, C6 | Bond | todo (after C5, C6, C11) | |
@@ -73,6 +73,14 @@ Screen 6. Saved labels as photo cards; tapping one reads the saved text again fr
 
 ### C10 Distribution
 iOS: `eas.json`, `eas build -p ios` and `eas submit` to TestFlight, run on Expo's servers and triggered by Bond with an `EXPO_TOKEN`. Wesley sets up the Apple credentials once with `eas credentials` on his Mac; no Apple keys on the VPS or in the repo. Stays on Expo's free plan. Android: on a version tag, the APK job publishes a GitHub Release to the public releases repo Wesley creates, using a token scoped to that repo only. TestFlight's Beta App Review for external testers takes about a day, so the first external build goes in by Wed 28 Oct.
+
+How to run both is in `mobile/README.md` (iOS: TestFlight through EAS Build; Android APK). EAS Build from the Bond VPS needs `api.expo.dev`, `expo.dev` and `storage.googleapis.com` (project upload and build logs) on the egress allowlist; `registry.npmjs.org` is already there.
+
+**EAS build log.** Expo's free plan allows only a few iOS builds a month, so every build is logged here.
+
+| Date | Profile | Commit | Why | Result |
+|---|---|---|---|---|
+| | | | | none yet |
 
 ### C11 Tafsiri
 "Tafsiri kwa Kiswahili" on the Reading screen. TranslatePsy-AfriSLM 0.8B Q4 (2B if C2 shows 0.8B is weak and memory allows). Every number, unit and frequency word in the translation is checked against the original (`spike/numbers.mjs` is the starting point); on any difference, show the original and say the translation isn't safe. The translation is shown on screen; it's spoken only if Chatterbox is fast enough on the phone. Unit tests for the check.
