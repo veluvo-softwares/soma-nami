@@ -1,0 +1,67 @@
+{
+  "engine": "chatterbox",
+  "modelConfig": {
+    "ttsEngine": "chatterbox",
+    "language": "sw",
+    "cfmSteps": 2,
+    "threads": 1,
+    "seed": 7
+  },
+  "loadMs": 13947,
+  "cpuS": 494.7,
+  "peakRssMb": 1873.6,
+  "baselineRssMb": 102.8,
+  "procs": 2,
+  "runs": [
+    {
+      "text": "Chumvi ya kurejesha maji mwilini.",
+      "ms": 90339,
+      "cpuS": 83.33,
+      "audioS": 1.92,
+      "rtf": 47.05,
+      "cpuRtf": 43.4,
+      "sampleRate": 24000,
+      "file": "out/tts/chatterbox_1.wav"
+    },
+    {
+      "text": "Yeyusha pakiti moja katika lita moja ya maji safi. Tumia ndani ya saa ishirini na nne.",
+      "ms": 128283,
+      "cpuS": 119.06,
+      "audioS": 4,
+      "rtf": 32.07,
+      "cpuRtf": 29.77,
+      "sampleRate": 24000,
+      "file": "out/tts/chatterbox_2.wav"
+    },
+    {
+      "text": "Meza kidonge kimoja mara tatu kwa siku, kwa siku saba.",
+      "ms": 110110,
+      "cpuS": 101.7,
+      "audioS": 3.2,
+      "rtf": 34.41,
+      "cpuRtf": 31.78,
+      "sampleRate": 24000,
+      "file": "out/tts/chatterbox_3.wav"
+    },
+    {
+      "text": "Sina uhakika nimesoma vizuri. Tafadhali muulize mfamasia.",
+      "ms": 114071,
+      "cpuS": 105.71,
+      "audioS": 3.68,
+      "rtf": 31,
+      "cpuRtf": 28.73,
+      "sampleRate": 24000,
+      "file": "out/tts/chatterbox_4.wav"
+    },
+    {
+      "text": "Tumia ndani ya saa 24.",
+      "ms": 73251,
+      "cpuS": 70.54,
+      "audioS": 1.64,
+      "rtf": 44.67,
+      "cpuRtf": 43.01,
+      "sampleRate": 24000,
+      "file": "out/tts/chatterbox_5.wav"
+    }
+  ]
+}

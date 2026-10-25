@@ -1,0 +1,57 @@
+{
+  "engine": "supertonic",
+  "modelConfig": {
+    "ttsEngine": "supertonic",
+    "language": "en",
+    "voice": "F1",
+    "ttsSpeed": 0.95,
+    "threads": 1
+  },
+  "loadMs": 9070,
+  "cpuS": 25.1,
+  "peakRssMb": 1203.7,
+  "baselineRssMb": 99.6,
+  "procs": 2,
+  "runs": [
+    {
+      "text": "Paracetamol tablets, 500 milligrams.",
+      "ms": 2343,
+      "cpuS": 2.22,
+      "audioS": 3.67,
+      "rtf": 0.64,
+      "cpuRtf": 0.6,
+      "sampleRate": 44100,
+      "file": "out/tts/supertonic_1.wav"
+    },
+    {
+      "text": "Take one capsule three times a day for 7 days, or as directed by the prescriber.",
+      "ms": 3712,
+      "cpuS": 3.42,
+      "audioS": 6.54,
+      "rtf": 0.57,
+      "cpuRtf": 0.52,
+      "sampleRate": 44100,
+      "file": "out/tts/supertonic_2.wav"
+    },
+    {
+      "text": "Dosage: adults and children over 12 years: 1 to 2 tablets every 4 to 6 hours. Do not take more than 8 tablets in 24 hours.",
+      "ms": 7457,
+      "cpuS": 6.84,
+      "audioS": 12.71,
+      "rtf": 0.59,
+      "cpuRtf": 0.54,
+      "sampleRate": 44100,
+      "file": "out/tts/supertonic_3.wav"
+    },
+    {
+      "text": "I am not sure I read this correctly. Please ask the pharmacist.",
+      "ms": 3172,
+      "cpuS": 3.04,
+      "audioS": 5.43,
+      "rtf": 0.58,
+      "cpuRtf": 0.56,
+      "sampleRate": 44100,
+      "file": "out/tts/supertonic_4.wav"
+    }
+  ]
+}

@@ -1,0 +1,247 @@
+{
+  "loadMs": 147528,
+  "peakRssMb": 2905.5,
+  "baselineRssMb": 102.8,
+  "cpuS": 13353.5,
+  "summary": {
+    "handImages": 24,
+    "handMeanCer": 0.179,
+    "handExact": 13,
+    "meanMs": 456411,
+    "meanCpuS": 455.5
+  },
+  "results": [
+    {
+      "set": "print",
+      "file": "p1_paracetamol_hard.jpg",
+      "ms": 676632,
+      "cpuS": 675.41,
+      "text": "# PARACETAMOL\n\n## Tablets BP 500 mg\n\n### 100 Tablets\n\n**Dosage:** Adults and children over 12 years:  \n1 to 2 tablets every 4 to 6 hours.  \nDo not take more than 8 tablets in 24 hours.  \nStore below 30°C. Keep out of reach of children.  \nBatch No: PX2417  Exp: 08/2028  \nManufactured by: Generic Pharma Ltd",
+      "pageCer": 0
+    },
+    {
+      "set": "print",
+      "file": "p2_amoxicillin_hard.jpg",
+      "ms": 612202,
+      "cpuS": 611.16,
+      "text": "# AMOXICILLIN\n\nCapsules BP 250 mg\n\n21 Capsules\n\nTake one capsule three times a day  \nfor 7 days, or as directed by the prescriber.  \nComplete the full course.  \nPrescription only medicine.\n\nBatch: AM0391  Mfg: 03/2026  Exp: 02/2028",
+      "pageCer": 0
+    },
+    {
+      "set": "print",
+      "file": "p3_metformin_hard.jpg",
+      "ms": 556076,
+      "cpuS": 555.33,
+      "text": "# Metformin Hydrochloride\n\n- **Tablets 500 mg**\n- **28 film-coated tablets**\n- **Take 1 tablet twice daily with meals.**\n- **Swallow whole with water.**\n- **Read the leaflet before use.**\n- **Batch No: MF5520 Exp: 11/2027**",
+      "pageCer": 0
+    },
+    {
+      "set": "print",
+      "file": "p4_ors_sw_hard.jpg",
+      "ms": 543008,
+      "cpuS": 541.2,
+      "text": "# ORAL REHYDRATION SALTS\n\nChumvi ya Kurejesha Maji Mwilini  \nDissolve one sachet in 1 litre of clean water.  \nYeyusha pakiti moja katika lita 1 ya maji safi.  \nUse within 24 hours.  \nTumia ndani ya saa 24.  \nBatch: OR8812 Exp: 05/2028",
+      "pageCer": 0
+    },
+    {
+      "set": "print",
+      "file": "p5_ibuprofen_small_hard.jpg",
+      "ms": 566700,
+      "cpuS": 564.4,
+      "text": "# IBUPROFEN 200 mg\n\n## 24 Tablets\n\n- Adults: 1 or 2 tablets up to 3 times a day.\n- Take with or after food.\n- Leave at least 4 hours between doses.\n- Do not exceed 6 tablets in 24 hours.\n- Not for children under 12.\n- Batch IB7734 Exp 01/2028",
+      "pageCer": 0
+    },
+    {
+      "set": "hand",
+      "file": "h1_1x3_homemadeapple.jpg",
+      "ms": 369047,
+      "cpuS": 368.63,
+      "text": "143",
+      "pageCer": 0.333
+    },
+    {
+      "set": "hand",
+      "file": "h1_1x3_indieflower.jpg",
+      "ms": 365242,
+      "cpuS": 365.12,
+      "text": "1×3",
+      "pageCer": 0.333
+    },
+    {
+      "set": "hand",
+      "file": "h1_1x3_reeniebeanie.jpg",
+      "ms": 362264,
+      "cpuS": 361.69,
+      "text": "1×3",
+      "pageCer": 0.333
+    },
+    {
+      "set": "hand",
+      "file": "h1_1x3_shadowsintolight.jpg",
+      "ms": 364468,
+      "cpuS": 364,
+      "text": "1x3",
+      "pageCer": 0
+    },
+    {
+      "set": "hand",
+      "file": "h2_2bd_homemadeapple.jpg",
+      "ms": 363471,
+      "cpuS": 363.13,
+      "text": "2 led",
+      "pageCer": 0.5
+    },
+    {
+      "set": "hand",
+      "file": "h2_2bd_indieflower.jpg",
+      "ms": 361033,
+      "cpuS": 360.95,
+      "text": "2 bd",
+      "pageCer": 0
+    },
+    {
+      "set": "hand",
+      "file": "h2_2bd_reeniebeanie.jpg",
+      "ms": 357593,
+      "cpuS": 357.39,
+      "text": "$z \\quad bd$",
+      "pageCer": 1.5
+    },
+    {
+      "set": "hand",
+      "file": "h2_2bd_shadowsintolight.jpg",
+      "ms": 371459,
+      "cpuS": 371.38,
+      "text": "2 bd",
+      "pageCer": 0
+    },
+    {
+      "set": "hand",
+      "file": "h3_1x3_5days_homemadeapple.jpg",
+      "ms": 536191,
+      "cpuS": 535.75,
+      "text": "1 x 3  \nx 5 days",
+      "pageCer": 0
+    },
+    {
+      "set": "hand",
+      "file": "h3_1x3_5days_indieflower.jpg",
+      "ms": 539160,
+      "cpuS": 538.66,
+      "text": "1 x 3  \nx 5 days",
+      "pageCer": 0
+    },
+    {
+      "set": "hand",
+      "file": "h3_1x3_5days_reeniebeanie.jpg",
+      "ms": 539542,
+      "cpuS": 538.78,
+      "text": "1 x 3  \nx 5 days",
+      "pageCer": 0
+    },
+    {
+      "set": "hand",
+      "file": "h3_1x3_5days_shadowsintolight.jpg",
+      "ms": 591697,
+      "cpuS": 588.59,
+      "text": "1 x 3  \nx 5 days",
+      "pageCer": 0
+    },
+    {
+      "set": "hand",
+      "file": "h4_2bd_7days_homemadeapple.jpg",
+      "ms": 393626,
+      "cpuS": 391.32,
+      "text": "2 bad p 7/7",
+      "pageCer": 0.2
+    },
+    {
+      "set": "hand",
+      "file": "h4_2bd_7days_indieflower.jpg",
+      "ms": 370364,
+      "cpuS": 370,
+      "text": "2 bd × 7/7",
+      "pageCer": 0.2
+    },
+    {
+      "set": "hand",
+      "file": "h4_2bd_7days_reeniebeanie.jpg",
+      "ms": 362358,
+      "cpuS": 362.25,
+      "text": "$2 \\text{ bd } x \\ 7/7$",
+      "pageCer": 0.5
+    },
+    {
+      "set": "hand",
+      "file": "h4_2bd_7days_shadowsintolight.jpg",
+      "ms": 362686,
+      "cpuS": 362.34,
+      "text": "2 bd x 7/7",
+      "pageCer": 0
+    },
+    {
+      "set": "hand",
+      "file": "h5_tds_homemadeapple.jpg",
+      "ms": 536871,
+      "cpuS": 536.05,
+      "text": "Jale / tds  \nafter food",
+      "pageCer": 0.2
+    },
+    {
+      "set": "hand",
+      "file": "h5_tds_indieflower.jpg",
+      "ms": 541014,
+      "cpuS": 540.33,
+      "text": "Tab 1 tds  \nafter food",
+      "pageCer": 0
+    },
+    {
+      "set": "hand",
+      "file": "h5_tds_reeniebeanie.jpg",
+      "ms": 517271,
+      "cpuS": 516.83,
+      "text": "Tab 1 +ds  \nafter food",
+      "pageCer": 0.05
+    },
+    {
+      "set": "hand",
+      "file": "h5_tds_shadowsintolight.jpg",
+      "ms": 550707,
+      "cpuS": 549.4,
+      "text": "Tab 1 tds  \nafter food",
+      "pageCer": 0
+    },
+    {
+      "set": "hand",
+      "file": "h6_nocte_homemadeapple.jpg",
+      "ms": 404123,
+      "cpuS": 402.02,
+      "text": "1 note",
+      "pageCer": 0.143
+    },
+    {
+      "set": "hand",
+      "file": "h6_nocte_indieflower.jpg",
+      "ms": 370301,
+      "cpuS": 369.75,
+      "text": "1 nocte",
+      "pageCer": 0
+    },
+    {
+      "set": "hand",
+      "file": "h6_nocte_reeniebeanie.jpg",
+      "ms": 371727,
+      "cpuS": 371.18,
+      "text": "1 nocte",
+      "pageCer": 0
+    },
+    {
+      "set": "hand",
+      "file": "h6_nocte_shadowsintolight.jpg",
+      "ms": 379089,
+      "cpuS": 377.77,
+      "text": "1 nocte",
+      "pageCer": 0
+    }
+  ]
+}

@@ -1,0 +1,169 @@
+{
+  "model": "WHISPER_BASE_Q8_0",
+  "loadMs": 17536,
+  "peakRssMb": 668.1,
+  "baselineRssMb": 100.8,
+  "cpuS": 104,
+  "summary": {
+    "fleurs": {
+      "clips": 8,
+      "meanWer": 0.95,
+      "meanCer": 0.262,
+      "meanRtf": 0.62,
+      "cpuSPerAudioS": 0.52
+    },
+    "synthetic": {
+      "clips": 4,
+      "meanWer": 1.061,
+      "meanCer": 0.291,
+      "meanRtf": 2.61,
+      "cpuSPerAudioS": 2.42
+    }
+  },
+  "results": [
+    {
+      "file": "data/asr/fleurs_473755053642039360.wav",
+      "ref": "Mambo kama hayo yamekuwa taaluma tofauti, zinazotazamia kutoa suluhu kwa shida za maisha.",
+      "source": "fleurs",
+      "hyp": "Mambo kamahayo yamekuata alumato fauti zinazo. Zinazo ta zamiya ku'choa su luhu ka'shida zamaisha.",
+      "wer": 1.154,
+      "cer": 0.253,
+      "ms": 7227,
+      "cpuS": 5.54,
+      "audioS": 9,
+      "rtf": 0.8
+    },
+    {
+      "file": "data/asr/fleurs_14657901525421418314.wav",
+      "ref": "Katika uwanja wa kanisa, kuna vinyago vya kuvutia vya marumaru vya njiwa juu ya kaburi.",
+      "source": "fleurs",
+      "hyp": "Kati kaun ja lakani sa puna ni niago biakutia biak marmaru biak ni wagi biakamurien.",
+      "wer": 1,
+      "cer": 0.424,
+      "ms": 4790,
+      "cpuS": 4.3,
+      "audioS": 11.34,
+      "rtf": 0.42
+    },
+    {
+      "file": "data/asr/fleurs_16975810948801456734.wav",
+      "ref": "Spika wa awali Newt Gingrich, gavana wa Texas Rick Perry na Mbunge Michelle Bachmann walimaliza katika nafasi za nne, tano, na sita mtawalia.",
+      "source": "fleurs",
+      "hyp": "Spiko wa wa li' newt g'ig reach, gawana wa tekxas reach perinam buge mi kual bach man wa li maliza ka chika na fa si zan netan o nasi taram tawalia.",
+      "wer": 1.217,
+      "cer": 0.307,
+      "ms": 22354,
+      "cpuS": 19.79,
+      "audioS": 14.34,
+      "rtf": 1.56
+    },
+    {
+      "file": "data/asr/fleurs_5750692260500438611.wav",
+      "ref": "Kwa muda, jinsi idadi mpya inavyoanza kuzoea mazingira yao mapya, wanaanza kuonekana zaidi na zaidi tofauti na idadi ile nyingine.",
+      "source": "fleurs",
+      "hyp": "Kwanda, justi idadim pia, inaviyonza kuzoya, mazingiraya, umapia, wananzakone kanazairi, nazairi, tofauti, naidad ile, digina.",
+      "wer": 0.9,
+      "cer": 0.236,
+      "ms": 5478,
+      "cpuS": 5,
+      "audioS": 12.72,
+      "rtf": 0.43
+    },
+    {
+      "file": "data/asr/fleurs_5234629974904522704.wav",
+      "ref": "Katika kanuni, Ubudha wa Kitibeti ni rahisi sana. Una Yoga ya Kundalini, kutafakari na njia ya upendo unaokumbatia yote.",
+      "source": "fleurs",
+      "hyp": "Katika Kanuni o Bonda wa ki tibeiti ni rahisi sana, unayoga ya kudanili. Kutafakari na njiya ya o pendo o nao kumbati ya yote.",
+      "wer": 0.737,
+      "cer": 0.164,
+      "ms": 5193,
+      "cpuS": 4.85,
+      "audioS": 14.82,
+      "rtf": 0.35
+    },
+    {
+      "file": "data/asr/fleurs_83982930051049018.wav",
+      "ref": "Wanaweza kuona vizuri sana kwa giza na maono ya usiku pia wanasonga kwa kimya sana. Ocelots huwinda mawindo yao kwa kujichanganya na mazingira yao kasha kurukia mawindo yao.",
+      "source": "fleurs",
+      "hyp": "Wanaweza kuwana visur sana kwa gizana mawno iwsi kupioana songa kwa kimiya sana oeslots, winda wa mawindo iau kwa kwujichan ganya namazingira iau kaisha kurukia mawindo iau.",
+      "wer": 0.714,
+      "cer": 0.199,
+      "ms": 6015,
+      "cpuS": 5.58,
+      "audioS": 18.06,
+      "rtf": 0.33
+    },
+    {
+      "file": "data/asr/fleurs_16008878810358931415.wav",
+      "ref": "Wahispania walianza kipindi cha ukoloni ambacho kilidumu kwa karne tatu.",
+      "source": "fleurs",
+      "hyp": "Waizpania wali'ansa kiting di jab koloni tambajokki duumu kokarme tatu.",
+      "wer": 1,
+      "cer": 0.31,
+      "ms": 7565,
+      "cpuS": 6.82,
+      "audioS": 10.14,
+      "rtf": 0.75
+    },
+    {
+      "file": "data/asr/fleurs_12525163503735161384.wav",
+      "ref": "Ingawa inatumika sana, na hususana miongoni mwa watu wasio Waromani, neno \"Jipsi\" mara nyingi huchukuliwa kama la kukera kwa sababu linahusishwa na ubaguzi hasi na mitazamo isiyo sahihi ya watu wa Romani.",
+      "source": "fleurs",
+      "hyp": "Gawina tumikasana nausana niongoni muawatu wasio aromani nano chipsi maranigi hujuku liwa kamala kukera kwasababu nausi shua nao pabuzi hasi na mitazama isio sahi hiya waatu aromani.",
+      "wer": 0.875,
+      "cer": 0.206,
+      "ms": 5801,
+      "cpuS": 5.35,
+      "audioS": 19.68,
+      "rtf": 0.29
+    },
+    {
+      "file": "data/asr/synthetic_1.wav",
+      "ref": "Chumvi ya kurejesha maji mwilini.",
+      "source": "synthetic",
+      "hyp": "Si un viak kuregyesia maju muiliini.",
+      "wer": 1.2,
+      "cer": 0.438,
+      "ms": 4930,
+      "cpuS": 4.64,
+      "audioS": 1.92,
+      "rtf": 2.57
+    },
+    {
+      "file": "data/asr/synthetic_2.wav",
+      "ref": "Yeyusha pakiti moja katika lita moja ya maji safi. Tumia ndani ya saa ishirini na nne.",
+      "source": "synthetic",
+      "hyp": "Gya'yusha pakec moja kati ka'o lito moja'o magisafi tumian dania say shirinanene.",
+      "wer": 1,
+      "cer": 0.298,
+      "ms": 19681,
+      "cpuS": 17.18,
+      "audioS": 4,
+      "rtf": 4.92
+    },
+    {
+      "file": "data/asr/synthetic_3.wav",
+      "ref": "Meza kidonge kimoja mara tatu kwa siku, kwa siku saba.",
+      "source": "synthetic",
+      "hyp": "Medi akidongi ki mojia maratatu kwasiku kwasiku saba.",
+      "wer": 0.9,
+      "cer": 0.173,
+      "ms": 4972,
+      "cpuS": 4.49,
+      "audioS": 3.2,
+      "rtf": 1.55
+    },
+    {
+      "file": "data/asr/synthetic_4.wav",
+      "ref": "Sina uhakika nimesoma vizuri. Tafadhali muulize mfamasia.",
+      "source": "synthetic",
+      "hyp": "Sinaura kikani mesoma visuri tafa da limulizan famasia.",
+      "wer": 1.143,
+      "cer": 0.255,
+      "ms": 5063,
+      "cpuS": 4.69,
+      "audioS": 3.68,
+      "rtf": 1.38
+    }
+  ]
+}

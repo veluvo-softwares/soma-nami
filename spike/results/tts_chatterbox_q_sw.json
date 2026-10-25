@@ -1,0 +1,97 @@
+{
+  "engine": "chatterbox",
+  "modelConfig": {
+    "ttsEngine": "chatterbox",
+    "language": "sw",
+    "cfmSteps": 2,
+    "threads": 1,
+    "seed": 7
+  },
+  "loadMs": 19905,
+  "cpuS": 620.8,
+  "peakRssMb": 1777.1,
+  "baselineRssMb": 105.2,
+  "procs": 2,
+  "runs": [
+    {
+      "text": "Nimeze vidonge vingapi?",
+      "ms": 172273,
+      "cpuS": 80.02,
+      "audioS": 1.48,
+      "rtf": 116.4,
+      "cpuRtf": 54.07,
+      "sampleRate": 24000,
+      "file": "data/asr/q/raw/chatterbox_q_sw_1.wav"
+    },
+    {
+      "text": "Nimeze mara ngapi kwa siku?",
+      "ms": 121678,
+      "cpuS": 77.3,
+      "audioS": 1.64,
+      "rtf": 74.19,
+      "cpuRtf": 47.13,
+      "sampleRate": 24000,
+      "file": "data/asr/q/raw/chatterbox_q_sw_2.wav"
+    },
+    {
+      "text": "Nitumie kwa siku ngapi?",
+      "ms": 137520,
+      "cpuS": 81.16,
+      "audioS": 1.6,
+      "rtf": 85.95,
+      "cpuRtf": 50.72,
+      "sampleRate": 24000,
+      "file": "data/asr/q/raw/chatterbox_q_sw_3.wav"
+    },
+    {
+      "text": "Dawa hii inaisha muda lini?",
+      "ms": 81746,
+      "cpuS": 75.07,
+      "audioS": 1.56,
+      "rtf": 52.4,
+      "cpuRtf": 48.12,
+      "sampleRate": 24000,
+      "file": "data/asr/q/raw/chatterbox_q_sw_4.wav"
+    },
+    {
+      "text": "Niihifadhi vipi?",
+      "ms": 82565,
+      "cpuS": 75.92,
+      "audioS": 1.44,
+      "rtf": 57.34,
+      "cpuRtf": 52.72,
+      "sampleRate": 24000,
+      "file": "data/asr/q/raw/chatterbox_q_sw_5.wav"
+    },
+    {
+      "text": "Hii ni dawa gani?",
+      "ms": 69933,
+      "cpuS": 65.08,
+      "audioS": 1.32,
+      "rtf": 52.98,
+      "cpuRtf": 49.3,
+      "sampleRate": 24000,
+      "file": "data/asr/q/raw/chatterbox_q_sw_6.wav"
+    },
+    {
+      "text": "Nimeze kabla au baada ya chakula?",
+      "ms": 89515,
+      "cpuS": 82.36,
+      "audioS": 2.04,
+      "rtf": 43.88,
+      "cpuRtf": 40.37,
+      "sampleRate": 24000,
+      "file": "data/asr/q/raw/chatterbox_q_sw_7.wav"
+    },
+    {
+      "text": "Nisomee tena.",
+      "ms": 70678,
+      "cpuS": 64.96,
+      "audioS": 1.32,
+      "rtf": 53.54,
+      "cpuRtf": 49.21,
+      "sampleRate": 24000,
+      "file": "data/asr/q/raw/chatterbox_q_sw_8.wav"
+    }
+  ]
+}
