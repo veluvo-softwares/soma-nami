@@ -108,6 +108,36 @@ describe('ReadFlow: photo -> OCR -> display and speech', () => {
     ]);
   });
 
+  it('batch, manufacturing and maker lines are shown under More details and never spoken; the expiry is', async () => {
+    const services = setup();
+    services.speech.autoFinish = true;
+    await settle();
+    await takePhoto(services);
+    await act(async () => {
+      services.finishOcr(
+        blocksFor([
+          'PARACETAMOL',
+          'Tablets BP 500 mg',
+          'Batch No: PX2417 Exp: 08/2028',
+          'Mfg: 01/2026',
+          'Manufactured by: Generic Pharma Ltd',
+        ]),
+      );
+      await flush(40);
+    });
+
+    expect(screen.getByTestId('reading-screen')).toBeTruthy();
+    // The batch line holds the expiry, so it stays with the read lines, in full.
+    expect(screen.getByTestId('reading-line-2')).toBeTruthy();
+    expect(screen.getByText('Batch No: PX2417 Exp: 08/2028')).toBeTruthy();
+    expect(screen.getByTestId('reading-details')).toBeTruthy();
+    expect(screen.getByTestId('reading-detail-3')).toBeTruthy();
+    expect(screen.getByText('Mfg: 01/2026')).toBeTruthy();
+    expect(screen.getByText('Manufactured by: Generic Pharma Ltd')).toBeTruthy();
+    expect(screen.queryByTestId('reading-line-3')).toBeNull();
+    expect(services.speech.synthesized).toEqual(['PARACETAMOL', 'Tablets BP 500 mg', 'Exp: 08/2028']);
+  });
+
   it('highlights the line being spoken, and clears it when reading ends', async () => {
     const services = setup();
     await settle();

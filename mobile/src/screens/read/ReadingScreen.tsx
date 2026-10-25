@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { BigButton } from '../../components/BigButton';
+import { splitDetails } from '../../reader/details';
 import type { LabelLine } from '../../reader/ocrLines';
 import { buildSpeechPlan, type SpeechStep } from '../../speech/plan';
 import type { SpeechSession, SpeechState } from '../../speech/session';
@@ -30,12 +31,15 @@ function languageChip(lines: readonly LabelLine[]) {
  * Screen 3 (docs/ui.md, Reading): the label lines in large type, read aloud
  * as printed, the spoken line highlighted and kept on screen. A line OCR was
  * unsure of is never shown or read as text: it's an orange box that says it
- * couldn't be read. Translation (C11) and Ask (C5) buttons come with those cards.
+ * couldn't be read. Batch numbers, manufacturing dates, barcodes and the
+ * maker's address are shown small under More details and not read aloud.
+ * Translation (C11) and Ask (C5) buttons come with those cards.
  */
 export function ReadingScreen({ speech, speechState, lines, onBack }: Props) {
   const p = usePalette();
   const styles = useMemo(() => makeStyles(p), [p]);
   const plan = useMemo(() => buildSpeechPlan(lines), [lines]);
+  const { read, details } = useMemo(() => splitDetails(lines), [lines]);
   const [slow, setSlow] = useState(false);
   const scroll = useRef<ScrollView>(null);
   const lineY = useRef<Record<number, number>>({});
@@ -67,7 +71,8 @@ export function ReadingScreen({ speech, speechState, lines, onBack }: Props) {
         <Text style={styles.chipEn}>{chip.en} · read exactly as printed</Text>
       </View>
       <ScrollView ref={scroll} style={styles.lines} contentContainerStyle={styles.linesContent}>
-        {lines.map((line, i) => {
+        {read.map((i) => {
+          const line = lines[i]!;
           const spoken = current === i;
           return (
             <View
@@ -99,6 +104,20 @@ export function ReadingScreen({ speech, speechState, lines, onBack }: Props) {
             </View>
           );
         })}
+        {details.length > 0 && (
+          <View style={styles.details} testID="reading-details">
+            <Text style={styles.detailsHeading}>Maelezo zaidi · More details</Text>
+            <Text style={styles.detailsNote}>Hayasomwi kwa sauti · Not read aloud</Text>
+            {details.map((i) => {
+              const line = lines[i]!;
+              return (
+                <Text key={i} testID={`reading-detail-${i}`} style={styles.detailText}>
+                  {line.lowConfidence ? 'Sijaweza kusoma · Couldn’t read' : line.text}
+                </Text>
+              );
+            })}
+          </View>
+        )}
       </ScrollView>
       <View style={styles.actions}>
         <View style={styles.row}>
@@ -164,6 +183,10 @@ function makeStyles(p: Palette) {
     unsureText: { flexShrink: 1 },
     unsureSw: { fontFamily: fonts.bold, fontSize: type.bodyLarge, color: p.text },
     unsureEn: { fontFamily: fonts.regular, fontSize: type.hint, color: p.textMuted },
+    details: { marginTop: space.md, paddingTop: space.sm, borderTopWidth: 2, borderTopColor: p.outline, gap: space.xs },
+    detailsHeading: { fontFamily: fonts.bold, fontSize: type.hint, color: p.textMuted },
+    detailsNote: { fontFamily: fonts.regular, fontSize: type.hint, color: p.textMuted },
+    detailText: { fontFamily: fonts.regular, fontSize: type.hint, color: p.textMuted },
     actions: { padding: space.md, gap: space.md },
     row: { flexDirection: 'row', gap: space.md },
     half: { flex: 1, paddingHorizontal: space.md },

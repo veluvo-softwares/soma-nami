@@ -43,7 +43,16 @@ describe('pipeline on real QVAC OCR output', () => {
     expect(plan.filter((s) => s.kind === 'clip' && s.phrase === 'line_unsure')).toEqual([
       { kind: 'clip', phrase: 'line_unsure', line: 6 },
     ]);
-    expect(plan.filter((s) => s.kind === 'tts')).toHaveLength(8);
+    // Batch and maker lines aren't read (Wesley, C4a); the expiry date on the batch line is.
+    expect(plan.filter((s) => s.kind === 'tts').map((s) => (s.kind === 'tts' ? s.text : ''))).toEqual([
+      'PARACETAMOL',
+      'Tablets BP 500 mg',
+      '100 Tablets',
+      'Dosage: Adults and children over 12 years:',
+      '1 to 2 tablets every 4 to 6 hours:',
+      'Do not take more than 8 tablets in 24 hours.',
+      'Exp: 08/2028',
+    ]);
   });
 
   it('handwritten "Tab 1 tds": OCR returns "Tab 4 tds" above the confidence gate, and the app refuses to read it', () => {
