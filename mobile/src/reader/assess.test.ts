@@ -146,7 +146,7 @@ describe('framingHint ignores stray text outside the label', () => {
     { text: 'Q W E R T Y', confidence: 0.6, bbox: [120, 772, 520, 788] },
     { text: 'A S D F', confidence: 0.6, bbox: [140, 790, 420, 800] },
   ];
-  const otherPack: OcrBlock[] = [{ text: 'IBUPRO', confidence: 0.7, bbox: [0, 580, 60, 605] }];
+  const otherPack: OcrBlock[] = [{ text: 'IBUPRO', confidence: 0.7, bbox: [0, 600, 60, 625] }];
 
   it('the screen menu bar touching the top edge: no hint (was hint_up)', () => {
     expect(framingHint(toLines([...label, ...menuBar]), PHOTO_SIZE)).toBeNull();
@@ -176,5 +176,11 @@ describe('framingHint ignores stray text outside the label', () => {
     const body = blocksFor(PARACETAMOL.slice(1), { left: 150, top: 200, width: 650, lineHeight: 24, gap: 10 });
     const block = mainBlock(toLines([title, ...body]));
     expect(block).toHaveLength(PARACETAMOL.length);
+  });
+
+  it('a big title cut off at the top, set well apart from the body, still says move up', () => {
+    const title: OcrBlock = { text: 'PARACETAMOL', confidence: 0.95, bbox: [150, 0, 700, 70] };
+    const body = blocksFor(PARACETAMOL.slice(1), { left: 150, top: 150, width: 650, lineHeight: 24, gap: 10 });
+    expect(framingHint(toLines([title, ...body]), PHOTO_SIZE)).toBe('hint_up');
   });
 });

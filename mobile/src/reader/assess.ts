@@ -55,7 +55,7 @@ export function looksLikeHandwrittenDose(lines: readonly LabelLine[]): boolean {
 
 /**
  * Two lines are in the same block when the vertical gap between them is at
- * most this many line heights (of the smaller line) and the horizontal gap at
+ * most this many line heights (of the taller line) and the horizontal gap at
  * most BLOCK_SIDE_GAP line heights. Label lines sit about one line apart;
  * a menu bar, a keyboard or the next pack on the table sits further away.
  */
@@ -65,7 +65,7 @@ export const BLOCK_SIDE_GAP = 2;
 type BoxedLine = LabelLine & { box: NonNullable<LabelLine['box']> };
 
 function near(a: BoxedLine, b: BoxedLine): boolean {
-  const h = Math.max(1, Math.min(a.box.y2 - a.box.y1, b.box.y2 - b.box.y1));
+  const h = Math.max(1, a.box.y2 - a.box.y1, b.box.y2 - b.box.y1);
   const vgap = Math.max(a.box.y1, b.box.y1) - Math.min(a.box.y2, b.box.y2);
   const hgap = Math.max(a.box.x1, b.box.x1) - Math.min(a.box.x2, b.box.x2);
   return vgap <= BLOCK_GAP_LINES * h && hgap <= BLOCK_SIDE_GAP * h;
