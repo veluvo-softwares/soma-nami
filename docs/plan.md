@@ -15,8 +15,8 @@ Hand-offs to Wesley (C3a, C4a, C12) are not separate board cards: the Bond card 
 | C3 | `t_22903510` | Expo dev-build + QVAC app scaffold, CI, Android APK job | C1 | Bond | done: #7 merged (CI and APK build green); iOS run steps switched to Xcode | `feat/c3-app-scaffold`, #7; `docs/c3-xcode-run-steps` |
 | C3a | (block on C3 or C10) | iOS hand-off: first build on Wesley's iPhone | C3 | Wesley | done 25 Oct: iPhone 12, iOS 26.6.1, Xcode 27.0. Launches dark in Atkinson Hyperlegible; all 5 models (1.5 GB) download and it shows Tayari; memory 385.9 MB peak, 376.6 MB steady (no model loaded, so OCR's peak is checked in C4); no prebuild error. `expo run:ios` fails on Xcode 27, so it was built from Xcode | |
 | C3b | none | Android APK on an arm64 emulator on Wesley's Mac (record what happens) | C3 | Wesley | optional | |
-| C4 | `t_ad242ab0` | Home, Aiming, Reading: camera → OCR → read aloud | C2, C3 | Bond | todo | |
-| C4a | (block on C4) | iOS hand-off: read-aloud on the iPhone, in airplane mode (Tue 27 Oct) | C4, C3a | Wesley | todo | |
+| C4 | `t_ad242ab0` | Home, Aiming, Reading: camera → OCR → read aloud | C2, C3 | Bond | in review: code, tests and 25 Swahili clips done; needs the C4a phone test | `feat/c4-read-aloud`, #11 |
+| C4a | (block on C4) | iOS hand-off: read-aloud on the iPhone, in airplane mode (Tue 27 Oct) | C4, C3a | Wesley | ready for Wesley: steps on the C4 card and in PR #11 | |
 | C5 | `t_99e45430` | Ask: hold-to-talk, fixed questions, quotes the line, refuses when unsure | C4 | Bond | todo | |
 | C6 | `t_cebb50ba` | Accessibility, language, Not sure, caregiver setup, theme | C4 | Bond | todo | |
 | C10 | `t_c473c258` | Distribution: iOS via EAS to TestFlight, Android APK to the public releases repo | C3 | Bond, Wesley's accounts | in progress: `eas.json`, Info.plist strings, APK publish job and releases README merged (#10). 26 Oct: Expo project `@mrnyamu/soma-nami`, App Store Connect app (ascAppId 6826935644) and Expo-managed iOS credentials set up by Wesley; egress allowed; IDs committed (#13). First EAS build 0.1.0 (1) submitted to App Store Connect 26 Oct (see the build log). Left: TestFlight testers (Wesley), and the first Android release on a `v*` tag (releases repo and RELEASES_TOKEN ready 26 Oct; EAS Android profile and tag workflow in #17, verification build `adf23352`) | `feat/c10-distribution`, `chore/c10-eas-ids`, `docs/c10-first-eas-build` |
@@ -58,6 +58,13 @@ Wesley runs the CI APK on an arm64 Android emulator (Android 12+ image) on his M
 
 ### C4 Home, Aiming, Reading
 Screens 1–3 of [ui.md](ui.md). Tap anywhere to take the photo, then spoken guidance from where the text sits in that photo ("Sogeza kushoto kidogo", closer, more light) and try again; live auto-capture only if the phone runs the detector fast enough (see scope.md §6). QVAC OCR on device, label lines in large type with the spoken line highlighted. Label text is read in its printed language: English with Supertonic. Every fixed Swahili phrase (prompts, hints, not-sure lines, read-backs) is generated ahead of time with Chatterbox on the VPS and shipped as audio; the generator script lives in the repo. Low-confidence lines are marked and read as "I couldn't read this line". Works in airplane mode. Tests for the OCR result → display/speech pipeline. Target: on the iPhone by Tue 27 Oct; airplane-mode build Tue night.
+
+Built (PR #11, 25 Oct), details in `mobile/README.md` → Reading:
+- Photo from the camera (tap anywhere) or the library (**Chagua picha**), shrunk to 1280 px, OCR with the spike's low-memory settings (`canvasSize 1024`, `recognizerBatchSize 1`). One model loaded at a time: OCR is unloaded before Supertonic loads.
+- After each photo: read it; or a spoken hint (left, right, up, down, further, closer, no text) with **Soma hii** to read what was found anyway; or Not sure (screen 5, minimal; C6 finishes it).
+- Decisions made in the card, to check on the phone: (1) an unsure line's OCR text is **not shown**, only an orange "Mstari huu sijaweza kuusoma vizuri" box, because showing a misread dose is a guess; (2) a short page with a number on it, or dosing shorthand (`bd`, `tds`, `nocte`, `1x3`), goes to Not sure: on the real OCR fixture "Tab 1 tds" came back as "Tab 4 tds" at confidence 0.55, above the gate; (3) Swahili label lines are shown but not spoken (no Swahili voice on the phone), with one clip saying they're on screen.
+- 25 Swahili clips rendered with Chatterbox on the VPS (`mobile/scripts/phrases/generate.mjs`), AAC, ~10 kB each. Wesley to judge them by ear in C4a.
+- Not verified on the VPS: anything native (camera, QVAC on the A14, audio playback, memory, speed). That is C4a.
 
 ### C4a iOS hand-off: read-aloud on the iPhone
 C4 blocks for Wesley: install the latest TestFlight build (or build locally), then a scripted test in airplane mode with the synthetic labels in `spike/fixtures` printed out. Report: works or not, time to first spoken word, crashes, RAM.

@@ -18,7 +18,38 @@ QVAC plugins bundled (`qvac.config.json`, JSON only in Expo): OCR (`ggml-ocr`), 
 ## Where QVAC is called
 
 - `src/model-store/qvacClient.ts`: `getModelInfo` (is a model on the phone?), `downloadAsset` (fetch it), `cancel`.
+- `src/reader/qvacReader.ts`: `loadModel` / `unloadModel` for OCR (`OCR_LATIN` + `OCR_CRAFT`) and the English voice (`TTS_MULTILINGUAL_SUPERTONIC3_Q4_0`), `ocr` on the photo, `textToSpeech` for each label line.
+- `scripts/phrases/generate.mjs` (on the VPS, not in the app): `textToSpeech` with Chatterbox multilingual to pre-render the fixed Swahili phrases.
 - `app.json`: `@qvac/sdk/expo-plugin` bundles the QVAC worker and links its native addons at prebuild.
+
+## Reading (card C4)
+
+Home → camera (tap anywhere to take the photo, or **Chagua picha** to pick one) → QVAC OCR on the phone → the label lines in large type, read aloud. The code, in order:
+
+| Step | File |
+|---|---|
+| Shrink the photo to 1280 px on the long side (a full 4032 × 3024 photo would blow OCR's memory) | `src/reader/services.ts`, `src/reader/image.ts` |
+| OCR with `canvasSize 1024`, `recognizerBatchSize 1` (the C2 spike's low-memory settings, 1.7 GB peak on the VPS instead of 3.2 GB) | `src/reader/qvacReader.ts` |
+| Blocks → visual lines; any line whose weakest block is below confidence 0.5 is marked unsure | `src/reader/ocrLines.ts` |
+| What to do with the photo: read it; or a spoken hint (move left/right/up/down, further, closer, no text found) and try again, with **Soma hii** to read what was found anyway; or **Not sure** for a page that's mostly unreadable or looks like a handwritten dose ("1x3", "2 bd", "Tab 1 tds") | `src/reader/assess.ts` |
+| What is said: each confident English line exactly as printed (Supertonic, on the phone); an unsure line is never read, the app says it couldn't read it and to ask the pharmacist; Swahili lines are shown, and a clip says once that they're on the screen (no Swahili voice runs on the phone) | `src/speech/plan.ts` |
+| Speaking, highlighting the spoken line, prefetching the next line, stop and restart | `src/speech/session.ts`, `src/speech/expoAudioBackend.ts` |
+| Screens | `src/screens/read/` |
+
+Only one model is loaded at a time (`src/reader/exclusiveModels.ts`): OCR is unloaded before the voice loads and vice versa. Each read logs `[soma] ocr <ms> ...` to the Xcode console.
+
+### Swahili phrases
+
+Every fixed Swahili line the app speaks (prompts, hints, the not-sure lines, button read-backs) is in `assets/phrases/phrases.json` and ships as a pre-rendered clip in `assets/phrases/sw/<id>.m4a`. Chatterbox is too slow to run on the phone (C2: 30–47× slower than real time), so the clips are made on the VPS:
+
+```bash
+cd mobile
+node scripts/phrases/generate.mjs            # renders new or changed phrases only (~2-4 min each on one core)
+node scripts/phrases/generate.mjs --only hint_left,hint_right
+node scripts/phrases/generate.mjs --force    # everything
+```
+
+It needs ffmpeg and `@qvac/sdk` 0.22.0 with desktop prebuilds (set `QVAC_SDK=/path/to/node_modules/@qvac/sdk` if the one in `mobile/` lacks them). It rewrites `src/speech/phraseAssets.ts` and `assets/phrases/phrases.lock.json`; `src/speech/phrases.test.ts` fails if a phrase has no clip. Clips are AAC, mono, 24 kHz, about 10 kB each.
 
 ## Theme
 
@@ -132,5 +163,5 @@ For a local Android build: `npx expo prebuild --clean && npx expo run:android --
 - Run `expo prebuild` again after any `npm install`: reinstalling unlinks QVAC's native addons.
 - Adding a QVAC capability means adding its plugin to `qvac.config.json` and its exact-version Android and iOS prebuild packages to `package.json` (for example `@qvac/tts-ggml-android-arm64` and `@qvac/tts-ggml-ios`); the build fails with `HOST_PREBUILDS_MISSING` otherwise.
 - Nothing may start a read unless `canRead(state)` (`src/model-store/modelsState.ts`) is true. `src/AppShell.tsx` enforces it.
-- Unit tests never import `@qvac/sdk` (it needs the native worker); they use `FakeModelClient` from `src/model-store/testing.ts`.
+- Unit tests never import `@qvac/sdk` (it needs the native worker); they use `FakeModelClient` from `src/model-store/testing.ts` and `FakeReaderServices` / `FakeSpeechBackend` from `src/reader/testing.ts`.
 - `api.expo.dev` is blocked from the Bond VPS sandbox, so `npx expo install` fails there; use the version listed in `node_modules/expo/bundledNativeModules.json` with npm.
