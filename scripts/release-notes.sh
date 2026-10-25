@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Writes the release notes for an Android tester APK to stdout, as Markdown.
 #
-#   scripts/release-notes.sh <tag> [commit]
+#   [SIGNED_WITH=debug|release] scripts/release-notes.sh <tag> [commit]
 #
 # "What's new" is the annotated tag's message when there is one, otherwise
 # the commit subjects since the previous v* tag (the last 20 if there is no
@@ -30,6 +30,12 @@ if [ -z "$whats_new" ]; then
   [ -n "$whats_new" ] || whats_new="- No changes since $prev."
 fi
 
+# SIGNED_WITH is set by the workflow from scripts/sign-apk.sh: debug or release.
+case "${SIGNED_WITH:-debug}" in
+  release) signing_line="This is a tester build signed with the Soma Nami release key, not a Play Store app." ;;
+  *) signing_line="This is a tester build signed with a debug key, not a Play Store app." ;;
+esac
+
 cat <<EOF
 Soma Nami ${tag} for Android testers.
 
@@ -45,5 +51,5 @@ ${whats_new}
 
 - On first launch the app downloads its AI models **once** (more than 1 GB). Connect to Wi-Fi and keep the app open until it says *Tayari*.
 - After that everything runs on the phone, with no internet, airplane mode included. Nothing you photograph or say leaves the phone.
-- This is a tester build signed with a debug key, not a Play Store app. See the README in this repository for how to install it.
+- ${signing_line} See the README in this repository for how to install it.
 EOF
