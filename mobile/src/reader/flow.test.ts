@@ -40,6 +40,11 @@ describe('flowReducer', () => {
     expect(s).toEqual({ screen: 'not-sure', reason: 'handwritten-dose' });
   });
 
+  it('a photo that lands after the user left the camera starts nothing', () => {
+    const home: FlowState = { screen: 'home' };
+    expect(flowReducer(home, { type: 'photo-taken', request: 5 })).toBe(home);
+  });
+
   it('drops a result for a photo the user already left (went home, or took another)', () => {
     const home: FlowState = { screen: 'home' };
     expect(flowReducer(home, { type: 'assessed', request: 1, assessment: { kind: 'read', lines: LINES } })).toBe(home);

@@ -34,6 +34,8 @@ export function flowReducer(state: FlowState, action: FlowAction): FlowState {
     case 'open-camera':
       return { screen: 'aiming', hint: null, found: [] };
     case 'photo-taken':
+      // A photo that arrives after the user left the camera starts nothing.
+      if (state.screen !== 'aiming') return state;
       return { screen: 'processing', request: action.request };
     case 'assessed': {
       // A result for a photo the user has already left behind is dropped.

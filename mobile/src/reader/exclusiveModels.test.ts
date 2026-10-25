@@ -69,7 +69,7 @@ describe('ExclusiveModels', () => {
     await expect(models.use('ocr', async (id) => id)).resolves.toBe('ocr-1');
   });
 
-  it('a failed job keeps its model loaded for the next photo and does not block the queue', async () => {
+  it('a failed job unloads its model so the next photo starts from a fresh load, and the queue moves on', async () => {
     const loader = new FakeLoader();
     const models = new ExclusiveModels(loader);
     await expect(
@@ -77,7 +77,9 @@ describe('ExclusiveModels', () => {
         throw new Error('ocr crashed');
       }),
     ).rejects.toThrow('ocr crashed');
-    await expect(models.use('ocr', async (id) => id)).resolves.toBe('ocr-1');
+    expect(models.loadedJob).toBeNull();
+    expect(loader.loaded.size).toBe(0);
+    await expect(models.use('ocr', async (id) => id)).resolves.toBe('ocr-2');
   });
 
   it('if unloading fails it never loads a second model next to the first; the next call retries', async () => {
