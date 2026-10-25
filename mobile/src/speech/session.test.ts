@@ -116,13 +116,45 @@ describe('SpeechSession', () => {
     expect(backend.playedNames()).toEqual(['label_says']);
   });
 
-  it('a playback failure ends in error with the highlight cleared', async () => {
+  it('a label line that fails to play ends in error with the highlight cleared', async () => {
     const { backend, session } = setup();
-    const result = session.speak([{ kind: 'clip', phrase: 'home_open', line: 3 }]);
+    const result = session.speak([{ kind: 'tts', text: 'PARACETAMOL', line: 3 }]);
+    await flush();
+    backend.finishSynth();
     await flush();
     backend.failPlay(new Error('audio did not load'));
     await expect(result).resolves.toBe('error');
     expect(session.current.line).toBeNull();
+  });
+
+  it('a clip that fails to load is skipped: the English lines are still spoken and the reading ends done', async () => {
+    const { backend, session } = setup();
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const result = session.speak(PLAN);
+    await flush();
+    // label_says can't load (a Debug build offline, Metro unreachable).
+    backend.failPlay(new Error('audio did not load'));
+    await flush();
+    backend.finishSynth('file:///a.wav');
+    await flush();
+    expect(backend.playedNames()).toEqual(['label_says', 'file:///a.wav']);
+    expect(session.current).toEqual({ status: 'speaking', line: 0 });
+    backend.finishPlay();
+    await flush();
+    // line_unsure fails too: skipped, the line is still marked on screen.
+    backend.failPlay(new Error('audio did not load'));
+    await flush();
+    backend.finishSynth('file:///b.wav');
+    await flush();
+    expect(session.current).toEqual({ status: 'speaking', line: 2 });
+    backend.finishPlay();
+    await flush();
+    backend.finishPlay(); // reading_end
+    await expect(result).resolves.toBe('done');
+    expect(backend.playedNames()).toEqual(['label_says', 'file:///a.wav', 'line_unsure', 'file:///b.wav', 'reading_end']);
+    expect(session.current).toEqual({ status: 'done', line: null });
+    expect(warn).toHaveBeenCalledTimes(2);
+    warn.mockRestore();
   });
 
   it('a failed prefetch that is never reached does not raise an unhandled rejection', async () => {
