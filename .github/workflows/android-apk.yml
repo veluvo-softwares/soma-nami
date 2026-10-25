@@ -6,9 +6,9 @@ name: Android dev APK
 # besides a developer laptop.
 #
 # Runs on a version tag (v*), by hand, and on PRs that change native config.
-# It only uploads a workflow artifact; publishing to the public releases repo
-# is card C10. The iOS build is EAS (C10), never a macOS runner here: macOS
-# minutes on a private repo cost money.
+# On a tag, the publish job also puts the APK in a GitHub Release in the
+# public releases repo (card C10). The iOS build is EAS (C10), never a macOS
+# runner here: macOS minutes on a private repo cost money.
 
 on:
   workflow_dispatch:
@@ -137,3 +137,58 @@ jobs:
           path: mobile/${{ steps.apk.outputs.name }}
           retention-days: 14
           if-no-files-found: error
+
+  # On a version tag, publish the APK as a GitHub Release in the public
+  # releases repo (card C10). That repo holds only APKs and a README, never
+  # source. RELEASES_TOKEN is a fine-grained token with Contents read & write
+  # on that repo only; this repo's own GITHUB_TOKEN can't write there.
+  publish:
+    name: Publish APK to the releases repo
+    needs: apk
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      RELEASES_REPO: ${{ vars.RELEASES_REPO || 'veluvo-softwares/soma-nami-releases' }}
+      TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Tags and history for the "what's new" list.
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: soma-nami-dev-apk
+          path: dist
+
+      - name: Write release notes
+        run: |
+          # actions/checkout turns an annotated tag into a lightweight one;
+          # fetch it again so its message can be the "what's new" text.
+          git fetch --force origin "refs/tags/${TAG}:refs/tags/${TAG}"
+          scripts/release-notes.sh "$TAG" "$GITHUB_SHA" > notes.md
+          cat notes.md
+
+      - name: Publish the GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.RELEASES_TOKEN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::RELEASES_TOKEN is not set. Add it under Settings > Secrets and variables > Actions (card C10). The APK is still in this run's artifacts."
+            exit 1
+          fi
+          apk="dist/soma-nami-${TAG}.apk"
+          ls -lh "$apk"
+          # Tags with a suffix (v0.2.0-rc1) are marked as pre-releases.
+          pre=()
+          case "$TAG" in *-*) pre=(--prerelease) ;; esac
+          if gh release view "$TAG" -R "$RELEASES_REPO" > /dev/null 2>&1; then
+            # Re-run of the same tag: replace the APK and the notes.
+            gh release upload "$TAG" "$apk" -R "$RELEASES_REPO" --clobber
+            gh release edit "$TAG" -R "$RELEASES_REPO" --notes-file notes.md
+          else
+            gh release create "$TAG" "$apk" -R "$RELEASES_REPO" \
+              --title "Soma Nami ${TAG}" --notes-file notes.md "${pre[@]}"
+          fi
+          echo "https://github.com/${RELEASES_REPO}/releases/tag/${TAG}" >> "$GITHUB_STEP_SUMMARY"
