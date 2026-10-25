@@ -94,7 +94,7 @@ npx eas-cli submit -p ios --profile production --latest --non-interactive
 
 - Credentials (distribution certificate, provisioning profile, App Store Connect API key) are set up once on Wesley's Mac with `eas credentials -p ios` and stored by Expo. Nothing Apple-related lives in this repo or on the Bond VPS; Bond only has an `EXPO_TOKEN`.
 - `eas submit` needs `ascAppId` (the app's Apple ID from App Store Connect → App Information) in the `submit` profile, and `eas build` needs `extra.eas.projectId` in `app.json` (written by `eas init`).
-- Expo's free plan has a small monthly allowance of iOS builds. Build only when a change needs a phone test, never upgrade or pay, and log every build in `docs/plan.md` (C10, EAS build log).
+- Expo's free plan has a small monthly allowance of iOS builds. Build only when a change needs a phone test, never upgrade or pay, and log every build in `docs/plan.md` (C10 iOS build log).
 - Info.plist: camera and microphone usage strings in Swahili and English (bilingual by default, plus `locales/sw.json` and `locales/en.json`), and `ITSAppUsesNonExemptEncryption = false`, so TestFlight doesn't ask the export-compliance question on every build.
 - Internal testers (users on the App Store Connect team) get a build as soon as Apple finishes processing it. External testers need Beta App Review first, which takes about a day.
 
