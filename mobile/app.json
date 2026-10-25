@@ -14,7 +14,17 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.veluvo.somanami"
+      "bundleIdentifier": "com.veluvo.somanami",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Soma Nami inatumia kamera kusoma lebo ya dawa au barua; picha haitoki kwenye simu. Soma Nami uses the camera to read a medicine label or letter aloud; the photo never leaves your phone.",
+        "NSMicrophoneUsageDescription": "Soma Nami inatumia kipaza sauti ukiuliza swali kuhusu lebo; sauti yako haitoki kwenye simu. Soma Nami uses the microphone while you ask about the label; your voice never leaves your phone.",
+        "ITSAppUsesNonExemptEncryption": false,
+        "CFBundleAllowMixedLocalizations": true
+      }
+    },
+    "locales": {
+      "sw": "./locales/sw.json",
+      "en": "./locales/en.json"
     },
     "android": {
       "package": "com.veluvo.somanami",

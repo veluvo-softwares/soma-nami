@@ -1,0 +1,6 @@
+{
+  "ios": {
+    "NSCameraUsageDescription": "Soma Nami uses the camera to photograph a medicine label or letter and read it aloud to you. The photo never leaves your phone.",
+    "NSMicrophoneUsageDescription": "Soma Nami uses the microphone while you hold the button to ask a question about the label. Your voice never leaves your phone."
+  }
+}
