@@ -26,10 +26,14 @@
       "sw": "./locales/sw.json",
       "en": "./locales/en.json"
     },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
     "android": {
       "package": "com.veluvo.somanami",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
+        "monochromeImage": "./assets/adaptive-icon-monochrome.png",
         "backgroundColor": "#0E0E0E"
       },
       "edgeToEdgeEnabled": true,
