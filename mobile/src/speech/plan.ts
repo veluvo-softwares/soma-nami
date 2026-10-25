@@ -28,7 +28,7 @@ export function buildSpeechPlan(lines: readonly LabelLine[]): SpeechStep[] {
   const steps: SpeechStep[] = [{ kind: 'clip', phrase: 'label_says' }];
   let toldSwahili = false;
   lines.forEach((line, i) => {
-    if (lineRole(line.text) === 'detail') return;
+    if (lineRole(line) === 'detail') return;
     if (line.lowConfidence) {
       steps.push({ kind: 'clip', phrase: 'line_unsure', line: i });
     } else if (line.language === 'sw') {
