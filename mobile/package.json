@@ -9,7 +9,7 @@
     "start": "expo start",
     "prebuild": "expo prebuild --clean",
     "android": "expo run:android --device",
-    "ios": "expo run:ios --device",
+    "ios": "expo prebuild --platform ios && open ios/SomaNami.xcworkspace",
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "test": "jest --ci",

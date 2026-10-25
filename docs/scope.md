@@ -41,9 +41,9 @@ Sizes are `expectedSize` values from the `@qvac/sdk` 0.22.0 model registry, read
 From the QVAC docs ([JS/TS SDK](https://docs.qvac.tether.io/sdk/js-ts-sdk/), [system requirements](https://docs.qvac.tether.io/sdk/system-requirements/)) [V]: iOS **17.0+ arm64 with Metal**, and Android **12+ arm64** with Vulkan (OpenCL on Adreno 700+). Both require Expo (SDK ≥ 54, dev build, not managed). QVAC's own support matrix says neither mobile platform has recorded physical-device acceptance yet [V, `docs/system-resources-support-matrix.md` in the SDK], so we are early users on both.
 
 **iOS (development and demo device).**
-- Wesley's **iPhone 12**, 4 GB RAM [V, Wesley]. iOS version to confirm (needs 17.0+).
+- Wesley's **iPhone 12**, 4 GB RAM [V, Wesley]. iOS 26.6.1 (confirmed in C3a; QVAC needs 17.0+), built with Xcode 27.0.
 - Wesley has a paid Apple Developer account and App Store Connect. Builds are made with **EAS Build** on Expo's servers, triggered by Bond with an `EXPO_TOKEN`, and submitted to **TestFlight** with `eas submit` (C10). Wesley sets up the Apple credentials once with `eas credentials` on his Mac; no Apple keys live on the VPS or in the repo. Expo's free plan only.
-- Local builds stay possible for debugging, on Wesley's Mac: `git pull && npm ci && npx expo prebuild && npx expo run:ios --device`.
+- Local builds stay possible for debugging, on Wesley's Mac: `git pull && cd mobile && npm ci && npx expo prebuild`, then `npx expo start --dev-client`, open `ios/SomaNami.xcworkspace`, pick the iPhone and press Cmd+R. Not `npx expo run:ios`, which fails on Xcode 27 (see mobile/README.md).
 - No 7-day expiry with a paid account. TestFlight's Beta App Review for external testers (judges included) takes about a day, so the first external build goes in by Wed 28 Oct. With a paid account the increased-memory-limit entitlement is available; whether we need it is a C3a measurement.
 - `app.json`: `expo-build-properties` with `ios.deploymentTarget: "17.0"`, plus `@qvac/sdk/expo-plugin` (JSON config only in Expo).
 

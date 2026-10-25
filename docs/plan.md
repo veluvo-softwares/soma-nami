@@ -12,8 +12,8 @@ Hand-offs to Wesley (C3a, C4a, C12) are not separate board cards: the Bond card 
 |---|---|---|---|---|---|---|
 | C1 | `t_3d199e48` | Technical scope → `docs/scope.md` | none | Bond | done | `docs/scope`, #2 |
 | C2 | `t_250daa6d` | VPS spike: OCR, TTS, Q&A, ASR, TranslatePsy; go/no-go by Sun 25 Oct 21:00 | C1 | Bond | in progress | `spike/c2` |
-| C3 | `t_22903510` | Expo dev-build + QVAC app scaffold, CI, Android APK job | C1 | Bond | in review: CI and APK build green; iOS hand-off (C3a) next | `feat/c3-app-scaffold`, #7 |
-| C3a | (block on C3 or C10) | iOS hand-off: first build on Wesley's iPhone | C3 | Wesley | todo | |
+| C3 | `t_22903510` | Expo dev-build + QVAC app scaffold, CI, Android APK job | C1 | Bond | done: #7 merged (CI and APK build green); iOS run steps switched to Xcode | `feat/c3-app-scaffold`, #7; `docs/c3-xcode-run-steps` |
+| C3a | (block on C3 or C10) | iOS hand-off: first build on Wesley's iPhone | C3 | Wesley | done 25 Oct: iPhone 12, iOS 26.6.1, Xcode 27.0. Launches dark in Atkinson Hyperlegible; all 5 models (1.5 GB) download and it shows Tayari; memory 385.9 MB peak, 376.6 MB steady (no model loaded, so OCR's peak is checked in C4); no prebuild error. `expo run:ios` fails on Xcode 27, so it was built from Xcode | |
 | C3b | none | Android APK on an arm64 emulator on Wesley's Mac (record what happens) | C3 | Wesley | optional | |
 | C4 | `t_ad242ab0` | Home, Aiming, Reading: camera → OCR → read aloud | C2, C3 | Bond | todo | |
 | C4a | (block on C4) | iOS hand-off: read-aloud on the iPhone, in airplane mode (Tue 27 Oct) | C4, C3a | Wesley | todo | |
@@ -51,7 +51,7 @@ Run QVAC in Node on the VPS. Output: `spike/` scripts, `docs/spike-report.md` wi
 Expo SDK 54+ dev build (not managed), TypeScript, `@qvac/sdk` pinned at 0.22.0 with its Expo plugin (JSON config; `installMissingPrebuilds` if prebuild reports missing binaries). iOS deployment target 17.0; Android `minSdkVersion` 29 (QVAC needs Android 12+ arm64 at runtime). ESLint, typecheck, Jest. GitHub Actions on Linux: lint, typecheck and tests on every PR, and an arm64 APK build job that runs on a version tag (`v*`); publishing it is C10. No macOS jobs: macOS minutes on a private repo cost money. Models screen that downloads all models once and blocks reads until they are present. Atkinson Hyperlegible bundled.
 
 ### C3a iOS hand-off: first build
-Once C10 has the EAS pipeline, Wesley installs the first build from TestFlight. If C10 isn't ready in time for Tuesday, the fallback is a local build on his Mac: `git pull && npm ci && npx expo prebuild && npx expo run:ios --device`, signed with his developer team. Report back: iOS version, does it launch, do the models download, RAM in Xcode's debug gauge.
+Once C10 has the EAS pipeline, Wesley installs the first build from TestFlight. If C10 isn't ready in time for Tuesday, the fallback is a local build on his Mac: `git pull && cd mobile && npm ci && npx expo prebuild`, then `npx expo start --dev-client`, open `ios/SomaNami.xcworkspace`, pick the iPhone and press Cmd+R, signed with his developer team (not `npx expo run:ios`, which fails on Xcode 27; see mobile/README.md). Every iOS hand-off, including C4a, uses these Xcode steps. Report back: iOS version, does it launch, do the models download, RAM in Xcode's debug gauge.
 
 ### C3b Android emulator check (optional)
 Wesley runs the CI APK on an arm64 Android emulator (Android 12+ image) on his Mac. QVAC documents physical devices only, so this may fail; record exactly what happens, with logs. It blocks nothing.
