@@ -59,13 +59,17 @@ Once per Mac: Xcode (latest, from the App Store), its command line tools (`xcode
 git pull
 cd mobile
 npm ci
-npx expo prebuild --clean     # writes ios/ and android/, links QVAC's addons
-npx expo run:ios --device     # pick the iPhone connected by USB
+npx expo prebuild --clean       # writes ios/ and android/, links QVAC's addons
+npx expo start --dev-client     # terminal 1: Metro, leave it running
+open ios/SomaNami.xcworkspace   # terminal 2 (`npm run ios` prebuilds and opens it too)
 ```
 
-- First time: if the build stops on signing, open `ios/SomaNami.xcworkspace`, select the **SomaNami** target → **Signing & Capabilities**, tick *Automatically manage signing* and pick the Veluvo team, then run `npx expo run:ios --device` again. If the bundle id `com.veluvo.somanami` is taken in that team, tell Bond rather than changing it locally.
+Then in Xcode pick the iPhone connected by USB as the run destination and press **Cmd+R**.
+
+- Don't use `npx expo run:ios --device`. On Xcode 27 it fails with "Can't determine id of Simulator app": Xcode 27 no longer ships Simulator.app, and `@expo/cli` 54.0.28 checks for it before every `run:ios`, even for a physical device. Building from Xcode avoids that check.
+- First time: if the build stops on signing, select the **SomaNami** target → **Signing & Capabilities**, tick *Automatically manage signing* and pick the Veluvo team, then Cmd+R again. If the bundle id `com.veluvo.somanami` is taken in that team, tell Bond rather than changing it locally.
 - On the phone, once: Settings → Privacy & Security → **Developer Mode** on (the phone restarts).
-- `run:ios` starts Metro; the dev build loads its JavaScript from it, so keep the Mac and phone on the same network for the first launch. For an offline test, build a Release configuration instead: `npx expo run:ios --device --configuration Release`.
+- The Debug build loads its JavaScript from Metro, so keep Metro running and the Mac and phone on the same network. For an offline test (airplane mode), build Release, which bundles the JavaScript into the app: **Product → Scheme → Edit Scheme → Run → Build Configuration: Release**, then Cmd+R. Set it back to Debug afterwards.
 - If prebuild says QVAC prebuilds are missing for iOS, add `"installMissingPrebuilds": true` under the `@qvac/sdk/expo-plugin` options in `app.json` and say so in the PR.
 - Memory: with the app running from Xcode (Product → Run on the open workspace), the Debug navigator's **Memory** gauge shows the app's footprint. iOS kills an app well before the phone's 4 GB.
 
