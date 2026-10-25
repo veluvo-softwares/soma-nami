@@ -1,7 +1,8 @@
 name: Android dev APK
 
-# Builds a standalone arm64 APK (JavaScript bundled in, signed with the debug
-# key) that installs on a physical phone without a dev server. Not for the
+# Builds a standalone arm64 APK (JavaScript bundled in) that installs on a
+# physical phone without a dev server. Signed with the debug key unless the
+# release keystore secrets are set (see "Sign the APK"). Not for the
 # Play Store. The VPS can't build APKs, so this is the only Android build path
 # besides a developer laptop.
 #
@@ -45,6 +46,8 @@ jobs:
     name: Build dev APK
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    outputs:
+      signing: ${{ steps.sign.outputs.signing }}
     defaults:
       run:
         working-directory: mobile
@@ -122,6 +125,47 @@ jobs:
           } > /tmp/comment.md
           gh pr comment "$PR" -R "$GITHUB_REPOSITORY" --body-file /tmp/comment.md
 
+      # Gradle signs with the debug key. If all four ANDROID_KEY* secrets are
+      # set, scripts/sign-apk.sh re-signs with the release keystore instead;
+      # with none set it keeps the debug key, and with only some it fails.
+      - name: Sign the APK
+        id: sign
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          signing="$(../scripts/sign-apk.sh android/app/build/outputs/apk/release/app-release.apk | tail -n 1)"
+          echo "Signed with the $signing key."
+          echo "signing=$signing" >> "$GITHUB_OUTPUT"
+
+      # Exercises the release-key path of sign-apk.sh with a throwaway key on a
+      # copy of the APK, so it is known to work before real keystore secrets
+      # exist. Skipped on tags.
+      - name: Self-test release signing (throwaway key)
+        if: github.ref_type != 'tag'
+        run: |
+          t="$RUNNER_TEMP/signtest"
+          mkdir -p "$t"
+          cp android/app/build/outputs/apk/release/app-release.apk "$t/test.apk"
+          keytool -genkeypair -keystore "$t/test.jks" -storetype PKCS12 -alias selftest \
+            -keyalg RSA -keysize 2048 -validity 1 -storepass selftest -keypass selftest \
+            -dname 'CN=Soma Nami sign-apk self-test' > /dev/null
+          ks64="$(base64 -w0 "$t/test.jks")"
+          # Half configured: must fail.
+          if ANDROID_KEYSTORE_BASE64="$ks64" ../scripts/sign-apk.sh "$t/test.apk"; then
+            echo "::error::sign-apk.sh accepted a half-configured keystore"; exit 1
+          fi
+          out="$(ANDROID_KEYSTORE_BASE64="$ks64" ANDROID_KEYSTORE_PASSWORD=selftest \
+            ANDROID_KEY_ALIAS=selftest ANDROID_KEY_PASSWORD=selftest \
+            ../scripts/sign-apk.sh "$t/test.apk" | tail -n 1)"
+          [ "$out" = release ] || { echo "::error::expected release, got $out"; exit 1; }
+          bt="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n 1)"
+          "$bt/apksigner" verify --print-certs "$t/test.apk" | grep -q 'DN: CN=Soma Nami sign-apk self-test' ||
+            { echo "::error::APK is not signed with the throwaway key"; exit 1; }
+          echo "Release signing path OK."
+
       - name: Name the APK
         id: apk
         run: |
@@ -167,7 +211,7 @@ jobs:
           # actions/checkout turns an annotated tag into a lightweight one;
           # fetch it again so its message can be the "what's new" text.
           git fetch --force origin "refs/tags/${TAG}:refs/tags/${TAG}"
-          scripts/release-notes.sh "$TAG" "$GITHUB_SHA" > notes.md
+          SIGNED_WITH="${{ needs.apk.outputs.signing }}" scripts/release-notes.sh "$TAG" "$GITHUB_SHA" > notes.md
           cat notes.md
 
       - name: Publish the GitHub Release

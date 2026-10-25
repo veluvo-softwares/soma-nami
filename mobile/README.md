@@ -106,7 +106,16 @@ GitHub Actions (`.github/workflows/android-apk.yml`, Linux runner) builds a stan
 - by hand: **Actions → Android dev APK → Run workflow**;
 - on pull requests that change native config (`package.json`, the lockfile, `app.json`, `qvac.config.json`, fonts).
 
-The APK is a workflow artifact on this private repo, so only collaborators can download it. On a version tag the `publish` job also creates a GitHub Release with the APK in the public releases repo (`veluvo-softwares/soma-nami-releases`, or the repo in the `RELEASES_REPO` Actions variable), with notes from `scripts/release-notes.sh`: version, commit, what's new (the annotated tag's message, or the commit subjects since the last tag) and the first-launch model download. It needs the Actions secret `RELEASES_TOKEN`, a fine-grained token with Contents read & write on the releases repo only; without it the tag build fails at the publish step and the APK stays in the run's artifacts. The releases repo's README is kept in `docs/releases-repo/README.md`. Tags with a suffix (`v0.2.0-rc1`) are published as pre-releases; re-running a tag's workflow replaces the APK and notes.
+The APK is a workflow artifact on this private repo, so only collaborators can download it. On a version tag the `publish` job also creates a GitHub Release with the APK in the public releases repo (`veluvo-softwares/soma-nami-releases`, or the repo in the `RELEASES_REPO` Actions variable), with notes from `scripts/release-notes.sh`: version, commit, what's new (the annotated tag's message, or the commit subjects since the last tag) and the first-launch model download. It needs the Actions secret `RELEASES_TOKEN`, a fine-grained token with Contents read & write on the releases repo only; without it the tag build fails at the publish step and the APK stays in the run's artifacts. The releases repo's README is drafted in `docs/releases-README.md`; copy it to the releases repo as `README.md`. Tags with a suffix (`v0.2.0-rc1`) are published as pre-releases; re-running a tag's workflow replaces the APK and notes.
+
+Signing: the APK is signed with the debug key unless these four Actions secrets are all set, in which case `scripts/sign-apk.sh` re-signs it with the release keystore (setting only some of them fails the build):
+
+- `ANDROID_KEYSTORE_BASE64`: the keystore file, base64-encoded (`base64 -w0 release.keystore`)
+- `ANDROID_KEYSTORE_PASSWORD`: the keystore password
+- `ANDROID_KEY_ALIAS`: the key's alias
+- `ANDROID_KEY_PASSWORD`: the key's password
+
+The release notes say which key signed the build. Android refuses to update an app signed with a different key, so testers who switch from a debug build to a release-signed one must uninstall first (and download the models again). Non-tag builds also self-test the release-signing path with a throwaway key.
 
 Release a tester build (the release notes are public, so write the message for testers):
 
