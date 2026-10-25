@@ -33,8 +33,9 @@
       "package": "com.veluvo.somanami",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundImage": "./assets/adaptive-icon-background.png",
         "monochromeImage": "./assets/adaptive-icon-monochrome.png",
-        "backgroundColor": "#0E0E0E"
+        "backgroundColor": "#06101F"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
