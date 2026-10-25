@@ -80,7 +80,19 @@ export class SpeechSession {
         if (run !== this.run) return 'stopped';
         prepare(nextTts(i + 1));
         this.emit(run, { status: 'speaking', line: step.line ?? null });
-        await this.backend.play(audio, rate);
+        if (step.kind === 'clip') {
+          // A Swahili clip is only a frame around the reading. If one fails to
+          // load or play (a Debug build offline can't fetch it from Metro), skip
+          // it and keep going, so the label lines are still spoken.
+          try {
+            await this.backend.play(audio, rate);
+          } catch (e) {
+            if (run !== this.run) return 'stopped';
+            console.warn(`[soma] clip ${step.phrase} skipped: ${e instanceof Error ? e.message : String(e)}`);
+          }
+        } else {
+          await this.backend.play(audio, rate);
+        }
       }
       if (run !== this.run) return 'stopped';
       this.emit(run, { status: 'done', line: null });
