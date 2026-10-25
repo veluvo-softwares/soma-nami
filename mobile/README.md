@@ -31,12 +31,15 @@ Home → camera (tap anywhere to take the photo, or **Chagua picha** to pick one
 | Shrink the photo to 1280 px on the long side (a full 4032 × 3024 photo would blow OCR's memory) | `src/reader/services.ts`, `src/reader/image.ts` |
 | OCR with `canvasSize 1024`, `recognizerBatchSize 1` (the C2 spike's low-memory settings, 1.7 GB peak on the VPS instead of 3.2 GB) | `src/reader/qvacReader.ts` |
 | Blocks → visual lines; any line whose weakest block is below confidence 0.5 is marked unsure | `src/reader/ocrLines.ts` |
-| What to do with the photo: read it; or a spoken hint (move left/right/up/down, further, closer, no text found) and try again, with **Soma hii** to read what was found anyway; or **Not sure** for a page that's mostly unreadable or looks like a handwritten dose ("1x3", "2 bd", "Tab 1 tds") | `src/reader/assess.ts` |
+| What to do with the photo: read it; or a spoken hint (move left/right/up/down, further, closer, no text found) and try again, with **Soma hii** to read what was found anyway; or **Not sure** for a page that's mostly unreadable or looks like a handwritten dose ("1x3", "2 bd", "Tab 1 tds"). The framing hint looks only at the main block of text (the largest cluster of nearby lines), so screen chrome, a keyboard or another pack at the edge of the photo doesn't trigger it | `src/reader/assess.ts` |
 | What is said: each confident English line exactly as printed (Supertonic, on the phone); an unsure line is never read, the app says it couldn't read it and to ask the pharmacist; Swahili lines are shown, and a clip says once that they're on the screen (no Swahili voice runs on the phone) | `src/speech/plan.ts` |
-| Speaking, highlighting the spoken line, prefetching the next line, stop and restart | `src/speech/session.ts`, `src/speech/expoAudioBackend.ts` |
+| Not spoken at all: batch / lot numbers, manufacturing dates, barcodes, the maker's name and address. They're shown small under **Maelezo zaidi · More details**. The expiry date is always spoken, on its own when it shares a line with the batch number | `src/reader/details.ts` |
+| Speaking, highlighting the spoken line, prefetching the next line, stop and restart. A Swahili clip that fails to load or play is skipped, so the label lines are still read | `src/speech/session.ts`, `src/speech/expoAudioBackend.ts` |
 | Screens | `src/screens/read/` |
 
 Only one model is loaded at a time (`src/reader/exclusiveModels.ts`): OCR is unloaded before the voice loads and vice versa. Each read logs `[soma] ocr <ms> ...` to the Xcode console.
+
+QVAC runs on the CPU on iOS (`plugins/withQvacCpuOnly.js` sets `GGML_METAL_DEVICES=0` at launch). QVAC's iOS build compiles its Metal shaders from source on the phone at every launch, and on the iPhone 12 iOS killed the shader compiler four times per launch, so Metal never worked anyway (C4a). The draft upstream issue is `docs/qvac-metal-issue.md`; remove the plugin once QVAC ships a precompiled metallib.
 
 ### Swahili phrases
 
@@ -98,6 +101,7 @@ open ios/SomaNami.xcworkspace   # terminal 2 (`npm run ios` prebuilds and opens 
 Then in Xcode pick the iPhone connected by USB as the run destination and press **Cmd+R**.
 
 - Don't use `npx expo run:ios --device`. On Xcode 27 it fails with "Can't determine id of Simulator app": Xcode 27 no longer ships Simulator.app, and `@expo/cli` 54.0.28 checks for it before every `run:ios`, even for a physical device. Building from Xcode avoids that check.
+- If Xcode offers **Update to recommended settings**, press **Cancel**. Accepting it turns on user script sandboxing, and the "Bundle React Native code and images" step then fails (`Sandbox: deny file-write-data .../SomaNami.app/ip.txt`). Prebuild sets `ENABLE_USER_SCRIPT_SANDBOXING = NO` and raises every pod to the app's iOS 17.0 deployment target (`plugins/withIosBuildFixes.js`; Xcode 27 rejects SDWebImage's iOS 9.0 resource bundle otherwise), so `prebuild --clean` keeps both fixes.
 - First time: if the build stops on signing, select the **SomaNami** target → **Signing & Capabilities**, tick *Automatically manage signing* and pick the Veluvo team, then Cmd+R again. If the bundle id `com.veluvo.somanami` is taken in that team, tell Bond rather than changing it locally.
 - On the phone, once: Settings → Privacy & Security → **Developer Mode** on (the phone restarts).
 - The Debug build loads its JavaScript from Metro, so keep Metro running and the Mac and phone on the same network. For an offline test (airplane mode), build Release, which bundles the JavaScript into the app: **Product → Scheme → Edit Scheme → Run → Build Configuration: Release**, then Cmd+R. Set it back to Debug afterwards.
