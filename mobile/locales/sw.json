@@ -1,0 +1,6 @@
+{
+  "ios": {
+    "NSCameraUsageDescription": "Soma Nami inatumia kamera kupiga picha ya lebo ya dawa au barua ili ikusomee. Picha haitoki kwenye simu yako.",
+    "NSMicrophoneUsageDescription": "Soma Nami inatumia kipaza sauti ukishikilia kitufe cha kuuliza swali kuhusu lebo. Sauti yako haitoki kwenye simu yako."
+  }
+}
