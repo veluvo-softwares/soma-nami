@@ -1,4 +1,5 @@
 import type { PhraseId } from './phrases';
+import { lineRole, spokenText } from '../reader/details';
 import type { LabelLine } from '../reader/ocrLines';
 
 /**
@@ -18,12 +19,16 @@ export type SpeechStep =
  *   to ask the pharmacist;
  * - a Swahili line can't be spoken (no on-device Swahili voice; Chatterbox is
  *   too slow live), so the first one gets a clip saying it's on the screen and
- *   the rest are shown silently.
+ *   the rest are shown silently;
+ * - batch numbers, manufacturing dates, barcodes and the maker's address are
+ *   not spoken at all, unsure or not (reader/details.ts); they're shown under
+ *   More details. An expiry date is always spoken.
  */
 export function buildSpeechPlan(lines: readonly LabelLine[]): SpeechStep[] {
   const steps: SpeechStep[] = [{ kind: 'clip', phrase: 'label_says' }];
   let toldSwahili = false;
   lines.forEach((line, i) => {
+    if (lineRole(line.text) === 'detail') return;
     if (line.lowConfidence) {
       steps.push({ kind: 'clip', phrase: 'line_unsure', line: i });
     } else if (line.language === 'sw') {
@@ -32,7 +37,7 @@ export function buildSpeechPlan(lines: readonly LabelLine[]): SpeechStep[] {
         toldSwahili = true;
       }
     } else {
-      steps.push({ kind: 'tts', text: line.text, line: i });
+      steps.push({ kind: 'tts', text: spokenText(line.text), line: i });
     }
   });
   steps.push({ kind: 'clip', phrase: 'reading_end' });
