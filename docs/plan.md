@@ -19,7 +19,7 @@ Hand-offs to Wesley (C3a, C4a, C12) are not separate board cards: the Bond card 
 | C4a | (block on C4) | iOS hand-off: read-aloud on the iPhone, in airplane mode (Tue 27 Oct) | C4, C3a | Wesley | todo | |
 | C5 | `t_99e45430` | Ask: hold-to-talk, fixed questions, quotes the line, refuses when unsure | C4 | Bond | todo | |
 | C6 | `t_cebb50ba` | Accessibility, language, Not sure, caregiver setup, theme | C4 | Bond | todo | |
-| C10 | `t_c473c258` | Distribution: iOS via EAS to TestFlight, Android APK to the public releases repo | C3 | Bond, Wesley's accounts | in progress: `eas.json`, Info.plist strings, APK publish job and releases README merged (#10). 26 Oct: Expo project `@mrnyamu/soma-nami`, App Store Connect app (ascAppId 6826935644) and Expo-managed iOS credentials set up by Wesley; egress allowed; IDs committed. Next: first EAS build and TestFlight submit. Android publish waits on the releases repo and RELEASES_TOKEN | `feat/c10-distribution`, `chore/c10-eas-ids` |
+| C10 | `t_c473c258` | Distribution: iOS via EAS to TestFlight, Android APK to the public releases repo | C3 | Bond, Wesley's accounts | in progress: `eas.json`, Info.plist strings, APK publish job and releases README merged (#10). 26 Oct: Expo project `@mrnyamu/soma-nami`, App Store Connect app (ascAppId 6826935644) and Expo-managed iOS credentials set up by Wesley; egress allowed; IDs committed (#13). First EAS build 0.1.0 (1) submitted to App Store Connect 26 Oct (see the build log). Left: TestFlight testers (Wesley), and the Android publish, which waits on the releases repo and RELEASES_TOKEN | `feat/c10-distribution`, `chore/c10-eas-ids`, `docs/c10-first-eas-build` |
 | C11 | `t_cb8e5f17` | Tafsiri: English → Swahili with the number check | C2, C4 | Bond | todo | |
 | C12 | (Wesley's checklist) | Android real-phone test at the Wed 28 Oct offline check (borrowed phone) | C4, C10 | Wesley | todo | |
 | C9 | `t_80394eb8` | Dawa zangu: saved medicines with caregiver-set times | C4, C6 | Bond | todo (after C5, C6, C11) | |
@@ -80,7 +80,7 @@ How to run both is in `mobile/README.md` (iOS: TestFlight through EAS Build; And
 
 | Date | Profile | Commit | Why | Result |
 |---|---|---|---|---|
-| | | | | none yet |
+| 26 Oct 01:44 EAT | production (store) | `0442058` | First build to prove the pipeline: C3 scaffold plus the app icon (#12). C4 (#11) not merged yet, so no read-aloud in it | Build `9e90c660` finished in ~3 min, 0.1.0 (1). Submitted to App Store Connect with `eas submit` (submission `dbd33827`, finished). The CLI's TestFlight group setup was skipped because Apple's API is not on the sandbox egress list; testers are added in App Store Connect |
 
 ### C11 Tafsiri
 "Tafsiri kwa Kiswahili" on the Reading screen. TranslatePsy-AfriSLM 0.8B Q4 (2B if C2 shows 0.8B is weak and memory allows). Every number, unit and frequency word in the translation is checked against the original (`spike/numbers.mjs` is the starting point); on any difference, show the original and say the translation isn't safe. The translation is shown on screen; it's spoken only if Chatterbox is fast enough on the phone. Unit tests for the check.
