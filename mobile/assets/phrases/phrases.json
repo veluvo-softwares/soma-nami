@@ -1,0 +1,30 @@
+{
+  "_comment": "Fixed Swahili phrases the app speaks. Each one is rendered ahead of time with QVAC Chatterbox (scripts/phrases/generate.mjs) and shipped as assets/phrases/sw/<id>.m4a. `en` is the English line shown under the Swahili, never spoken. Edit here, then regenerate.",
+  "phrases": {
+    "home_open": { "sw": "Gusa popote kusoma.", "en": "Tap anywhere to read." },
+    "aim_open": { "sw": "Elekeza simu kwenye lebo, kisha gusa skrini.", "en": "Point the phone at the label, then tap the screen." },
+    "camera_permission": { "sw": "Ruhusu kamera ili niweze kusoma.", "en": "Allow the camera so I can read." },
+    "reading_wait": { "sw": "Ninasoma. Subiri kidogo.", "en": "Reading. Please wait." },
+    "hint_left": { "sw": "Sogeza kushoto kidogo.", "en": "Move a little to the left." },
+    "hint_right": { "sw": "Sogeza kulia kidogo.", "en": "Move a little to the right." },
+    "hint_up": { "sw": "Sogeza juu kidogo.", "en": "Move up a little." },
+    "hint_down": { "sw": "Sogeza chini kidogo.", "en": "Move down a little." },
+    "hint_further": { "sw": "Sogeza mbali kidogo.", "en": "Move a bit further away." },
+    "hint_closer": { "sw": "Sogeza karibu kidogo.", "en": "Move a bit closer." },
+    "hint_unclear": { "sw": "Picha haiko wazi. Shikilia simu bila kutikisa, mahali penye mwanga.", "en": "The photo isn't clear. Hold the phone still, somewhere with more light." },
+    "hint_no_text": { "sw": "Sijaona maandishi. Elekeza simu kwenye lebo mahali penye mwanga, kisha gusa tena.", "en": "I didn't see any writing. Point the phone at the label in good light, then tap again." },
+    "label_says": { "sw": "Lebo inasema:", "en": "The label says:" },
+    "line_unsure": { "sw": "Mstari huu sijaweza kuusoma vizuri. Muulize mfamasia.", "en": "I couldn't read this line clearly. Ask the pharmacist." },
+    "line_swahili": { "sw": "Mstari wa Kiswahili uko kwenye skrini. Siwezi kuusoma kwa sauti bado.", "en": "A Swahili line is on the screen. I can't read it aloud yet." },
+    "reading_end": { "sw": "Mwisho wa lebo.", "en": "End of the label." },
+    "not_sure": { "sw": "Sijaweza kusoma vizuri. Sitakisia dozi. Muulize mfamasia au daktari.", "en": "I couldn't read this clearly. I won't guess a dose. Ask your pharmacist or doctor." },
+    "try_again_light": { "sw": "Jaribu tena mahali penye mwanga zaidi.", "en": "Try again somewhere with more light." },
+    "error": { "sw": "Samahani, kuna tatizo. Jaribu tena.", "en": "Sorry, something went wrong. Try again." },
+    "btn_read_again": { "sw": "Soma tena.", "en": "Read again." },
+    "btn_slower": { "sw": "Polepole.", "en": "Slower." },
+    "btn_try_again": { "sw": "Jaribu tena.", "en": "Try again." },
+    "btn_read_this": { "sw": "Soma hii.", "en": "Read this one." },
+    "btn_pick_photo": { "sw": "Chagua picha.", "en": "Choose a photo." },
+    "btn_back": { "sw": "Rudi.", "en": "Back." }
+  }
+}
