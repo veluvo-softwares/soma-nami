@@ -30,20 +30,26 @@ export const MAX_UNREADABLE_SHARE = 0.5;
  * Handwritten dosing shorthand ("1x3", "2 bd", "Tab 1 tds", "1 nocte"). The
  * C2 spike showed OCR changes these numbers with high confidence ("Tab 1 tds"
  * read as "Tab 4 tds" at 0.93), so a confidence gate can't make them safe.
+ * Prescriber abbreviations don't appear on printed retail packs, so they
+ * trip the check on a page of any length; the "1x3" and "7/7" patterns also
+ * match printed pack counts ("3 x 10 tablets"), so they only count on short pages.
  */
-const DOSE_SHORTHAND =
-  /(\b\S{1,2}\s*[x×]\s*\d+\b)|(\b(bd|bid|tds|tid|qds|qid|od|nocte|mane|prn|stat)\b)|(\b\d+\s*\/\s*7\b)/i;
+const DOSE_WORDS = /\b(bd|bid|tds|tid|qds|qid|od|nocte|mane|prn|stat)\b/i;
+const DOSE_PATTERNS = /(\b\S{1,2}\s*[x×]\s*\d+\b)|(\b\d+\s*\/\s*7\b)/i;
 
 /**
- * A short page with a number on it, or one that uses dosing shorthand, is
- * treated as a handwritten dose label: the app won't read it and sends the
- * user to the pharmacist. Printed packs have many lines and don't trip this;
- * a two-line printed scrap like "100 Tablets" does, which is the safe side.
+ * A page with prescriber shorthand, or a short page with a dose pattern or a
+ * number on it, is treated as a handwritten dose label: the app won't read it
+ * and sends the user to the pharmacist. A two-line printed scrap like
+ * "100 Tablets" trips this too, which is the safe side. Handwriting that OCR
+ * splits into four or more plain-English lines is not caught here.
  */
 export function looksLikeHandwrittenDose(lines: readonly LabelLine[]): boolean {
-  if (lines.length === 0 || lines.length > 3) return false;
+  if (lines.length === 0) return false;
   const all = lines.map((l) => l.text).join(' ');
-  if (DOSE_SHORTHAND.test(all)) return true;
+  if (DOSE_WORDS.test(all)) return true;
+  if (lines.length > 3) return false;
+  if (DOSE_PATTERNS.test(all)) return true;
   return lines.length <= 2 && lines.every((l) => l.text.length <= 12) && /\d/.test(all);
 }
 

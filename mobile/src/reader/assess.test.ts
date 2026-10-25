@@ -76,13 +76,18 @@ describe('assessPhoto', () => {
   it('does not treat a full printed pack as handwriting, even with "x" and "/" in it', () => {
     const l = lines([
       'IBUPROFEN 200 mg',
-      '24 Tablets',
+      '3 x 10 Tablets',
       'Adults: 1 or 2 tablets up to 3 times a day.',
       'Take with or after food.',
       'Batch IB7734 Exp 01/2028',
     ]);
     expect(looksLikeHandwrittenDose(l)).toBe(false);
     expect(assessPhoto(l, PHOTO_SIZE).kind).toBe('read');
+  });
+
+  it('catches prescriber shorthand on a longer page too (OCR may split handwriting into many lines)', () => {
+    const l = lines(['Tab 4', 'tds', 'after food', 'x 5 days']);
+    expect(assessPhoto(l, PHOTO_SIZE)).toMatchObject({ kind: 'not-sure', reason: 'handwritten-dose' });
   });
 
   it('reads a short printed line with no number, like a medicine name', () => {

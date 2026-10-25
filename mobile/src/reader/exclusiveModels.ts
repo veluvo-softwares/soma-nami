@@ -32,7 +32,14 @@ export class ExclusiveModels {
         const id = await this.loader.load(job);
         this.current = { job, id };
       }
-      return work(this.current!.id);
+      try {
+        return await work(this.current!.id);
+      } catch (e) {
+        // The worker may have left the model unusable: unload it so the next
+        // call starts from a fresh load instead of failing the same way.
+        await this.unloadCurrent().catch(() => undefined);
+        throw e;
+      }
     });
   }
 

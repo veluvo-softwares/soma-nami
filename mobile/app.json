@@ -64,6 +64,14 @@
       ],
       "./plugins/withNoNativeDebugSymbols",
       "./plugins/withAndroidGradleProperties",
+      "expo-camera",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Soma Nami husoma picha ya lebo uliyochagua. Picha haitoki kwenye simu. / Soma Nami reads the label photo you choose. The photo never leaves your phone."
+        }
+      ],
+      "expo-audio",
       "@qvac/sdk/expo-plugin"
     ],
     "extra": {
