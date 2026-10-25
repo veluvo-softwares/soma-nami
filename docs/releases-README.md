@@ -29,5 +29,6 @@ After that, **everything runs offline**: reading, speaking and answering questio
 ## About these builds
 
 - Each release is built automatically from a version tag of the app. The release notes list the version, the commit it was built from and what changed.
-- These are tester builds signed with a debug key, not Play Store releases. Install them only from this repository's Releases page.
+- These are tester builds, not Play Store releases. Install them only from this repository's Releases page. Each release's notes say whether it is signed with a debug key or the Soma Nami release key.
+- If Android says **App not installed** when you update, the new build is signed with a different key from the one on your phone. Uninstall Soma Nami, then install the new APK. You will need to download the models again.
 - Soma Nami reads exactly what is printed and never interprets a dose. When it isn't sure, it says so: ask your pharmacist.
