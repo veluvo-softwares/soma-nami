@@ -64,6 +64,8 @@
       ],
       "./plugins/withNoNativeDebugSymbols",
       "./plugins/withAndroidGradleProperties",
+      "./plugins/withIosBuildFixes",
+      "./plugins/withQvacCpuOnly",
       "expo-camera",
       [
         "expo-image-picker",
