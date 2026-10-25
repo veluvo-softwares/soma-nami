@@ -1,0 +1,360 @@
+{
+ "p1_paracetamol_photo.jpg": [
+  {
+   "text": "PARACETAMOL",
+   "bbox": [
+    172,
+    145,
+    649,
+    220
+   ],
+   "confidence": 0.9999050498008728
+  },
+  {
+   "text": "Tablets BP 500 mg",
+   "bbox": [
+    168,
+    228,
+    510,
+    277
+   ],
+   "confidence": 0.7253597378730774
+  },
+  {
+   "text": "100 Tablets",
+   "bbox": [
+    168,
+    285,
+    377,
+    326
+   ],
+   "confidence": 0.9982970356941223
+  },
+  {
+   "text": "Dosage: Adults and children over 12 years:",
+   "bbox": [
+    166,
+    315,
+    676,
+    365
+   ],
+   "confidence": 0.7744794487953186
+  },
+  {
+   "text": "1 to 2 tablets every 4 to 6 hours:",
+   "bbox": [
+    167,
+    353,
+    560,
+    396
+   ],
+   "confidence": 0.530045747756958
+  },
+  {
+   "text": "Do not",
+   "bbox": [
+    166,
+    401,
+    253,
+    430
+   ],
+   "confidence": 0.7775431871414185
+  },
+  {
+   "text": "take more than 8 tablets in 24 hours.",
+   "bbox": [
+    250,
+    380,
+    691,
+    429
+   ],
+   "confidence": 0.9070398211479187
+  },
+  {
+   "text": "Store below",
+   "bbox": [
+    164,
+    432,
+    302,
+    461
+   ],
+   "confidence": 0.9999566078186035
+  },
+  {
+   "text": "30*C. Keep out of reach of children.",
+   "bbox": [
+    302,
+    412,
+    690,
+    457
+   ],
+   "confidence": 0.4062407910823822
+  },
+  {
+   "text": "Batch No: PX2417",
+   "bbox": [
+    162,
+    455,
+    372,
+    496
+   ],
+   "confidence": 0.9727920889854431
+  },
+  {
+   "text": "Exp: 08/2028",
+   "bbox": [
+    377,
+    447,
+    530,
+    484
+   ],
+   "confidence": 0.7136688828468323
+  },
+  {
+   "text": "Manufactured by: Generic Pharma Ltd",
+   "bbox": [
+    163,
+    478,
+    552,
+    523
+   ],
+   "confidence": 0.7234601378440857
+  }
+ ],
+ "p4_ors_sw_photo.jpg": [
+  {
+   "text": "ORAL REHYDRATION",
+   "bbox": [
+    179,
+    165,
+    648,
+    216
+   ],
+   "confidence": 0.9238937497138977
+  },
+  {
+   "text": "SALTS",
+   "bbox": [
+    651,
+    165,
+    789,
+    208
+   ],
+   "confidence": 0.9998700022697449
+  },
+  {
+   "text": "Chumvi ya Kurejesha Maji Mwilini",
+   "bbox": [
+    176,
+    221,
+    649,
+    262
+   ],
+   "confidence": 0.9202689528465271
+  },
+  {
+   "text": "Dissolve one sachet in 1 litre of clean water",
+   "bbox": [
+    172,
+    261,
+    679,
+    294
+   ],
+   "confidence": 0.6786221265792847
+  },
+  {
+   "text": "Yeyusha pakiti moja katika lita 1 ya maji safi.",
+   "bbox": [
+    169,
+    287,
+    687,
+    331
+   ],
+   "confidence": 0.6376634836196899
+  },
+  {
+   "text": "Use within 24 hours.",
+   "bbox": [
+    168,
+    327,
+    409,
+    358
+   ],
+   "confidence": 0.9621101021766663
+  },
+  {
+   "text": "Tumia ndani ya saa 24",
+   "bbox": [
+    164,
+    358,
+    432,
+    389
+   ],
+   "confidence": 0.8420149087905884
+  },
+  {
+   "text": "Batch: 0R8812",
+   "bbox": [
+    162,
+    391,
+    329,
+    419
+   ],
+   "confidence": 0.6275188326835632
+  },
+  {
+   "text": "Exp: 05/2028",
+   "bbox": [
+    337,
+    384,
+    484,
+    415
+   ],
+   "confidence": 0.610437273979187
+  }
+ ],
+ "h5_tds_indieflower.jpg": [
+  {
+   "text": "Tab",
+   "bbox": [
+    181,
+    163,
+    370,
+    265
+   ],
+   "confidence": 0.9265449047088623
+  },
+  {
+   "text": "4 tds",
+   "bbox": [
+    393,
+    144,
+    613,
+    246
+   ],
+   "confidence": 0.551800549030304
+  },
+  {
+   "text": "after",
+   "bbox": [
+    180,
+    304,
+    420,
+    404
+   ],
+   "confidence": 0.9953911304473877
+  },
+  {
+   "text": "food",
+   "bbox": [
+    428.8202209472656,
+    281.22772216796875,
+    656.1499633789062,
+    398.79254150390625
+   ],
+   "confidence": 0.9998088479042053
+  }
+ ],
+ "p2_amoxicillin_hard.jpg": [
+  {
+   "text": "AMOXICILLIN",
+   "bbox": [
+    95,
+    192,
+    538,
+    260
+   ],
+   "confidence": 0.9994217157363892
+  },
+  {
+   "text": "Capsules BP 250 mg",
+   "bbox": [
+    110,
+    273,
+    512,
+    329
+   ],
+   "confidence": 0.6348401308059692
+  },
+  {
+   "text": "21 Capsules",
+   "bbox": [
+    124,
+    328,
+    355,
+    367
+   ],
+   "confidence": 0.9993779063224792
+  },
+  {
+   "text": "Take one",
+   "bbox": [
+    135,
+    372,
+    271,
+    401
+   ],
+   "confidence": 0.997173547744751
+  },
+  {
+   "text": "capsule three times a",
+   "bbox": [
+    271,
+    367,
+    573,
+    408
+   ],
+   "confidence": 0.7763831615447998
+  },
+  {
+   "text": "day",
+   "bbox": [
+    569.0484008789062,
+    366.229248046875,
+    628.5464477539062,
+    403.6214904785156
+   ],
+   "confidence": 0.9807119965553284
+  },
+  {
+   "text": "for 7 days, or as directed by the prescriber.",
+   "bbox": [
+    145,
+    400,
+    697,
+    445
+   ],
+   "confidence": 0.7957518696784973
+  },
+  {
+   "text": "Complete the full course.",
+   "bbox": [
+    157,
+    441,
+    492,
+    478
+   ],
+   "confidence": 0.9769272804260254
+  },
+  {
+   "text": "Prescription only medicine;",
+   "bbox": [
+    165,
+    470,
+    499,
+    513
+   ],
+   "confidence": 0.5655112266540527
+  },
+  {
+   "text": "Batch: AM0391 Mfg: 03/2026 Exp: 02/2028",
+   "bbox": [
+    174,
+    497,
+    656,
+    542
+   ],
+   "confidence": 0.8339471817016602
+  }
+ ]
+}
