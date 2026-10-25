@@ -19,7 +19,7 @@ Hand-offs to Wesley (C3a, C4a, C12) are not separate board cards: the Bond card 
 | C4a | (block on C4) | iOS hand-off: read-aloud on the iPhone, in airplane mode (Tue 27 Oct) | C4, C3a | Wesley | todo | |
 | C5 | `t_99e45430` | Ask: hold-to-talk, fixed questions, quotes the line, refuses when unsure | C4 | Bond | todo | |
 | C6 | `t_cebb50ba` | Accessibility, language, Not sure, caregiver setup, theme | C4 | Bond | todo | |
-| C10 | `t_c473c258` | Distribution: iOS via EAS to TestFlight, Android APK to the public releases repo | C3 | Bond, Wesley's accounts | in progress: `eas.json`, Info.plist strings, APK publish job and releases README merged (#10). 26 Oct: Expo project `@mrnyamu/soma-nami`, App Store Connect app (ascAppId 6826935644) and Expo-managed iOS credentials set up by Wesley; egress allowed; IDs committed (#13). First EAS build 0.1.0 (1) submitted to App Store Connect 26 Oct (see the build log). Left: TestFlight testers (Wesley), and the Android publish, which waits on the releases repo and RELEASES_TOKEN | `feat/c10-distribution`, `chore/c10-eas-ids`, `docs/c10-first-eas-build` |
+| C10 | `t_c473c258` | Distribution: iOS via EAS to TestFlight, Android APK to the public releases repo | C3 | Bond, Wesley's accounts | in progress: `eas.json`, Info.plist strings, APK publish job and releases README merged (#10). 26 Oct: Expo project `@mrnyamu/soma-nami`, App Store Connect app (ascAppId 6826935644) and Expo-managed iOS credentials set up by Wesley; egress allowed; IDs committed (#13). First EAS build 0.1.0 (1) submitted to App Store Connect 26 Oct (see the build log). Blocked on Wesley's items in [distribution.md](distribution.md): 1 and 2 done; 3 (`EXPO_TOKEN`) to re-check, it isn't in the worker environment on 26 Oct; 4 (releases repo and RELEASES_TOKEN, blocks the Android publish and C12) and 5 (TestFlight testers; submit build 1 for Beta App Review by Tue 27 Oct) left. Egress: approved, no new hosts needed | `feat/c10-distribution`, `chore/c10-eas-ids`, `docs/c10-first-eas-build`, `docs/c10-egress-and-checklist` |
 | C11 | `t_cb8e5f17` | Tafsiri: English → Swahili with the number check | C2, C4 | Bond | todo | |
 | C12 | (Wesley's checklist) | Android real-phone test at the Wed 28 Oct offline check (borrowed phone) | C4, C10 | Wesley | todo | |
 | C9 | `t_80394eb8` | Dawa zangu: saved medicines with caregiver-set times | C4, C6 | Bond | todo (after C5, C6, C11) | |
@@ -74,9 +74,9 @@ Screen 6. Saved labels as photo cards; tapping one reads the saved text again fr
 ### C10 Distribution
 iOS: `eas.json`, `eas build -p ios` and `eas submit` to TestFlight, run on Expo's servers and triggered by Bond with an `EXPO_TOKEN`. Wesley sets up the Apple credentials once with `eas credentials` on his Mac; no Apple keys on the VPS or in the repo. Stays on Expo's free plan. Android: on a version tag, the APK job publishes a GitHub Release to the public releases repo Wesley creates, using a token scoped to that repo only. TestFlight's Beta App Review for external testers takes about a day, so the first external build goes in by Wed 28 Oct.
 
-How to run both is in `mobile/README.md` (iOS: TestFlight through EAS Build; Android APK). EAS Build from the Bond VPS needs `api.expo.dev`, `expo.dev` and `storage.googleapis.com` (project upload and build logs) on the egress allowlist; `registry.npmjs.org` is already there.
+How to run both is in `mobile/README.md` (iOS: TestFlight through EAS Build; Android APK). EAS from the Bond VPS needs `registry.npmjs.org`, `api.expo.dev` and `storage.googleapis.com` (project upload and build logs), plus `expo.dev` for build page links; all four are allowed. The checked host list, with reasons, and Wesley's checklist are in [distribution.md](distribution.md).
 
-**EAS build log.** Expo's free plan allows only a few iOS builds a month, so every build is logged here.
+**C10 iOS build log.** Expo's free plan allows only a few iOS builds a month, so every build is logged here.
 
 | Date | Profile | Commit | Why | Result |
 |---|---|---|---|---|
