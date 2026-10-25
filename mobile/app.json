@@ -2,6 +2,7 @@
   "expo": {
     "name": "Soma Nami",
     "slug": "soma-nami",
+    "owner": "mrnyamu",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -63,6 +64,11 @@
       ],
       "./plugins/withNoNativeDebugSymbols",
       "@qvac/sdk/expo-plugin"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "e9465078-6a92-40ff-8aff-3ef16137be81"
+      }
+    }
   }
 }
