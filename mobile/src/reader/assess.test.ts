@@ -1,5 +1,5 @@
-import { assessPhoto, framingHint, looksLikeHandwrittenDose } from './assess';
-import { toLines } from './ocrLines';
+import { assessPhoto, framingHint, looksLikeHandwrittenDose, mainBlock } from './assess';
+import { toLines, type OcrBlock } from './ocrLines';
 import { blocksFor, PHOTO_SIZE } from './testing';
 
 const PARACETAMOL = [
@@ -130,5 +130,51 @@ describe('framingHint', () => {
     const a = assessPhoto(lines(PARACETAMOL, { left: 0 }), PHOTO_SIZE);
     expect(a).toMatchObject({ kind: 'hint', hint: 'hint_left' });
     expect(a.lines).toHaveLength(PARACETAMOL.length);
+  });
+});
+
+describe('framingHint ignores stray text outside the label', () => {
+  // A label photographed off a laptop screen, as in Wesley's C4a test: the
+  // label is well framed, with small screen text touching the photo's edges.
+  const label = blocksFor(PARACETAMOL, { left: 150, top: 200, width: 650 });
+  const menuBar: OcrBlock[] = [
+    { text: 'Finder', confidence: 0.8, bbox: [10, 0, 70, 14] },
+    { text: 'File Edit View', confidence: 0.7, bbox: [90, 0, 260, 14] },
+    { text: '12:41', confidence: 0.9, bbox: [930, 0, 990, 14] },
+  ];
+  const keyboard: OcrBlock[] = [
+    { text: 'Q W E R T Y', confidence: 0.6, bbox: [120, 772, 520, 788] },
+    { text: 'A S D F', confidence: 0.6, bbox: [140, 790, 420, 800] },
+  ];
+  const otherPack: OcrBlock[] = [{ text: 'IBUPRO', confidence: 0.7, bbox: [0, 580, 60, 605] }];
+
+  it('the screen menu bar touching the top edge: no hint (was hint_up)', () => {
+    expect(framingHint(toLines([...label, ...menuBar]), PHOTO_SIZE)).toBeNull();
+  });
+
+  it('keyboard letters touching the bottom edge: no hint (was hint_down)', () => {
+    expect(framingHint(toLines([...label, ...keyboard]), PHOTO_SIZE)).toBeNull();
+  });
+
+  it('another pack cut off at the left edge: no hint', () => {
+    expect(framingHint(toLines([...label, ...otherPack]), PHOTO_SIZE)).toBeNull();
+  });
+
+  it('all three at once: the label is still read, not hinted', () => {
+    const a = assessPhoto(toLines([...label, ...menuBar, ...keyboard, ...otherPack]), PHOTO_SIZE);
+    expect(a.kind).toBe('read');
+  });
+
+  it('the label itself cut off on the left still says move left, despite stray text on the right', () => {
+    const cut = blocksFor(PARACETAMOL, { left: 0, top: 200, width: 650 });
+    const clock: OcrBlock[] = [{ text: '12:41', confidence: 0.9, bbox: [930, 0, 1000, 14] }];
+    expect(framingHint(toLines([...cut, ...clock]), PHOTO_SIZE)).toBe('hint_left');
+  });
+
+  it('a label with a big title and small body text stays one block', () => {
+    const title: OcrBlock = { text: 'PARACETAMOL', confidence: 0.95, bbox: [150, 100, 700, 180] };
+    const body = blocksFor(PARACETAMOL.slice(1), { left: 150, top: 200, width: 650, lineHeight: 24, gap: 10 });
+    const block = mainBlock(toLines([title, ...body]));
+    expect(block).toHaveLength(PARACETAMOL.length);
   });
 });

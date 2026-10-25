@@ -54,11 +54,61 @@ export function looksLikeHandwrittenDose(lines: readonly LabelLine[]): boolean {
 }
 
 /**
- * Where the text sits in the photo decides the spoken hint (docs/ui.md,
- * Aiming). Text cut off at one edge: move that way. Cut off at opposite
- * edges: move further away. Small and far: move closer.
+ * Two lines are in the same block when the vertical gap between them is at
+ * most this many line heights (of the smaller line) and the horizontal gap at
+ * most BLOCK_SIDE_GAP line heights. Label lines sit about one line apart;
+ * a menu bar, a keyboard or the next pack on the table sits further away.
  */
-export function framingHint(lines: readonly LabelLine[], size: ImageSize): PhraseId | null {
+export const BLOCK_GAP_LINES = 1.5;
+export const BLOCK_SIDE_GAP = 2;
+
+type BoxedLine = LabelLine & { box: NonNullable<LabelLine['box']> };
+
+function near(a: BoxedLine, b: BoxedLine): boolean {
+  const h = Math.max(1, Math.min(a.box.y2 - a.box.y1, b.box.y2 - b.box.y1));
+  const vgap = Math.max(a.box.y1, b.box.y1) - Math.min(a.box.y2, b.box.y2);
+  const hgap = Math.max(a.box.x1, b.box.x1) - Math.min(a.box.x2, b.box.x2);
+  return vgap <= BLOCK_GAP_LINES * h && hgap <= BLOCK_SIDE_GAP * h;
+}
+
+/**
+ * The label itself: the largest cluster of nearby lines, by text area. Stray
+ * text elsewhere in the photo (screen chrome, a keyboard, other packaging
+ * touching an edge) is left out, so it can't trigger a framing hint.
+ */
+export function mainBlock(lines: readonly LabelLine[]): LabelLine[] {
+  const boxed = lines.filter((l): l is BoxedLine => l.box !== null);
+  const parent = boxed.map((_, i) => i);
+  const find = (i: number): number => {
+    while (parent[i] !== i) {
+      parent[i] = parent[parent[i]!]!;
+      i = parent[i]!;
+    }
+    return i;
+  };
+  for (let i = 0; i < boxed.length; i++) {
+    for (let j = i + 1; j < boxed.length; j++) {
+      if (near(boxed[i]!, boxed[j]!)) parent[find(i)] = find(j);
+    }
+  }
+  const area = new Map<number, number>();
+  boxed.forEach((l, i) => {
+    const root = find(i);
+    area.set(root, (area.get(root) ?? 0) + (l.box.x2 - l.box.x1) * (l.box.y2 - l.box.y1));
+  });
+  let best = -1;
+  for (const [root, a] of area) if (best === -1 || a > area.get(best)!) best = root;
+  return boxed.filter((_, i) => find(i) === best);
+}
+
+/**
+ * Where the label sits in the photo decides the spoken hint (docs/ui.md,
+ * Aiming). Only the main block of text counts (see mainBlock). Cut off at one
+ * edge: move that way. Cut off at opposite edges: move further away. Small
+ * and far: move closer.
+ */
+export function framingHint(allLines: readonly LabelLine[], size: ImageSize): PhraseId | null {
+  const lines = mainBlock(allLines);
   const box = unionBox(lines.map((l) => l.box));
   if (!box || size.width <= 0 || size.height <= 0) return null;
   const mx = size.width * EDGE_MARGIN;
