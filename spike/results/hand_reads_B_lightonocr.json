@@ -1,0 +1,151 @@
+{
+  "source": "C2 spike ocr_vlm.mjs (OCR_0_6B_MULTIMODAL_Q4_K_M + F16 mmproj, prompt \"Transcribe all text in this image exactly as written.\")",
+  "peakRssMb": 2905.5,
+  "baselineRssMb": 102.8,
+  "reads": {
+    "h1_1x3_homemadeapple.jpg": {
+      "text": "143",
+      "ms": 369047,
+      "cpuS": 368.63,
+      "pageCer": 0.333
+    },
+    "h1_1x3_indieflower.jpg": {
+      "text": "1×3",
+      "ms": 365242,
+      "cpuS": 365.12,
+      "pageCer": 0.333
+    },
+    "h1_1x3_reeniebeanie.jpg": {
+      "text": "1×3",
+      "ms": 362264,
+      "cpuS": 361.69,
+      "pageCer": 0.333
+    },
+    "h1_1x3_shadowsintolight.jpg": {
+      "text": "1x3",
+      "ms": 364468,
+      "cpuS": 364,
+      "pageCer": 0
+    },
+    "h2_2bd_homemadeapple.jpg": {
+      "text": "2 led",
+      "ms": 363471,
+      "cpuS": 363.13,
+      "pageCer": 0.5
+    },
+    "h2_2bd_indieflower.jpg": {
+      "text": "2 bd",
+      "ms": 361033,
+      "cpuS": 360.95,
+      "pageCer": 0
+    },
+    "h2_2bd_reeniebeanie.jpg": {
+      "text": "$z \\quad bd$",
+      "ms": 357593,
+      "cpuS": 357.39,
+      "pageCer": 1.5
+    },
+    "h2_2bd_shadowsintolight.jpg": {
+      "text": "2 bd",
+      "ms": 371459,
+      "cpuS": 371.38,
+      "pageCer": 0
+    },
+    "h3_1x3_5days_homemadeapple.jpg": {
+      "text": "1 x 3  \nx 5 days",
+      "ms": 536191,
+      "cpuS": 535.75,
+      "pageCer": 0
+    },
+    "h3_1x3_5days_indieflower.jpg": {
+      "text": "1 x 3  \nx 5 days",
+      "ms": 539160,
+      "cpuS": 538.66,
+      "pageCer": 0
+    },
+    "h3_1x3_5days_reeniebeanie.jpg": {
+      "text": "1 x 3  \nx 5 days",
+      "ms": 539542,
+      "cpuS": 538.78,
+      "pageCer": 0
+    },
+    "h3_1x3_5days_shadowsintolight.jpg": {
+      "text": "1 x 3  \nx 5 days",
+      "ms": 591697,
+      "cpuS": 588.59,
+      "pageCer": 0
+    },
+    "h4_2bd_7days_homemadeapple.jpg": {
+      "text": "2 bad p 7/7",
+      "ms": 393626,
+      "cpuS": 391.32,
+      "pageCer": 0.2
+    },
+    "h4_2bd_7days_indieflower.jpg": {
+      "text": "2 bd × 7/7",
+      "ms": 370364,
+      "cpuS": 370,
+      "pageCer": 0.2
+    },
+    "h4_2bd_7days_reeniebeanie.jpg": {
+      "text": "$2 \\text{ bd } x \\ 7/7$",
+      "ms": 362358,
+      "cpuS": 362.25,
+      "pageCer": 0.5
+    },
+    "h4_2bd_7days_shadowsintolight.jpg": {
+      "text": "2 bd x 7/7",
+      "ms": 362686,
+      "cpuS": 362.34,
+      "pageCer": 0
+    },
+    "h5_tds_homemadeapple.jpg": {
+      "text": "Jale / tds  \nafter food",
+      "ms": 536871,
+      "cpuS": 536.05,
+      "pageCer": 0.2
+    },
+    "h5_tds_indieflower.jpg": {
+      "text": "Tab 1 tds  \nafter food",
+      "ms": 541014,
+      "cpuS": 540.33,
+      "pageCer": 0
+    },
+    "h5_tds_reeniebeanie.jpg": {
+      "text": "Tab 1 +ds  \nafter food",
+      "ms": 517271,
+      "cpuS": 516.83,
+      "pageCer": 0.05
+    },
+    "h5_tds_shadowsintolight.jpg": {
+      "text": "Tab 1 tds  \nafter food",
+      "ms": 550707,
+      "cpuS": 549.4,
+      "pageCer": 0
+    },
+    "h6_nocte_homemadeapple.jpg": {
+      "text": "1 note",
+      "ms": 404123,
+      "cpuS": 402.02,
+      "pageCer": 0.143
+    },
+    "h6_nocte_indieflower.jpg": {
+      "text": "1 nocte",
+      "ms": 370301,
+      "cpuS": 369.75,
+      "pageCer": 0
+    },
+    "h6_nocte_reeniebeanie.jpg": {
+      "text": "1 nocte",
+      "ms": 371727,
+      "cpuS": 371.18,
+      "pageCer": 0
+    },
+    "h6_nocte_shadowsintolight.jpg": {
+      "text": "1 nocte",
+      "ms": 379089,
+      "cpuS": 377.77,
+      "pageCer": 0
+    }
+  }
+}

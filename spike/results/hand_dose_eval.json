@@ -1,0 +1,3695 @@
+{
+  "files": {
+    "A alone": [
+      {
+        "file": "h1_1x3_homemadeapple.jpg",
+        "reads": [
+          [
+            "Ip3"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_indieflower.jpg",
+        "reads": [
+          [
+            "Ax3"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1X3"
+          ]
+        ],
+        "parsed": [
+          "1 x3"
+        ],
+        "speak": "1 x3",
+        "truth": "1 x3",
+        "verdict": "correct"
+      },
+      {
+        "file": "h1_1x3_shadowsintolight.jpg",
+        "reads": [
+          [
+            "1X3"
+          ]
+        ],
+        "parsed": [
+          "1 x3"
+        ],
+        "speak": "1 x3",
+        "truth": "1 x3",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_homemadeapple.jpg",
+        "reads": [
+          [
+            "2 ld"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd"
+          ]
+        ],
+        "parsed": [
+          "2 bd"
+        ],
+        "speak": "2 bd",
+        "truth": "2 bd",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_reeniebeanie.jpg",
+        "reads": [
+          [
+            "bd",
+            "7"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_shadowsintolight.jpg",
+        "reads": [
+          [
+            "2 bd"
+          ]
+        ],
+        "parsed": [
+          "2 bd"
+        ],
+        "speak": "2 bd",
+        "truth": "2 bd",
+        "verdict": "correct"
+      },
+      {
+        "file": "h3_1x3_5days_homemadeapple.jpg",
+        "reads": [
+          [
+            "p 3",
+            "Ks dayn"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_indieflower.jpg",
+        "reads": [
+          [
+            "4 x 3",
+            "x 5 days"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1  X  3",
+            "X < Jads"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "1 X 2",
+            "X V days"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_homemadeapple.jpg",
+        "reads": [
+          [
+            "Bd + 7/7"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd x +/+"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "bj x 7/7"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "bd x 7/7"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_homemadeapple.jpg",
+        "reads": [
+          [
+            "Yal tda",
+            "aptet Yod"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_indieflower.jpg",
+        "reads": [
+          [
+            "Tab 4 tds",
+            "after food"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_reeniebeanie.jpg",
+        "reads": [
+          [
+            "Tab 1 #ds",
+            "after 4oo d"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_shadowsintolight.jpg",
+        "reads": [
+          [
+            "Tab td5",
+            "after  fod"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_homemadeapple.jpg",
+        "reads": [
+          [
+            "noete"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_indieflower.jpg",
+        "reads": [
+          [
+            "1 nocte"
+          ]
+        ],
+        "parsed": [
+          "1 nocte"
+        ],
+        "speak": "1 nocte",
+        "truth": "1 nocte",
+        "verdict": "correct"
+      },
+      {
+        "file": "h6_nocte_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1 nocte"
+          ]
+        ],
+        "parsed": [
+          "1 nocte"
+        ],
+        "speak": "1 nocte",
+        "truth": "1 nocte",
+        "verdict": "correct"
+      },
+      {
+        "file": "h6_nocte_shadowsintolight.jpg",
+        "reads": [
+          [
+            "nodte"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      }
+    ],
+    "B alone": [
+      {
+        "file": "h1_1x3_homemadeapple.jpg",
+        "reads": [
+          "143"
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_indieflower.jpg",
+        "reads": [
+          "1×3"
+        ],
+        "parsed": [
+          "1 x3"
+        ],
+        "speak": "1 x3",
+        "truth": "1 x3",
+        "verdict": "correct"
+      },
+      {
+        "file": "h1_1x3_reeniebeanie.jpg",
+        "reads": [
+          "1×3"
+        ],
+        "parsed": [
+          "1 x3"
+        ],
+        "speak": "1 x3",
+        "truth": "1 x3",
+        "verdict": "correct"
+      },
+      {
+        "file": "h1_1x3_shadowsintolight.jpg",
+        "reads": [
+          "1x3"
+        ],
+        "parsed": [
+          "1 x3"
+        ],
+        "speak": "1 x3",
+        "truth": "1 x3",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_homemadeapple.jpg",
+        "reads": [
+          "2 led"
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_indieflower.jpg",
+        "reads": [
+          "2 bd"
+        ],
+        "parsed": [
+          "2 bd"
+        ],
+        "speak": "2 bd",
+        "truth": "2 bd",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_reeniebeanie.jpg",
+        "reads": [
+          "$z \\quad bd$"
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_shadowsintolight.jpg",
+        "reads": [
+          "2 bd"
+        ],
+        "parsed": [
+          "2 bd"
+        ],
+        "speak": "2 bd",
+        "truth": "2 bd",
+        "verdict": "correct"
+      },
+      {
+        "file": "h3_1x3_5days_homemadeapple.jpg",
+        "reads": [
+          "1 x 3  \nx 5 days"
+        ],
+        "parsed": [
+          "1 x3 x 5d"
+        ],
+        "speak": "1 x3 x 5d",
+        "truth": "1 x3 x 5d",
+        "verdict": "correct"
+      },
+      {
+        "file": "h3_1x3_5days_indieflower.jpg",
+        "reads": [
+          "1 x 3  \nx 5 days"
+        ],
+        "parsed": [
+          "1 x3 x 5d"
+        ],
+        "speak": "1 x3 x 5d",
+        "truth": "1 x3 x 5d",
+        "verdict": "correct"
+      },
+      {
+        "file": "h3_1x3_5days_reeniebeanie.jpg",
+        "reads": [
+          "1 x 3  \nx 5 days"
+        ],
+        "parsed": [
+          "1 x3 x 5d"
+        ],
+        "speak": "1 x3 x 5d",
+        "truth": "1 x3 x 5d",
+        "verdict": "correct"
+      },
+      {
+        "file": "h3_1x3_5days_shadowsintolight.jpg",
+        "reads": [
+          "1 x 3  \nx 5 days"
+        ],
+        "parsed": [
+          "1 x3 x 5d"
+        ],
+        "speak": "1 x3 x 5d",
+        "truth": "1 x3 x 5d",
+        "verdict": "correct"
+      },
+      {
+        "file": "h4_2bd_7days_homemadeapple.jpg",
+        "reads": [
+          "2 bad p 7/7"
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_indieflower.jpg",
+        "reads": [
+          "2 bd × 7/7"
+        ],
+        "parsed": [
+          "2 bd x 7/7"
+        ],
+        "speak": "2 bd x 7/7",
+        "truth": "2 bd x 7/7",
+        "verdict": "correct"
+      },
+      {
+        "file": "h4_2bd_7days_reeniebeanie.jpg",
+        "reads": [
+          "$2 \\text{ bd } x \\ 7/7$"
+        ],
+        "parsed": [
+          "2 bd x 7/7"
+        ],
+        "speak": "2 bd x 7/7",
+        "truth": "2 bd x 7/7",
+        "verdict": "correct"
+      },
+      {
+        "file": "h4_2bd_7days_shadowsintolight.jpg",
+        "reads": [
+          "2 bd x 7/7"
+        ],
+        "parsed": [
+          "2 bd x 7/7"
+        ],
+        "speak": "2 bd x 7/7",
+        "truth": "2 bd x 7/7",
+        "verdict": "correct"
+      },
+      {
+        "file": "h5_tds_homemadeapple.jpg",
+        "reads": [
+          "Jale / tds  \nafter food"
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_indieflower.jpg",
+        "reads": [
+          "Tab 1 tds  \nafter food"
+        ],
+        "parsed": [
+          "tab 1 tds after food"
+        ],
+        "speak": "tab 1 tds after food",
+        "truth": "tab 1 tds after food",
+        "verdict": "correct"
+      },
+      {
+        "file": "h5_tds_reeniebeanie.jpg",
+        "reads": [
+          "Tab 1 +ds  \nafter food"
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_shadowsintolight.jpg",
+        "reads": [
+          "Tab 1 tds  \nafter food"
+        ],
+        "parsed": [
+          "tab 1 tds after food"
+        ],
+        "speak": "tab 1 tds after food",
+        "truth": "tab 1 tds after food",
+        "verdict": "correct"
+      },
+      {
+        "file": "h6_nocte_homemadeapple.jpg",
+        "reads": [
+          "1 note"
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_indieflower.jpg",
+        "reads": [
+          "1 nocte"
+        ],
+        "parsed": [
+          "1 nocte"
+        ],
+        "speak": "1 nocte",
+        "truth": "1 nocte",
+        "verdict": "correct"
+      },
+      {
+        "file": "h6_nocte_reeniebeanie.jpg",
+        "reads": [
+          "1 nocte"
+        ],
+        "parsed": [
+          "1 nocte"
+        ],
+        "speak": "1 nocte",
+        "truth": "1 nocte",
+        "verdict": "correct"
+      },
+      {
+        "file": "h6_nocte_shadowsintolight.jpg",
+        "reads": [
+          "1 nocte"
+        ],
+        "parsed": [
+          "1 nocte"
+        ],
+        "speak": "1 nocte",
+        "truth": "1 nocte",
+        "verdict": "correct"
+      }
+    ],
+    "A-crop alone": [
+      {
+        "file": "h1_1x3_homemadeapple.jpg",
+        "reads": [
+          [
+            "113"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_indieflower.jpg",
+        "reads": [
+          [
+            "x3"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1X3"
+          ]
+        ],
+        "parsed": [
+          "1 x3"
+        ],
+        "speak": "1 x3",
+        "truth": "1 x3",
+        "verdict": "correct"
+      },
+      {
+        "file": "h1_1x3_shadowsintolight.jpg",
+        "reads": [
+          [
+            "1X3"
+          ]
+        ],
+        "parsed": [
+          "1 x3"
+        ],
+        "speak": "1 x3",
+        "truth": "1 x3",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_homemadeapple.jpg",
+        "reads": [
+          [
+            "2 ld"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd"
+          ]
+        ],
+        "parsed": [
+          "2 bd"
+        ],
+        "speak": "2 bd",
+        "truth": "2 bd",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_reeniebeanie.jpg",
+        "reads": [
+          [
+            "bd",
+            "7"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_shadowsintolight.jpg",
+        "reads": [
+          [
+            "2 bd"
+          ]
+        ],
+        "parsed": [
+          "2 bd"
+        ],
+        "speak": "2 bd",
+        "truth": "2 bd",
+        "verdict": "correct"
+      },
+      {
+        "file": "h3_1x3_5days_homemadeapple.jpg",
+        "reads": [
+          [
+            "+ 3",
+            "K s dayn"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_indieflower.jpg",
+        "reads": [
+          [
+            "1 x 3",
+            "x 5 days"
+          ]
+        ],
+        "parsed": [
+          "1 x3 x 5d"
+        ],
+        "speak": "1 x3 x 5d",
+        "truth": "1 x3 x 5d",
+        "verdict": "correct"
+      },
+      {
+        "file": "h3_1x3_5days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1  X  3",
+            "X < Jads"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "1 X 2",
+            "X V days"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_homemadeapple.jpg",
+        "reads": [
+          [
+            "Ud + 77"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd x +/+"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "Va x ~7/7"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "bd x 7/7"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_homemadeapple.jpg",
+        "reads": [
+          [
+            "Yal tda",
+            "aptet Rood"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_indieflower.jpg",
+        "reads": [
+          [
+            "Tab 4 tds",
+            "after food"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_reeniebeanie.jpg",
+        "reads": [
+          [
+            "Tab 1 +ds",
+            "after 4o d"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_shadowsintolight.jpg",
+        "reads": [
+          [
+            "Tab td5",
+            "after fod"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_homemadeapple.jpg",
+        "reads": [
+          [
+            "noete"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_indieflower.jpg",
+        "reads": [
+          [
+            "1 nocte"
+          ]
+        ],
+        "parsed": [
+          "1 nocte"
+        ],
+        "speak": "1 nocte",
+        "truth": "1 nocte",
+        "verdict": "correct"
+      },
+      {
+        "file": "h6_nocte_reeniebeanie.jpg",
+        "reads": [
+          [
+            "nocte"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_shadowsintolight.jpg",
+        "reads": [
+          [
+            "nodte"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      }
+    ],
+    "A-bin alone": [
+      {
+        "file": "h1_1x3_homemadeapple.jpg",
+        "reads": [
+          [
+            "lp3"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_indieflower.jpg",
+        "reads": [
+          [
+            "Ax3"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1Y3"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_shadowsintolight.jpg",
+        "reads": [
+          [
+            "1X3"
+          ]
+        ],
+        "parsed": [
+          "1 x3"
+        ],
+        "speak": "1 x3",
+        "truth": "1 x3",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_homemadeapple.jpg",
+        "reads": [
+          [
+            "2 ld"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd"
+          ]
+        ],
+        "parsed": [
+          "2 bd"
+        ],
+        "speak": "2 bd",
+        "truth": "2 bd",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_reeniebeanie.jpg",
+        "reads": [
+          [
+            "bd"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_shadowsintolight.jpg",
+        "reads": [
+          [
+            "bd"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_homemadeapple.jpg",
+        "reads": [
+          [
+            "/ + 3",
+            "K < dayn"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_indieflower.jpg",
+        "reads": [
+          [
+            "4 x 3",
+            "x 5 days"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1  X 3",
+            "X < dads"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "X 2",
+            "X V days"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_homemadeapple.jpg",
+        "reads": [
+          [
+            " Ud +77"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd x +/+"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "bj x 7/7"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "bd x 7/7"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_homemadeapple.jpg",
+        "reads": [
+          [
+            "Jal / tda",
+            "antet Rood"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_indieflower.jpg",
+        "reads": [
+          [
+            "Tab 4 tds",
+            "after food"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_reeniebeanie.jpg",
+        "reads": [
+          [
+            "Tab 1 +ds",
+            "after 4oo d"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_shadowsintolight.jpg",
+        "reads": [
+          [
+            "Tab td5",
+            "after  {od"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_homemadeapple.jpg",
+        "reads": [
+          [
+            "noete"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_indieflower.jpg",
+        "reads": [
+          [
+            "nocte"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_reeniebeanie.jpg",
+        "reads": [
+          [
+            "nocte"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_shadowsintolight.jpg",
+        "reads": [
+          [
+            "nocte"
+          ]
+        ],
+        "parsed": [
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      }
+    ],
+    "A + B (EasyOCR + LightOnOCR-2)": [
+      {
+        "file": "h1_1x3_homemadeapple.jpg",
+        "reads": [
+          [
+            "Ip3"
+          ],
+          "143"
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_indieflower.jpg",
+        "reads": [
+          [
+            "Ax3"
+          ],
+          "1×3"
+        ],
+        "parsed": [
+          null,
+          "1 x3"
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1X3"
+          ],
+          "1×3"
+        ],
+        "parsed": [
+          "1 x3",
+          "1 x3"
+        ],
+        "speak": "1 x3",
+        "truth": "1 x3",
+        "verdict": "correct"
+      },
+      {
+        "file": "h1_1x3_shadowsintolight.jpg",
+        "reads": [
+          [
+            "1X3"
+          ],
+          "1x3"
+        ],
+        "parsed": [
+          "1 x3",
+          "1 x3"
+        ],
+        "speak": "1 x3",
+        "truth": "1 x3",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_homemadeapple.jpg",
+        "reads": [
+          [
+            "2 ld"
+          ],
+          "2 led"
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd"
+          ],
+          "2 bd"
+        ],
+        "parsed": [
+          "2 bd",
+          "2 bd"
+        ],
+        "speak": "2 bd",
+        "truth": "2 bd",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_reeniebeanie.jpg",
+        "reads": [
+          [
+            "bd",
+            "7"
+          ],
+          "$z \\quad bd$"
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_shadowsintolight.jpg",
+        "reads": [
+          [
+            "2 bd"
+          ],
+          "2 bd"
+        ],
+        "parsed": [
+          "2 bd",
+          "2 bd"
+        ],
+        "speak": "2 bd",
+        "truth": "2 bd",
+        "verdict": "correct"
+      },
+      {
+        "file": "h3_1x3_5days_homemadeapple.jpg",
+        "reads": [
+          [
+            "p 3",
+            "Ks dayn"
+          ],
+          "1 x 3  \nx 5 days"
+        ],
+        "parsed": [
+          null,
+          "1 x3 x 5d"
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_indieflower.jpg",
+        "reads": [
+          [
+            "4 x 3",
+            "x 5 days"
+          ],
+          "1 x 3  \nx 5 days"
+        ],
+        "parsed": [
+          null,
+          "1 x3 x 5d"
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1  X  3",
+            "X < Jads"
+          ],
+          "1 x 3  \nx 5 days"
+        ],
+        "parsed": [
+          null,
+          "1 x3 x 5d"
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "1 X 2",
+            "X V days"
+          ],
+          "1 x 3  \nx 5 days"
+        ],
+        "parsed": [
+          null,
+          "1 x3 x 5d"
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_homemadeapple.jpg",
+        "reads": [
+          [
+            "Bd + 7/7"
+          ],
+          "2 bad p 7/7"
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd x +/+"
+          ],
+          "2 bd × 7/7"
+        ],
+        "parsed": [
+          null,
+          "2 bd x 7/7"
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "bj x 7/7"
+          ],
+          "$2 \\text{ bd } x \\ 7/7$"
+        ],
+        "parsed": [
+          null,
+          "2 bd x 7/7"
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "bd x 7/7"
+          ],
+          "2 bd x 7/7"
+        ],
+        "parsed": [
+          null,
+          "2 bd x 7/7"
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_homemadeapple.jpg",
+        "reads": [
+          [
+            "Yal tda",
+            "aptet Yod"
+          ],
+          "Jale / tds  \nafter food"
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_indieflower.jpg",
+        "reads": [
+          [
+            "Tab 4 tds",
+            "after food"
+          ],
+          "Tab 1 tds  \nafter food"
+        ],
+        "parsed": [
+          null,
+          "tab 1 tds after food"
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_reeniebeanie.jpg",
+        "reads": [
+          [
+            "Tab 1 #ds",
+            "after 4oo d"
+          ],
+          "Tab 1 +ds  \nafter food"
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_shadowsintolight.jpg",
+        "reads": [
+          [
+            "Tab td5",
+            "after  fod"
+          ],
+          "Tab 1 tds  \nafter food"
+        ],
+        "parsed": [
+          null,
+          "tab 1 tds after food"
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_homemadeapple.jpg",
+        "reads": [
+          [
+            "noete"
+          ],
+          "1 note"
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_indieflower.jpg",
+        "reads": [
+          [
+            "1 nocte"
+          ],
+          "1 nocte"
+        ],
+        "parsed": [
+          "1 nocte",
+          "1 nocte"
+        ],
+        "speak": "1 nocte",
+        "truth": "1 nocte",
+        "verdict": "correct"
+      },
+      {
+        "file": "h6_nocte_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1 nocte"
+          ],
+          "1 nocte"
+        ],
+        "parsed": [
+          "1 nocte",
+          "1 nocte"
+        ],
+        "speak": "1 nocte",
+        "truth": "1 nocte",
+        "verdict": "correct"
+      },
+      {
+        "file": "h6_nocte_shadowsintolight.jpg",
+        "reads": [
+          [
+            "nodte"
+          ],
+          "1 nocte"
+        ],
+        "parsed": [
+          null,
+          "1 nocte"
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      }
+    ],
+    "A + A-crop (EasyOCR, two crops)": [
+      {
+        "file": "h1_1x3_homemadeapple.jpg",
+        "reads": [
+          [
+            "Ip3"
+          ],
+          [
+            "113"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_indieflower.jpg",
+        "reads": [
+          [
+            "Ax3"
+          ],
+          [
+            "x3"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1X3"
+          ],
+          [
+            "1X3"
+          ]
+        ],
+        "parsed": [
+          "1 x3",
+          "1 x3"
+        ],
+        "speak": "1 x3",
+        "truth": "1 x3",
+        "verdict": "correct"
+      },
+      {
+        "file": "h1_1x3_shadowsintolight.jpg",
+        "reads": [
+          [
+            "1X3"
+          ],
+          [
+            "1X3"
+          ]
+        ],
+        "parsed": [
+          "1 x3",
+          "1 x3"
+        ],
+        "speak": "1 x3",
+        "truth": "1 x3",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_homemadeapple.jpg",
+        "reads": [
+          [
+            "2 ld"
+          ],
+          [
+            "2 ld"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd"
+          ],
+          [
+            "2 bd"
+          ]
+        ],
+        "parsed": [
+          "2 bd",
+          "2 bd"
+        ],
+        "speak": "2 bd",
+        "truth": "2 bd",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_reeniebeanie.jpg",
+        "reads": [
+          [
+            "bd",
+            "7"
+          ],
+          [
+            "bd",
+            "7"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_shadowsintolight.jpg",
+        "reads": [
+          [
+            "2 bd"
+          ],
+          [
+            "2 bd"
+          ]
+        ],
+        "parsed": [
+          "2 bd",
+          "2 bd"
+        ],
+        "speak": "2 bd",
+        "truth": "2 bd",
+        "verdict": "correct"
+      },
+      {
+        "file": "h3_1x3_5days_homemadeapple.jpg",
+        "reads": [
+          [
+            "p 3",
+            "Ks dayn"
+          ],
+          [
+            "+ 3",
+            "K s dayn"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_indieflower.jpg",
+        "reads": [
+          [
+            "4 x 3",
+            "x 5 days"
+          ],
+          [
+            "1 x 3",
+            "x 5 days"
+          ]
+        ],
+        "parsed": [
+          null,
+          "1 x3 x 5d"
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1  X  3",
+            "X < Jads"
+          ],
+          [
+            "1  X  3",
+            "X < Jads"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "1 X 2",
+            "X V days"
+          ],
+          [
+            "1 X 2",
+            "X V days"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_homemadeapple.jpg",
+        "reads": [
+          [
+            "Bd + 7/7"
+          ],
+          [
+            "Ud + 77"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd x +/+"
+          ],
+          [
+            "2 bd x +/+"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "bj x 7/7"
+          ],
+          [
+            "Va x ~7/7"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "bd x 7/7"
+          ],
+          [
+            "bd x 7/7"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_homemadeapple.jpg",
+        "reads": [
+          [
+            "Yal tda",
+            "aptet Yod"
+          ],
+          [
+            "Yal tda",
+            "aptet Rood"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_indieflower.jpg",
+        "reads": [
+          [
+            "Tab 4 tds",
+            "after food"
+          ],
+          [
+            "Tab 4 tds",
+            "after food"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_reeniebeanie.jpg",
+        "reads": [
+          [
+            "Tab 1 #ds",
+            "after 4oo d"
+          ],
+          [
+            "Tab 1 +ds",
+            "after 4o d"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_shadowsintolight.jpg",
+        "reads": [
+          [
+            "Tab td5",
+            "after  fod"
+          ],
+          [
+            "Tab td5",
+            "after fod"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_homemadeapple.jpg",
+        "reads": [
+          [
+            "noete"
+          ],
+          [
+            "noete"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_indieflower.jpg",
+        "reads": [
+          [
+            "1 nocte"
+          ],
+          [
+            "1 nocte"
+          ]
+        ],
+        "parsed": [
+          "1 nocte",
+          "1 nocte"
+        ],
+        "speak": "1 nocte",
+        "truth": "1 nocte",
+        "verdict": "correct"
+      },
+      {
+        "file": "h6_nocte_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1 nocte"
+          ],
+          [
+            "nocte"
+          ]
+        ],
+        "parsed": [
+          "1 nocte",
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_shadowsintolight.jpg",
+        "reads": [
+          [
+            "nodte"
+          ],
+          [
+            "nodte"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      }
+    ],
+    "A + A-bin (EasyOCR, original + binarised)": [
+      {
+        "file": "h1_1x3_homemadeapple.jpg",
+        "reads": [
+          [
+            "Ip3"
+          ],
+          [
+            "lp3"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_indieflower.jpg",
+        "reads": [
+          [
+            "Ax3"
+          ],
+          [
+            "Ax3"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1X3"
+          ],
+          [
+            "1Y3"
+          ]
+        ],
+        "parsed": [
+          "1 x3",
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_shadowsintolight.jpg",
+        "reads": [
+          [
+            "1X3"
+          ],
+          [
+            "1X3"
+          ]
+        ],
+        "parsed": [
+          "1 x3",
+          "1 x3"
+        ],
+        "speak": "1 x3",
+        "truth": "1 x3",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_homemadeapple.jpg",
+        "reads": [
+          [
+            "2 ld"
+          ],
+          [
+            "2 ld"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd"
+          ],
+          [
+            "2 bd"
+          ]
+        ],
+        "parsed": [
+          "2 bd",
+          "2 bd"
+        ],
+        "speak": "2 bd",
+        "truth": "2 bd",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_reeniebeanie.jpg",
+        "reads": [
+          [
+            "bd",
+            "7"
+          ],
+          [
+            "bd"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_shadowsintolight.jpg",
+        "reads": [
+          [
+            "2 bd"
+          ],
+          [
+            "bd"
+          ]
+        ],
+        "parsed": [
+          "2 bd",
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_homemadeapple.jpg",
+        "reads": [
+          [
+            "p 3",
+            "Ks dayn"
+          ],
+          [
+            "/ + 3",
+            "K < dayn"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_indieflower.jpg",
+        "reads": [
+          [
+            "4 x 3",
+            "x 5 days"
+          ],
+          [
+            "4 x 3",
+            "x 5 days"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1  X  3",
+            "X < Jads"
+          ],
+          [
+            "1  X 3",
+            "X < dads"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "1 X 2",
+            "X V days"
+          ],
+          [
+            "X 2",
+            "X V days"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_homemadeapple.jpg",
+        "reads": [
+          [
+            "Bd + 7/7"
+          ],
+          [
+            " Ud +77"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd x +/+"
+          ],
+          [
+            "2 bd x +/+"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "bj x 7/7"
+          ],
+          [
+            "bj x 7/7"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "bd x 7/7"
+          ],
+          [
+            "bd x 7/7"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_homemadeapple.jpg",
+        "reads": [
+          [
+            "Yal tda",
+            "aptet Yod"
+          ],
+          [
+            "Jal / tda",
+            "antet Rood"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_indieflower.jpg",
+        "reads": [
+          [
+            "Tab 4 tds",
+            "after food"
+          ],
+          [
+            "Tab 4 tds",
+            "after food"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_reeniebeanie.jpg",
+        "reads": [
+          [
+            "Tab 1 #ds",
+            "after 4oo d"
+          ],
+          [
+            "Tab 1 +ds",
+            "after 4oo d"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_shadowsintolight.jpg",
+        "reads": [
+          [
+            "Tab td5",
+            "after  fod"
+          ],
+          [
+            "Tab td5",
+            "after  {od"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_homemadeapple.jpg",
+        "reads": [
+          [
+            "noete"
+          ],
+          [
+            "noete"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_indieflower.jpg",
+        "reads": [
+          [
+            "1 nocte"
+          ],
+          [
+            "nocte"
+          ]
+        ],
+        "parsed": [
+          "1 nocte",
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1 nocte"
+          ],
+          [
+            "nocte"
+          ]
+        ],
+        "parsed": [
+          "1 nocte",
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_shadowsintolight.jpg",
+        "reads": [
+          [
+            "nodte"
+          ],
+          [
+            "nocte"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      }
+    ],
+    "A-crop + A-bin": [
+      {
+        "file": "h1_1x3_homemadeapple.jpg",
+        "reads": [
+          [
+            "113"
+          ],
+          [
+            "lp3"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_indieflower.jpg",
+        "reads": [
+          [
+            "x3"
+          ],
+          [
+            "Ax3"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1X3"
+          ],
+          [
+            "1Y3"
+          ]
+        ],
+        "parsed": [
+          "1 x3",
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_shadowsintolight.jpg",
+        "reads": [
+          [
+            "1X3"
+          ],
+          [
+            "1X3"
+          ]
+        ],
+        "parsed": [
+          "1 x3",
+          "1 x3"
+        ],
+        "speak": "1 x3",
+        "truth": "1 x3",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_homemadeapple.jpg",
+        "reads": [
+          [
+            "2 ld"
+          ],
+          [
+            "2 ld"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd"
+          ],
+          [
+            "2 bd"
+          ]
+        ],
+        "parsed": [
+          "2 bd",
+          "2 bd"
+        ],
+        "speak": "2 bd",
+        "truth": "2 bd",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_reeniebeanie.jpg",
+        "reads": [
+          [
+            "bd",
+            "7"
+          ],
+          [
+            "bd"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_shadowsintolight.jpg",
+        "reads": [
+          [
+            "2 bd"
+          ],
+          [
+            "bd"
+          ]
+        ],
+        "parsed": [
+          "2 bd",
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_homemadeapple.jpg",
+        "reads": [
+          [
+            "+ 3",
+            "K s dayn"
+          ],
+          [
+            "/ + 3",
+            "K < dayn"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_indieflower.jpg",
+        "reads": [
+          [
+            "1 x 3",
+            "x 5 days"
+          ],
+          [
+            "4 x 3",
+            "x 5 days"
+          ]
+        ],
+        "parsed": [
+          "1 x3 x 5d",
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1  X  3",
+            "X < Jads"
+          ],
+          [
+            "1  X 3",
+            "X < dads"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "1 X 2",
+            "X V days"
+          ],
+          [
+            "X 2",
+            "X V days"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_homemadeapple.jpg",
+        "reads": [
+          [
+            "Ud + 77"
+          ],
+          [
+            " Ud +77"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd x +/+"
+          ],
+          [
+            "2 bd x +/+"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "Va x ~7/7"
+          ],
+          [
+            "bj x 7/7"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "bd x 7/7"
+          ],
+          [
+            "bd x 7/7"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_homemadeapple.jpg",
+        "reads": [
+          [
+            "Yal tda",
+            "aptet Rood"
+          ],
+          [
+            "Jal / tda",
+            "antet Rood"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_indieflower.jpg",
+        "reads": [
+          [
+            "Tab 4 tds",
+            "after food"
+          ],
+          [
+            "Tab 4 tds",
+            "after food"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_reeniebeanie.jpg",
+        "reads": [
+          [
+            "Tab 1 +ds",
+            "after 4o d"
+          ],
+          [
+            "Tab 1 +ds",
+            "after 4oo d"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_shadowsintolight.jpg",
+        "reads": [
+          [
+            "Tab td5",
+            "after fod"
+          ],
+          [
+            "Tab td5",
+            "after  {od"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_homemadeapple.jpg",
+        "reads": [
+          [
+            "noete"
+          ],
+          [
+            "noete"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_indieflower.jpg",
+        "reads": [
+          [
+            "1 nocte"
+          ],
+          [
+            "nocte"
+          ]
+        ],
+        "parsed": [
+          "1 nocte",
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_reeniebeanie.jpg",
+        "reads": [
+          [
+            "nocte"
+          ],
+          [
+            "nocte"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_shadowsintolight.jpg",
+        "reads": [
+          [
+            "nodte"
+          ],
+          [
+            "nocte"
+          ]
+        ],
+        "parsed": [
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      }
+    ],
+    "A + A-crop + A-bin (all three agree)": [
+      {
+        "file": "h1_1x3_homemadeapple.jpg",
+        "reads": [
+          [
+            "Ip3"
+          ],
+          [
+            "113"
+          ],
+          [
+            "lp3"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_indieflower.jpg",
+        "reads": [
+          [
+            "Ax3"
+          ],
+          [
+            "x3"
+          ],
+          [
+            "Ax3"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1X3"
+          ],
+          [
+            "1X3"
+          ],
+          [
+            "1Y3"
+          ]
+        ],
+        "parsed": [
+          "1 x3",
+          "1 x3",
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h1_1x3_shadowsintolight.jpg",
+        "reads": [
+          [
+            "1X3"
+          ],
+          [
+            "1X3"
+          ],
+          [
+            "1X3"
+          ]
+        ],
+        "parsed": [
+          "1 x3",
+          "1 x3",
+          "1 x3"
+        ],
+        "speak": "1 x3",
+        "truth": "1 x3",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_homemadeapple.jpg",
+        "reads": [
+          [
+            "2 ld"
+          ],
+          [
+            "2 ld"
+          ],
+          [
+            "2 ld"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd"
+          ],
+          [
+            "2 bd"
+          ],
+          [
+            "2 bd"
+          ]
+        ],
+        "parsed": [
+          "2 bd",
+          "2 bd",
+          "2 bd"
+        ],
+        "speak": "2 bd",
+        "truth": "2 bd",
+        "verdict": "correct"
+      },
+      {
+        "file": "h2_2bd_reeniebeanie.jpg",
+        "reads": [
+          [
+            "bd",
+            "7"
+          ],
+          [
+            "bd",
+            "7"
+          ],
+          [
+            "bd"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h2_2bd_shadowsintolight.jpg",
+        "reads": [
+          [
+            "2 bd"
+          ],
+          [
+            "2 bd"
+          ],
+          [
+            "bd"
+          ]
+        ],
+        "parsed": [
+          "2 bd",
+          "2 bd",
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_homemadeapple.jpg",
+        "reads": [
+          [
+            "p 3",
+            "Ks dayn"
+          ],
+          [
+            "+ 3",
+            "K s dayn"
+          ],
+          [
+            "/ + 3",
+            "K < dayn"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_indieflower.jpg",
+        "reads": [
+          [
+            "4 x 3",
+            "x 5 days"
+          ],
+          [
+            "1 x 3",
+            "x 5 days"
+          ],
+          [
+            "4 x 3",
+            "x 5 days"
+          ]
+        ],
+        "parsed": [
+          null,
+          "1 x3 x 5d",
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1  X  3",
+            "X < Jads"
+          ],
+          [
+            "1  X  3",
+            "X < Jads"
+          ],
+          [
+            "1  X 3",
+            "X < dads"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h3_1x3_5days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "1 X 2",
+            "X V days"
+          ],
+          [
+            "1 X 2",
+            "X V days"
+          ],
+          [
+            "X 2",
+            "X V days"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 x3 x 5d",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_homemadeapple.jpg",
+        "reads": [
+          [
+            "Bd + 7/7"
+          ],
+          [
+            "Ud + 77"
+          ],
+          [
+            " Ud +77"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_indieflower.jpg",
+        "reads": [
+          [
+            "2 bd x +/+"
+          ],
+          [
+            "2 bd x +/+"
+          ],
+          [
+            "2 bd x +/+"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_reeniebeanie.jpg",
+        "reads": [
+          [
+            "bj x 7/7"
+          ],
+          [
+            "Va x ~7/7"
+          ],
+          [
+            "bj x 7/7"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h4_2bd_7days_shadowsintolight.jpg",
+        "reads": [
+          [
+            "bd x 7/7"
+          ],
+          [
+            "bd x 7/7"
+          ],
+          [
+            "bd x 7/7"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "2 bd x 7/7",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_homemadeapple.jpg",
+        "reads": [
+          [
+            "Yal tda",
+            "aptet Yod"
+          ],
+          [
+            "Yal tda",
+            "aptet Rood"
+          ],
+          [
+            "Jal / tda",
+            "antet Rood"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_indieflower.jpg",
+        "reads": [
+          [
+            "Tab 4 tds",
+            "after food"
+          ],
+          [
+            "Tab 4 tds",
+            "after food"
+          ],
+          [
+            "Tab 4 tds",
+            "after food"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_reeniebeanie.jpg",
+        "reads": [
+          [
+            "Tab 1 #ds",
+            "after 4oo d"
+          ],
+          [
+            "Tab 1 +ds",
+            "after 4o d"
+          ],
+          [
+            "Tab 1 +ds",
+            "after 4oo d"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h5_tds_shadowsintolight.jpg",
+        "reads": [
+          [
+            "Tab td5",
+            "after  fod"
+          ],
+          [
+            "Tab td5",
+            "after fod"
+          ],
+          [
+            "Tab td5",
+            "after  {od"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "tab 1 tds after food",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_homemadeapple.jpg",
+        "reads": [
+          [
+            "noete"
+          ],
+          [
+            "noete"
+          ],
+          [
+            "noete"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_indieflower.jpg",
+        "reads": [
+          [
+            "1 nocte"
+          ],
+          [
+            "1 nocte"
+          ],
+          [
+            "nocte"
+          ]
+        ],
+        "parsed": [
+          "1 nocte",
+          "1 nocte",
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_reeniebeanie.jpg",
+        "reads": [
+          [
+            "1 nocte"
+          ],
+          [
+            "nocte"
+          ],
+          [
+            "nocte"
+          ]
+        ],
+        "parsed": [
+          "1 nocte",
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      },
+      {
+        "file": "h6_nocte_shadowsintolight.jpg",
+        "reads": [
+          [
+            "nodte"
+          ],
+          [
+            "nodte"
+          ],
+          [
+            "nocte"
+          ]
+        ],
+        "parsed": [
+          null,
+          null,
+          null
+        ],
+        "speak": null,
+        "truth": "1 nocte",
+        "verdict": "not-sure"
+      }
+    ]
+  },
+  "totals": {
+    "A alone": {
+      "spoken": 6,
+      "wrong": 0,
+      "notSure": 18,
+      "images": 24
+    },
+    "B alone": {
+      "spoken": 17,
+      "wrong": 0,
+      "notSure": 7,
+      "images": 24
+    },
+    "A-crop alone": {
+      "spoken": 6,
+      "wrong": 0,
+      "notSure": 18,
+      "images": 24
+    },
+    "A-bin alone": {
+      "spoken": 2,
+      "wrong": 0,
+      "notSure": 22,
+      "images": 24
+    },
+    "A + B (EasyOCR + LightOnOCR-2)": {
+      "spoken": 6,
+      "wrong": 0,
+      "notSure": 18,
+      "images": 24
+    },
+    "A + A-crop (EasyOCR, two crops)": {
+      "spoken": 5,
+      "wrong": 0,
+      "notSure": 19,
+      "images": 24
+    },
+    "A + A-bin (EasyOCR, original + binarised)": {
+      "spoken": 2,
+      "wrong": 0,
+      "notSure": 22,
+      "images": 24
+    },
+    "A-crop + A-bin": {
+      "spoken": 2,
+      "wrong": 0,
+      "notSure": 22,
+      "images": 24
+    },
+    "A + A-crop + A-bin (all three agree)": {
+      "spoken": 2,
+      "wrong": 0,
+      "notSure": 22,
+      "images": 24
+    }
+  }
+}
