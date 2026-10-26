@@ -2,7 +2,7 @@
 // phone config (canvasSize 1024, batch 1) over a directory of images.
 //   node ocr_reads.mjs data/hand orig
 //   node ocr_reads.mjs data/hand_var/crop crop
-// Writes out/hand_reads_<variant>.json: { file: [lines...] } plus per-line min confidence.
+// Writes results/hand_reads_<variant>.json: { file: [lines...] } plus per-line min confidence.
 import { readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -51,6 +51,6 @@ for (const f of readdirSync(join(HERE, dir)).filter((x) => /\.(jpg|png)$/.test(x
 }
 await unloadModel({ modelId, clearStorage: false });
 const m = mem.stop();
-writeJson(join(HERE, `out/hand_reads_${variant}.json`), { variant, config: { canvasSize: 1024, recognizerBatchSize: 1, magRatio: 1.5 }, peakRssMb: m.peakMb, reads });
+writeJson(join(HERE, `results/hand_reads_${variant}.json`), { variant, config: { canvasSize: 1024, recognizerBatchSize: 1, magRatio: 1.5 }, peakRssMb: m.peakMb, reads });
 await close?.();
 process.exit(0);

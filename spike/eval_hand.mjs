@@ -1,6 +1,6 @@
 // Handwriting spike: combine readers through the dose grammar and score.
 //   node eval_hand.mjs            prints markdown tables, writes results/hand_dose_eval.json
-// Inputs: out/hand_reads_{orig,crop,bin}.json (ocr_reads.mjs, EasyOCR canvas 1024)
+// Inputs: results/hand_reads_{orig,crop,bin}.json (ocr_reads.mjs, EasyOCR canvas 1024)
 //         results/hand_reads_B_lightonocr.json (hand subset of the C2 ocr_vlm run)
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -11,7 +11,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const truth = JSON.parse(readFileSync(join(HERE, 'data/truth.json'), 'utf8')).hand;
 const load = (p) => JSON.parse(readFileSync(join(HERE, p), 'utf8'));
 const A = {};
-for (const v of ['orig', 'crop', 'bin']) A[v] = load(`out/hand_reads_${v}.json`).reads;
+for (const v of ['orig', 'crop', 'bin']) A[v] = load(`results/hand_reads_${v}.json`).reads;
 const Bsrc = load('results/hand_reads_B_lightonocr.json').reads;
 const B = Object.fromEntries(Object.entries(Bsrc).map(([f, r]) => [f, r.text]));
 
