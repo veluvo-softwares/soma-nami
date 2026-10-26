@@ -81,3 +81,35 @@ describe('detectLineLanguage', () => {
     expect(detectLineLanguage(text)).toBe(lang);
   });
 });
+
+describe('confidence of a line is judged on what is spoken', () => {
+  // The C2 spike found 11 OCR blocks for the 9 lines of p1 clean: the batch code and the expiry are separate blocks on one line.
+  const batchAndExpiry = (batch: number, exp: number): OcrBlock[] => [
+    { text: 'Batch No: PX2417', bbox: [162, 455, 372, 496], confidence: batch },
+    { text: 'Exp: 08/2028', bbox: [377, 447, 530, 484], confidence: exp },
+  ];
+
+  it('an unsure batch code does not make a confident expiry on the same line unsure', () => {
+    const [line] = toLines(batchAndExpiry(0.3, 0.9));
+    expect(line!.text).toBe('Batch No: PX2417 Exp: 08/2028');
+    expect(line!.minConfidence).toBeCloseTo(0.3);
+    expect(line!.lowConfidence).toBe(false);
+  });
+
+  it('an unsure expiry still makes the line unsure, whatever the batch code scored', () => {
+    expect(toLines(batchAndExpiry(0.97, 0.4))[0]!.lowConfidence).toBe(true);
+    expect(toLines(batchAndExpiry(0.3, 0.4))[0]!.lowConfidence).toBe(true);
+  });
+
+  it('a line that is only a batch code is still judged on its own blocks', () => {
+    expect(toLines([{ text: 'Batch No: PX24I7', bbox: [0, 0, 100, 20], confidence: 0.3 }])[0]!.lowConfidence).toBe(true);
+  });
+
+  it('an unsure block of ordinary text stays unsure next to a confident batch code', () => {
+    const [line] = toLines([
+      { text: 'Take 2 tablets', bbox: [0, 0, 100, 20], confidence: 0.3 },
+      { text: 'Batch No: PX2417', bbox: [110, 0, 220, 20], confidence: 0.95 },
+    ]);
+    expect(line!.lowConfidence).toBe(true);
+  });
+});

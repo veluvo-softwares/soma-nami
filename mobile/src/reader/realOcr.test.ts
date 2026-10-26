@@ -87,3 +87,23 @@ describe('pipeline on real QVAC OCR output', () => {
     }
   });
 });
+
+describe('paracetamol label with a misread batch code (real QVAC blocks, batch score lowered)', () => {
+  // The photo fixture has the batch code and the expiry as two blocks on one line. On the phone the clean
+  // image scored the batch code low; the real blocks of that run were not captured, so lower it here.
+  const blocks = (fixtures['p1_paracetamol_photo.jpg'] as OcrBlock[]).map((b) =>
+    b.text.startsWith('Batch No') ? { ...b, confidence: 0.3 } : b,
+  );
+
+  it('still speaks the expiry', () => {
+    const plan = buildSpeechPlan(toLines(blocks));
+    expect(plan).toContainEqual(expect.objectContaining({ kind: 'tts', text: 'Exp: 08/2028' }));
+    expect(JSON.stringify(plan)).not.toContain('PX2417');
+  });
+
+  it('does not speak the expiry when the expiry itself is unsure', () => {
+    const unsure = blocks.map((b) => (b.text.startsWith('Exp') ? { ...b, confidence: 0.4 } : b));
+    const plan = buildSpeechPlan(toLines(unsure));
+    expect(JSON.stringify(plan)).not.toContain('08/2028');
+  });
+});

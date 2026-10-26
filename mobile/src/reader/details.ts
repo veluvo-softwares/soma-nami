@@ -62,14 +62,27 @@ function fieldStarts(text: string): number[] {
  * its printed order. ("Batch No: PX2417 Exp: 08/2028" -> "Exp: 08/2028")
  */
 export function spokenText(text: string): string {
+  if (fieldStarts(text).length === 0) return text;
+  return tidy(keptRanges(text).map(([a, b]) => text.slice(a, b)).join(''));
+}
+
+function tidy(out: string): string {
+  return out
+    .replace(/\s{2,}/g, ' ')
+    .replace(/^[\s,;|/-]+|[\s,;|/-]+$/g, '')
+    .trim();
+}
+
+/** The [start, end) character ranges of `text` that are left after the batch and manufacturing fields are cut. */
+export function keptRanges(text: string): [number, number][] {
   const fields = fieldStarts(text);
-  if (fields.length === 0) return text;
+  if (fields.length === 0) return [[0, text.length]];
   const stops = [...matches(EXPIRY, text).map((m) => m.index!), ...fields].sort((a, b) => a - b);
-  let out = '';
+  const kept: [number, number][] = [];
   let pos = 0;
   for (const start of fields) {
     if (start < pos) continue;
-    out += text.slice(pos, start);
+    kept.push([pos, start]);
     // Skip the field name, its separator and its first value before looking for the end.
     const head = /^\S+[\s:.#-]*\S*/.exec(text.slice(start))!;
     const from = start + head[0].length;
@@ -78,11 +91,25 @@ export function spokenText(text: string): string {
     const next = stops.find((s) => s >= from);
     pos = Math.min(next ?? text.length, sentence ? sentence.index + 1 : text.length);
   }
-  out += text.slice(pos);
-  return out
-    .replace(/\s{2,}/g, ' ')
-    .replace(/^[\s,;|/-]+|[\s,;|/-]+$/g, '')
-    .trim();
+  kept.push([pos, text.length]);
+  return kept;
+}
+
+/**
+ * Which of the given parts (consecutive pieces of `text`, each [start, end))
+ * still have something to say after the batch and manufacturing fields are
+ * cut. A part that is only a batch code is not spoken, so its confidence
+ * must not decide whether the rest of the line is.
+ */
+export function spokenParts(text: string, parts: readonly [number, number][]): boolean[] {
+  const kept = keptRanges(text);
+  return parts.map(([ps, pe]) =>
+    kept.some(([a, b]) => {
+      const from = Math.max(a, ps);
+      const to = Math.min(b, pe);
+      return to > from && /[a-z0-9]/i.test(text.slice(from, to));
+    }),
+  );
 }
 
 export type LineRole = 'read' | 'detail';
