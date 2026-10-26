@@ -49,7 +49,7 @@
             "deploymentTarget": "17.0"
           },
           "android": {
-            "minSdkVersion": 29
+            "minSdkVersion": 31
           }
         }
       ],
@@ -63,6 +63,7 @@
         }
       ],
       "./plugins/withNoNativeDebugSymbols",
+      "./plugins/withAndroidGradleProperties",
       "@qvac/sdk/expo-plugin"
     ],
     "extra": {
