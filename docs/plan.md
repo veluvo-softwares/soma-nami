@@ -15,7 +15,7 @@ Hand-offs to Wesley (C3a, C4a, C12) are not separate board cards: the Bond card 
 | C3 | `t_22903510` | Expo dev-build + QVAC app scaffold, CI, Android APK job | C1 | Bond | done: #7 merged (CI and APK build green); iOS run steps switched to Xcode | `feat/c3-app-scaffold`, #7; `docs/c3-xcode-run-steps` |
 | C3a | (block on C3 or C10) | iOS hand-off: first build on Wesley's iPhone | C3 | Wesley | done 25 Oct: iPhone 12, iOS 26.6.1, Xcode 27.0. Launches dark in Atkinson Hyperlegible; all 5 models (1.5 GB) download and it shows Tayari; memory 385.9 MB peak, 376.6 MB steady (no model loaded, so OCR's peak is checked in C4); no prebuild error. `expo run:ios` fails on Xcode 27, so it was built from Xcode | |
 | C3b | none | Android APK on an arm64 emulator on Wesley's Mac (record what happens) | C3 | Wesley | optional | |
-| C4 | `t_ad242ab0` | Home, Aiming, Reading: camera → OCR → read aloud | C2, C3 | Bond | in review: C4a done 25–26 Oct; fixes from it in #11 (CPU-only QVAC, clip skip, framing on the main block, details not spoken, Xcode 27 build); needs one more Release read on the phone | `feat/c4-read-aloud`, #11 |
+| C4 | `t_ad242ab0` | Home, Aiming, Reading: camera → OCR → read aloud | C2, C3 | Bond | in review: C4a done 25–26 Oct; fixes from it in #11 (CPU-only QVAC, clip skip, framing on the main block, details not spoken, Xcode 27 build); second Release read passed 26 Oct (OCR ~22 s, peak 1.44 GB, offline works); rebased on main, ready for Wesley to merge | `feat/c4-read-aloud`, #11 |
 | C4a | (block on C4) | iOS hand-off: read-aloud on the iPhone, in airplane mode (Tue 27 Oct) | C4, C3a | Wesley | first run done 25–26 Oct (results under C4); second Release read after the #11 fixes | |
 | C5 | `t_99e45430` | Ask: hold-to-talk, fixed questions, quotes the line, refuses when unsure | C4 | Bond | todo | |
 | C6 | `t_cebb50ba` | Accessibility, language, Not sure, caregiver setup, theme | C4 | Bond | todo | |
@@ -73,6 +73,14 @@ C4a results (Wesley, 25–26 Oct, iPhone 12, iOS 26.6.1, Xcode 27.0): the clean 
 - Batch / lot, manufacturing dates, barcodes and the maker's name and address aren't spoken; they're shown under More details. The expiry date is always spoken.
 - Xcode 27: pods raised to iOS 17.0 (SDWebImage's resource bundle was 9.0) and `ENABLE_USER_SCRIPT_SANDBOXING = NO`, both in `plugins/withIosBuildFixes.js`. Testers cancel Xcode's "Update to recommended settings".
 - Still open: printed Swahili label lines aren't read aloud (undecided); no OCR timeout; no deskew for tilted photos.
+
+C4a second run (Wesley, 26 Oct, iPhone 12, iOS 26.6.1, PR #11 at `d52a84c`, CPU-only QVAC):
+- Release, Xcode attached, network on: clean paracetamol label → read (OCR 21.9 s, 828×1280, 24 blocks, 11 lines); hard paracetamol photo → Not sure (22.2 s, 13 lines), the safe outcome.
+- Memory: peak 1.44 GB during a read, back to ~531 MB idle (models are freed after a read). No kill. (Debug peaked at 1.64 GB and idled at ~1.62 GB.)
+- Release, airplane mode, launched from the home screen without Xcode: clean paracetamol and small-print ibuprofen both read. Offline works. An earlier hang on switching to airplane mode was the Xcode debugger losing the phone, not the app.
+- OCR is ~22 s per photo on the phone (the VPS takes 78 s on one thread), so `canvasSize` stays at **1024** (Wesley, 26 Oct); 768 would misread small print ("1 OF 2").
+- Console `fopen failed for data file: errno = 2` lines: written by Apple's `libCoreFSCache.dylib` (the graphics shader cache) on first use. Not an app, QVAC or model file: no QVAC binary or package in `node_modules` contains the string. Harmless, nothing to ship or fix.
+- Not yet checked: the spoken expiry line and the More details split (check in the TestFlight build); Polepole / Rudi.
 
 ### C4a iOS hand-off: read-aloud on the iPhone
 C4 blocks for Wesley: install the latest TestFlight build (or build locally), then a scripted test in airplane mode with the synthetic labels in `spike/fixtures` printed out. Report: works or not, time to first spoken word, crashes, RAM.
