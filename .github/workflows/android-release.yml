@@ -1,0 +1,165 @@
+name: Android release APK
+
+# On a version tag (v*), builds the Android APK on EAS Build (Expo's servers,
+# the same path as iOS) and publishes it as a GitHub Release in the public
+# releases repo (card C10). The GitHub Actions Gradle build is no longer on
+# the release path: its runner shut down mid-build (PR #11).
+#
+# The APK is arm64-v8a only with minSdk 31 (Android 12), set in app.json, and
+# signed with the EAS-managed Android keystore. EXPO_TOKEN is a robot or
+# personal Expo token for @mrnyamu/soma-nami. Stays on Expo's free plan: one
+# build per tag, nothing else here starts an EAS build.
+
+on:
+  push:
+    tags: ['v*']
+
+concurrency:
+  group: android-release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  EXPO_NO_TELEMETRY: '1'
+  EAS_CLI: eas-cli@25.3.0
+
+jobs:
+  build:
+    name: Build APK on EAS
+    runs-on: ubuntu-latest
+    # A free-plan build can wait in Expo's queue before it starts.
+    timeout-minutes: 180
+    defaults:
+      run:
+        working-directory: mobile
+    outputs:
+      apk: ${{ steps.apk.outputs.name }}
+    steps:
+      - name: Check EXPO_TOKEN
+        working-directory: /
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          if [ -z "$EXPO_TOKEN" ]; then
+            echo "::error::EXPO_TOKEN is not set. Add it under Settings > Secrets and variables > Actions (card C10)."
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+
+      # eas-cli resolves app.json's config plugins locally, so it needs the
+      # project's dependencies. The build itself runs on EAS.
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: EAS build (release-apk)
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          set -o pipefail
+          npx --yes "$EAS_CLI" build -p android --profile release-apk \
+            --non-interactive --wait --json > /tmp/build.json
+          id="$(jq -r '.[0].id' /tmp/build.json)"
+          echo "EAS build: https://expo.dev/accounts/mrnyamu/projects/soma-nami/builds/$id" >> "$GITHUB_STEP_SUMMARY"
+          npx --yes "$EAS_CLI" build:view "$id" --json > /tmp/view.json
+          status="$(jq -r '.status' /tmp/view.json)"
+          url="$(jq -r '.artifacts.applicationArchiveUrl // .artifacts.buildUrl // empty' /tmp/view.json)"
+          echo "status=$status"
+          if [ "$status" != FINISHED ] || [ -z "$url" ]; then
+            echo "::error::EAS build $id ended with status $status and no APK."
+            exit 1
+          fi
+          echo "$url" > /tmp/apk-url
+
+      - name: Download and name the APK
+        id: apk
+        run: |
+          name="soma-nami-${GITHUB_REF_NAME}.apk"
+          curl -fsSL --retry 3 -o "$name" "$(cat /tmp/apk-url)"
+          ls -lh "$name"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+
+      # Fails the release if the APK isn't what the releases README promises.
+      - name: Check ABI and minSdk
+        env:
+          APK: ${{ steps.apk.outputs.name }}
+        run: |
+          apk="$APK"
+          abis="$(unzip -Z1 "$apk" | sed -n 's#^lib/\([^/]*\)/.*#\1#p' | sort -u | tr '\n' ' ')"
+          echo "ABIs: $abis"
+          [ "$abis" = "arm64-v8a " ] || { echo "::error::expected arm64-v8a only, got: $abis"; exit 1; }
+          aapt2="$(ls -d "$ANDROID_HOME"/build-tools/*/aapt2 | sort -V | tail -1)"
+          # badging calls minSdk "sdkVersion".
+          sdk="$("$aapt2" dump badging "$apk" | sed -n "s/^sdkVersion:'\([0-9]*\)'.*/\1/p")"
+          echo "minSdk: $sdk"
+          [ "$sdk" = 31 ] || { echo "::error::expected minSdk 31, got: $sdk"; exit 1; }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: soma-nami-apk
+          path: mobile/${{ steps.apk.outputs.name }}
+          retention-days: 14
+          if-no-files-found: error
+
+  # Publish the APK as a GitHub Release in the public releases repo. That repo
+  # holds only APKs and a README, never source. RELEASES_TOKEN is a
+  # fine-grained token with Contents read & write on that repo only; this
+  # repo's own GITHUB_TOKEN can't write there.
+  publish:
+    name: Publish APK to the releases repo
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      RELEASES_REPO: ${{ vars.RELEASES_REPO || 'veluvo-softwares/soma-nami-releases' }}
+      TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Tags and history for the "what's new" list.
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: soma-nami-apk
+          path: dist
+
+      - name: Write release notes
+        run: |
+          # actions/checkout turns an annotated tag into a lightweight one;
+          # fetch it again so its message can be the "what's new" text.
+          git fetch --force origin "refs/tags/${TAG}:refs/tags/${TAG}"
+          scripts/release-notes.sh "$TAG" "$GITHUB_SHA" > notes.md
+          cat notes.md
+
+      - name: Publish the GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.RELEASES_TOKEN }}
+          APK: ${{ needs.build.outputs.apk }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::RELEASES_TOKEN is not set. Add it under Settings > Secrets and variables > Actions (card C10). The APK is still in this run's artifacts."
+            exit 1
+          fi
+          apk="dist/$APK"
+          ls -lh "$apk"
+          # Tags with a suffix (v0.2.0-rc1) are marked as pre-releases.
+          pre=()
+          case "$TAG" in *-*) pre=(--prerelease) ;; esac
+          if gh release view "$TAG" -R "$RELEASES_REPO" > /dev/null 2>&1; then
+            # Re-run of the same tag: replace the APK and the notes.
+            gh release upload "$TAG" "$apk" -R "$RELEASES_REPO" --clobber
+            gh release edit "$TAG" -R "$RELEASES_REPO" --notes-file notes.md
+          else
+            gh release create "$TAG" "$apk" -R "$RELEASES_REPO" \
+              --title "Soma Nami ${TAG}" --notes-file notes.md "${pre[@]}"
+          fi
+          echo "https://github.com/${RELEASES_REPO}/releases/tag/${TAG}" >> "$GITHUB_STEP_SUMMARY"
