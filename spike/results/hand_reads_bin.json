@@ -1,0 +1,267 @@
+{
+  "variant": "bin",
+  "config": {
+    "canvasSize": 1024,
+    "recognizerBatchSize": 1,
+    "magRatio": 1.5
+  },
+  "peakRssMb": 1621.2,
+  "reads": {
+    "h1_1x3_homemadeapple.jpg": {
+      "lines": [
+        "lp3"
+      ],
+      "minConf": [
+        0.286
+      ],
+      "ms": 39480,
+      "cpuS": 39.49
+    },
+    "h1_1x3_indieflower.jpg": {
+      "lines": [
+        "Ax3"
+      ],
+      "minConf": [
+        0.449
+      ],
+      "ms": 38533,
+      "cpuS": 38.25
+    },
+    "h1_1x3_reeniebeanie.jpg": {
+      "lines": [
+        "1Y3"
+      ],
+      "minConf": [
+        0.534
+      ],
+      "ms": 38661,
+      "cpuS": 38.66
+    },
+    "h1_1x3_shadowsintolight.jpg": {
+      "lines": [
+        "1X3"
+      ],
+      "minConf": [
+        0.801
+      ],
+      "ms": 39277,
+      "cpuS": 39.21
+    },
+    "h2_2bd_homemadeapple.jpg": {
+      "lines": [
+        "2 ld"
+      ],
+      "minConf": [
+        0.209
+      ],
+      "ms": 39917,
+      "cpuS": 39.82
+    },
+    "h2_2bd_indieflower.jpg": {
+      "lines": [
+        "2 bd"
+      ],
+      "minConf": [
+        0.588
+      ],
+      "ms": 39602,
+      "cpuS": 39.57
+    },
+    "h2_2bd_reeniebeanie.jpg": {
+      "lines": [
+        "bd"
+      ],
+      "minConf": [
+        0.926
+      ],
+      "ms": 38036,
+      "cpuS": 38.01
+    },
+    "h2_2bd_shadowsintolight.jpg": {
+      "lines": [
+        "bd"
+      ],
+      "minConf": [
+        0.966
+      ],
+      "ms": 38473,
+      "cpuS": 38.47
+    },
+    "h3_1x3_5days_homemadeapple.jpg": {
+      "lines": [
+        "/ + 3",
+        "K < dayn"
+      ],
+      "minConf": [
+        0.254,
+        0.07
+      ],
+      "ms": 55480,
+      "cpuS": 55.46
+    },
+    "h3_1x3_5days_indieflower.jpg": {
+      "lines": [
+        "4 x 3",
+        "x 5 days"
+      ],
+      "minConf": [
+        0.727,
+        0.654
+      ],
+      "ms": 53905,
+      "cpuS": 53.82
+    },
+    "h3_1x3_5days_reeniebeanie.jpg": {
+      "lines": [
+        "1  X 3",
+        "X < dads"
+      ],
+      "minConf": [
+        0.533,
+        0.553
+      ],
+      "ms": 55388,
+      "cpuS": 55.32
+    },
+    "h3_1x3_5days_shadowsintolight.jpg": {
+      "lines": [
+        "X 2",
+        "X V days"
+      ],
+      "minConf": [
+        0.324,
+        0.274
+      ],
+      "ms": 53312,
+      "cpuS": 53.11
+    },
+    "h4_2bd_7days_homemadeapple.jpg": {
+      "lines": [
+        " Ud +77"
+      ],
+      "minConf": [
+        0
+      ],
+      "ms": 37797,
+      "cpuS": 37.79
+    },
+    "h4_2bd_7days_indieflower.jpg": {
+      "lines": [
+        "2 bd x +/+"
+      ],
+      "minConf": [
+        0.463
+      ],
+      "ms": 37890,
+      "cpuS": 37.87
+    },
+    "h4_2bd_7days_reeniebeanie.jpg": {
+      "lines": [
+        "bj x 7/7"
+      ],
+      "minConf": [
+        0.851
+      ],
+      "ms": 38677,
+      "cpuS": 38.65
+    },
+    "h4_2bd_7days_shadowsintolight.jpg": {
+      "lines": [
+        "bd x 7/7"
+      ],
+      "minConf": [
+        0.695
+      ],
+      "ms": 39672,
+      "cpuS": 39.64
+    },
+    "h5_tds_homemadeapple.jpg": {
+      "lines": [
+        "Jal / tda",
+        "antet Rood"
+      ],
+      "minConf": [
+        0.44,
+        0.227
+      ],
+      "ms": 54751,
+      "cpuS": 54.71
+    },
+    "h5_tds_indieflower.jpg": {
+      "lines": [
+        "Tab 4 tds",
+        "after food"
+      ],
+      "minConf": [
+        0.72,
+        0.979
+      ],
+      "ms": 55445,
+      "cpuS": 55.32
+    },
+    "h5_tds_reeniebeanie.jpg": {
+      "lines": [
+        "Tab 1 +ds",
+        "after 4oo d"
+      ],
+      "minConf": [
+        0.901,
+        0.436
+      ],
+      "ms": 55842,
+      "cpuS": 55.39
+    },
+    "h5_tds_shadowsintolight.jpg": {
+      "lines": [
+        "Tab td5",
+        "after  {od"
+      ],
+      "minConf": [
+        0.741,
+        0.371
+      ],
+      "ms": 55080,
+      "cpuS": 54.82
+    },
+    "h6_nocte_homemadeapple.jpg": {
+      "lines": [
+        "noete"
+      ],
+      "minConf": [
+        0.574
+      ],
+      "ms": 38568,
+      "cpuS": 38.55
+    },
+    "h6_nocte_indieflower.jpg": {
+      "lines": [
+        "nocte"
+      ],
+      "minConf": [
+        0.999
+      ],
+      "ms": 39887,
+      "cpuS": 39.83
+    },
+    "h6_nocte_reeniebeanie.jpg": {
+      "lines": [
+        "nocte"
+      ],
+      "minConf": [
+        0.611
+      ],
+      "ms": 38938,
+      "cpuS": 38.78
+    },
+    "h6_nocte_shadowsintolight.jpg": {
+      "lines": [
+        "nocte"
+      ],
+      "minConf": [
+        0.915
+      ],
+      "ms": 37777,
+      "cpuS": 37.78
+    }
+  }
+}
