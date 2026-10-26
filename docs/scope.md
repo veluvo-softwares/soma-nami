@@ -48,8 +48,8 @@ From the QVAC docs ([JS/TS SDK](https://docs.qvac.tether.io/sdk/js-ts-sdk/), [sy
 - `app.json`: `expo-build-properties` with `ios.deploymentTarget: "17.0"`, plus `@qvac/sdk/expo-plugin` (JSON config only in Expo).
 
 **Android (judges and anyone else).**
-- `expo-build-properties` with `android.minSdkVersion: 29` (the runtime floor is Android 12 / API 31 per QVAC).
-- The APK is built in GitHub Actions on a version tag (C3) and published to a separate public releases repo (C10), because `soma-nami` itself is private. Nobody on the team owns an Android phone.
+- `expo-build-properties` with `android.minSdkVersion: 31` (Android 12, the runtime floor per QVAC; raised from 29 on 26 Oct), arm64-v8a only.
+- The APK is built with EAS Build on a version tag (C10; GitHub Actions Gradle until 26 Oct) and published to a separate public releases repo (C10), because `soma-nami` itself is private. Nobody on the team owns an Android phone.
 - QVAC says mobile needs a physical device. We still try the APK on an arm64 emulator on Wesley's Mac (C3b) and record what happens. The first real Android test is a borrowed phone at the Wed 28 Oct offline check (C12).
 
 **On the VPS**, CI-equivalent checks only: lint, typecheck, unit tests, and the C2 spike in Node.

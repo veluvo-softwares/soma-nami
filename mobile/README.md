@@ -100,13 +100,17 @@ npx eas-cli submit -p ios --profile production --latest --non-interactive
 
 ## Android APK
 
-GitHub Actions (`.github/workflows/android-apk.yml`, Linux runner) builds a standalone arm64 APK, JavaScript bundled in and signed with the Android debug key. It runs:
+Release APKs are built on **EAS Build** (Expo's servers, like iOS), not on a GitHub runner. `.github/workflows/android-release.yml` runs on a version tag (`v*`):
 
-- on a version tag: `git tag v0.1.0 && git push origin v0.1.0` → artifact `soma-nami-v0.1.0.apk`;
-- by hand: **Actions → Android dev APK → Run workflow**;
-- on pull requests that change native config (`package.json`, the lockfile, `app.json`, `qvac.config.json`, fonts).
+1. `eas build -p android --profile release-apk --non-interactive --wait` with the Actions secret `EXPO_TOKEN` (the job fails at once without it). The `release-apk` profile in `eas.json` makes an installable APK (`buildType: apk`, internal distribution), not an AAB.
+2. It reads the APK's URL with `eas build:view --json`, downloads it as `soma-nami-<tag>.apk` and fails unless it holds arm64-v8a libraries only and has minSdk 31.
+3. The `publish` job creates a GitHub Release with the APK in the public releases repo (`veluvo-softwares/soma-nami-releases`, or the repo in the `RELEASES_REPO` Actions variable), with notes from `scripts/release-notes.sh`: version, commit, what's new (the annotated tag's message, or the commit subjects since the last tag), the first-launch model download on Wi-Fi, and that it is signed with the EAS-managed key. It needs the Actions secret `RELEASES_TOKEN`, a fine-grained token with Contents read & write on the releases repo only; without it the publish step fails and the APK stays in the run's artifacts (`soma-nami-apk`). The releases repo's README is kept in `docs/releases-repo/README.md`. Tags with a suffix (`v0.2.0-rc1`) are published as pre-releases.
 
-The APK is a workflow artifact on this private repo, so only collaborators can download it. On a version tag the `publish` job also creates a GitHub Release with the APK in the public releases repo (`veluvo-softwares/soma-nami-releases`, or the repo in the `RELEASES_REPO` Actions variable), with notes from `scripts/release-notes.sh`: version, commit, what's new (the annotated tag's message, or the commit subjects since the last tag) and the first-launch model download. It needs the Actions secret `RELEASES_TOKEN`, a fine-grained token with Contents read & write on the releases repo only; without it the tag build fails at the publish step and the APK stays in the run's artifacts. The releases repo's README is kept in `docs/releases-repo/README.md`. Tags with a suffix (`v0.2.0-rc1`) are published as pre-releases; re-running a tag's workflow replaces the APK and notes.
+Every tag costs one EAS Android build from the free plan's monthly allowance. If only the publish step fails, use **Re-run failed jobs**, which reuses the APK; re-running the whole workflow starts a new EAS build.
+
+- **arm64 only, Android 12+:** `minSdkVersion` 31 comes from `expo-build-properties` in `app.json`, and `plugins/withAndroidGradleProperties.js` sets `reactNativeArchitectures=arm64-v8a` (QVAC ships arm64 binaries only) and an 8 GB Gradle heap in `android/gradle.properties` on every prebuild.
+- **Signing:** the EAS-managed Android keystore for `@mrnyamu/soma-nami`, created once and stored by Expo. Nothing signing-related lives in this repo or on the Bond VPS. Losing it would mean testers uninstall before the next APK installs, so never delete it in `eas credentials`.
+- `versionCode` is kept remotely by EAS and goes up by one on every build (`appVersionSource: remote`, `autoIncrement`).
 
 Release a tester build (the release notes are public, so write the message for testers):
 
@@ -115,7 +119,9 @@ git tag -a v0.1.0 -m "What testers should know about this build"
 git push origin v0.1.0
 ```
 
-Install it: open the run, download the `soma-nami-dev-apk` artifact (a zip), unzip it, copy the `.apk` to an Android 12+ arm64 phone, open it and allow "Install unknown apps" for the app you opened it with.
+Testers install it from the releases repo; its README has the steps.
+
+`.github/workflows/android-apk.yml` is a manual fallback (**Actions → Android dev APK → Run workflow**): a Gradle build on a GitHub runner, debug-signed, kept as a workflow artifact. It is not on the release path and doesn't run on tags or pull requests any more; its runner shut down mid-build on PR #11.
 
 For a local Android build: `npx expo prebuild --clean && npx expo run:android --device` (needs the Android SDK, NDK 29.0.14206865, JDK 17 and a USB-connected phone).
 

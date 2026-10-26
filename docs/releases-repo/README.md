@@ -29,5 +29,5 @@ After that, **everything runs offline**: reading, speaking and answering questio
 ## About these builds
 
 - Each release is built automatically from a version tag of the app. The release notes list the version, the commit it was built from and what changed.
-- These are tester builds signed with a debug key, not Play Store releases. Install them only from this repository's Releases page.
+- These are tester builds, not Play Store releases, signed with the app's own release key (managed by Expo's EAS Build). Every release is signed with the same key, so a newer APK installs over an older one. Install them only from this repository's Releases page.
 - Soma Nami reads exactly what is printed and never interprets a dose. When it isn't sure, it says so: ask your pharmacist.
