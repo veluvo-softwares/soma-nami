@@ -53,3 +53,27 @@ describe('buildSpeechPlan (OCR result -> what is said)', () => {
     expect(plan[1]).toEqual({ kind: 'clip', phrase: 'line_unsure', line: 0 });
   });
 });
+
+describe('expiry next to an unsure batch code', () => {
+  const blocks = (batch: number, exp: number) => [
+    { text: 'Batch No: PX2417', bbox: [162, 455, 372, 496] as [number, number, number, number], confidence: batch },
+    { text: 'Exp: 08/2028', bbox: [377, 447, 530, 484] as [number, number, number, number], confidence: exp },
+  ];
+
+  it('speaks the confident expiry and not the unsure batch code', () => {
+    expect(buildSpeechPlan(toLines(blocks(0.3, 0.9)))).toEqual([
+      { kind: 'clip', phrase: 'label_says' },
+      { kind: 'tts', text: 'Exp: 08/2028', line: 0 },
+      { kind: 'clip', phrase: 'reading_end' },
+    ]);
+  });
+
+  it('never speaks an unsure expiry: it says it could not read the line', () => {
+    const plan = buildSpeechPlan(toLines(blocks(0.97, 0.4)));
+    expect(plan).toEqual([
+      { kind: 'clip', phrase: 'label_says' },
+      { kind: 'clip', phrase: 'line_unsure', line: 0 },
+      { kind: 'clip', phrase: 'reading_end' },
+    ]);
+  });
+});

@@ -1,3 +1,4 @@
+import { spokenParts } from './details';
 import { detectLineLanguage, type LineLanguage } from './language';
 
 /** One OCR text block as returned by QVAC `ocr()`: bbox is [x1, y1, x2, y2] in image pixels. */
@@ -20,7 +21,11 @@ export interface LabelLine {
   text: string;
   /** The lowest block confidence on the line (0..1). */
   minConfidence: number;
-  /** True when the line must not be read out (below LOW_CONFIDENCE). */
+  /**
+   * True when the line must not be read out (below LOW_CONFIDENCE). Judged on
+   * the blocks that are actually spoken: a batch code that is cut out of the
+   * line (reader/details.ts) can't make the rest of the line unsure.
+   */
   lowConfidence: boolean;
   language: LineLanguage;
   box: Box | null;
@@ -97,11 +102,23 @@ export function toLines(blocks: readonly OcrBlock[], threshold = LOW_CONFIDENCE)
   return [...groups, ...noBox].map((g) => {
     const its = [...g.items].sort((a, b) => a.x - b.x || a.order - b.order);
     const text = its.map((i) => i.block.text.trim()).join(' ');
-    const minConfidence = Math.min(...its.map((i) => i.block.confidence ?? 0));
+    const confidences = its.map((i) => i.block.confidence ?? 0);
+    const minConfidence = Math.min(...confidences);
+    // Where each block sits in `text` (blocks are joined with one space).
+    let at = 0;
+    const parts = its.map((i): [number, number] => {
+      const len = i.block.text.trim().length;
+      const part: [number, number] = [at, at + len];
+      at += len + 1;
+      return part;
+    });
+    const spoken = spokenParts(text, parts);
+    // A line with nothing left to speak (a pure batch line) is judged on all its blocks, as before.
+    const judged = spoken.some(Boolean) ? confidences.filter((_, k) => spoken[k]) : confidences;
     return {
       text,
       minConfidence,
-      lowConfidence: minConfidence < threshold,
+      lowConfidence: Math.min(...judged) < threshold,
       language: detectLineLanguage(text),
       box: unionBox(its.map((i) => i.box)),
     };
