@@ -35,7 +35,7 @@ function matches(re: RegExp, text: string): RegExpMatchArray[] {
   return [...text.matchAll(re)];
 }
 
-const hasExpiry = (text: string) => matches(EXPIRY, text).length > 0;
+export const hasExpiry = (text: string) => matches(EXPIRY, text).length > 0;
 
 /** Digits only (spaces and GS1 brackets allowed) and 12 or more of them, as on EAN-13 / GTIN-14 barcodes. */
 function isBarcode(text: string): boolean {

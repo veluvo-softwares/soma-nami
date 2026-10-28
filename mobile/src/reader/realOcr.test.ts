@@ -2,6 +2,7 @@ import fixtures from './__fixtures__/qvac-ocr-c2.json';
 import { assessPhoto } from './assess';
 import { toLines, type OcrBlock } from './ocrLines';
 import { buildSpeechPlan } from '../speech/plan';
+import { speakDates } from './spokenDate';
 
 /**
  * Real QVAC output: `ocr()` from @qvac/sdk 0.22.0 with the app's OCR_CONFIG
@@ -51,7 +52,7 @@ describe('pipeline on real QVAC OCR output', () => {
       'Dosage: Adults and children over 12 years:',
       '1 to 2 tablets every 4 to 6 hours:',
       'Do not take more than 8 tablets in 24 hours.',
-      'Exp: 08/2028',
+      'Exp: August 2028',
     ]);
   });
 
@@ -83,7 +84,7 @@ describe('pipeline on real QVAC OCR output', () => {
     expect(assessment.kind).toBe('read');
     const ocrText = (fixtures['p2_amoxicillin_hard.jpg'] as OcrBlock[]).map((b) => b.text);
     for (const step of plan) {
-      if (step.kind === 'tts') for (const part of step.text.split(' ')) expect(ocrText.join(' ')).toContain(part);
+      if (step.kind === 'tts') for (const part of step.text.split(' ')) expect(speakDates(ocrText.join(' '), 'en', true)).toContain(part);
     }
   });
 });
@@ -97,7 +98,7 @@ describe('paracetamol label with a misread batch code (real QVAC blocks, batch s
 
   it('still speaks the expiry', () => {
     const plan = buildSpeechPlan(toLines(blocks));
-    expect(plan).toContainEqual(expect.objectContaining({ kind: 'tts', text: 'Exp: 08/2028' }));
+    expect(plan).toContainEqual(expect.objectContaining({ kind: 'tts', text: 'Exp: August 2028' }));
     expect(JSON.stringify(plan)).not.toContain('PX2417');
   });
 

@@ -135,7 +135,7 @@ describe('ReadFlow: photo -> OCR -> display and speech', () => {
     expect(screen.getByText('Mfg: 01/2026')).toBeTruthy();
     expect(screen.getByText('Manufactured by: Generic Pharma Ltd')).toBeTruthy();
     expect(screen.queryByTestId('reading-line-3')).toBeNull();
-    expect(services.speech.synthesized).toEqual(['PARACETAMOL', 'Tablets BP 500 mg', 'Exp: 08/2028']);
+    expect(services.speech.synthesized).toEqual(['PARACETAMOL', 'Tablets BP 500 mg', 'Exp: August 2028']);
   });
 
   it('highlights the line being spoken, and clears it when reading ends', async () => {
