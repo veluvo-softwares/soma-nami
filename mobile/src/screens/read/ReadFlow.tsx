@@ -141,6 +141,8 @@ export function ReadFlow({ services, onOpenSetup, now }: Props) {
         speech={speech}
         speechState={speechState}
         lines={medicinesView.medicine.lines}
+        translate={services.translate}
+        release={services.release}
         onBack={() => setMedicinesView({ kind: 'list' })}
       />
     );
@@ -176,6 +178,8 @@ export function ReadFlow({ services, onOpenSetup, now }: Props) {
           speech={speech}
           speechState={speechState}
           lines={state.lines}
+          translate={services.translate}
+          release={services.release}
           onBack={home}
           onAsk={() => dispatch({ type: 'ask' })}
           onSave={() => {

@@ -41,6 +41,16 @@ Only one model is loaded at a time (`src/reader/exclusiveModels.ts`): OCR is unl
 
 QVAC runs on the CPU on iOS (`plugins/withQvacCpuOnly.js` sets `GGML_METAL_DEVICES=0` at launch). QVAC's iOS build compiles its Metal shaders from source on the phone at every launch, and on the iPhone 12 iOS killed the shader compiler four times per launch, so Metal never worked anyway (C4a). The draft upstream issue is `docs/qvac-metal-issue.md`; remove the plugin once QVAC ships a precompiled metallib.
 
+### Tafsiri kwa Kiswahili (card C11)
+
+The button on the Reading screen. `src/tafsiri/`:
+
+- `tafsiri.ts`: translates each confident English line on the phone with TranslatePsy-AfriSLM 0.8B Q4 (one line at a time, model loaded for this step only and unloaded straight after), then runs the number check on that line. Unsure lines, Swahili lines and detail lines (batch, barcode, maker) are not translated.
+- `numberCheck.ts`: compares every number (digits, English and Swahili number words, fractions, months), frequency (`twice` against `mara tatu`) and unit (mg against ml, hours against days, before against after meals, tablet against capsule) in the translation with the original. Any difference in either direction, or a Swahili number word it can't read, means not safe. It does not check negation or other words (known gap). Swahili `kidonge` means any pill, so it is accepted for an English tablet or capsule; `kibao` and `kapsuli` stay specific.
+- Safe: the translation is shown under its original, labelled "Tafsiri (si lebo yenyewe) · Translation, not the label". Unsafe, or the model failed: only the original is shown, with "Tafsiri hii si salama. Soma ya asili au muulize mfamasia." (pre-made clip).
+- Spoken Swahili (`spokenTemplate.ts`): the phone has no Swahili voice and Chatterbox is too slow live, so a translated line is spoken only if the ORIGINAL English line fits a template, from pre-generated clips, with the numbers taken from the original, never from the model: `Meza` + `vidonge viwili` + `mara tatu kwa siku` + `kwa siku tano`, or `Tumia kabla ya` + month + year. Counts 1-10 for tablets and capsules, half, a quarter, 1½ and 2½ tablets, 1-6 times a day, 1-10 and 14 days, expiry years 2026-2035. A line that doesn't fit is shown and not spoken ("Tafsiri iko kwenye skrini").
+- The clips (`tpl_*`, `tafsiri_*` in `assets/phrases/phrases.json`) come from the same generator as the other phrases (`node scripts/phrases/generate.mjs`).
+
 ### Swahili phrases
 
 Every fixed Swahili line the app speaks (prompts, hints, the not-sure lines, button read-backs) is in `assets/phrases/phrases.json` and ships as a pre-rendered clip in `assets/phrases/sw/<id>.m4a`. Chatterbox is too slow to run on the phone (C2: 30–47× slower than real time), so the clips are made on the VPS:
@@ -80,7 +90,8 @@ Downloaded once, on Wi-Fi, from the models screen. The app won't open the reader
 | `TTS_MULTILINGUAL_SUPERTONIC3_Q4_0` | English voice | 85 MB |
 | `WHISPER_SMALL_Q8_0` | hearing hold-to-talk questions (C5) | 264 MB |
 | `QWEN3_1_7B_INST_Q4` | answering questions about the label | 1,057 MB |
-| **Total** | | **≈1.5 GB** |
+| `TRANSLATEPSY_AFRISLM_0_8B_TRANSLATION_Q4_K_M` | Tafsiri, English to Swahili (C11) | 672 MB |
+| **Total** | | **≈2.2 GB** |
 
 The list is `src/model-store/manifest.ts`, following `docs/scope.md` §1 and the 24 Oct decisions. Chatterbox is not downloaded to the phone: the fixed Swahili phrases ship as audio pre-generated with it on the VPS (C4). TranslatePsy is added by C11. The C2 spike may still change the list.
 

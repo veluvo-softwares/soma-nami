@@ -4,6 +4,8 @@ import {
   OCR_CRAFT,
   OCR_LATIN,
   textToSpeech,
+  translate,
+  TRANSLATEPSY_AFRISLM_0_8B_TRANSLATION_Q4_K_M,
   TTS_MULTILINGUAL_SUPERTONIC3_Q4_0,
   unloadModel,
 } from '@qvac/sdk';
@@ -39,6 +41,9 @@ export const TTS_CONFIG = {
   voice: 'F1',
   ttsSpeed: 0.95,
 };
+/** TranslatePsy 0.8B, as in the C2 spike (spike/translate.mjs): one label line at a time. */
+export const TRANSLATE_CONFIG = { ctx_size: 2048 };
+
 const SUPERTONIC_FALLBACK_RATE = 44100;
 
 /**
@@ -49,6 +54,9 @@ const SUPERTONIC_FALLBACK_RATE = 44100;
 const loader = {
   async load(job: EngineJob) {
     if (job === 'ocr') return loadModel({ modelSrc: OCR_LATIN, modelConfig: OCR_CONFIG });
+    if (job === 'translate') {
+      return loadModel({ modelSrc: TRANSLATEPSY_AFRISLM_0_8B_TRANSLATION_Q4_K_M, modelConfig: TRANSLATE_CONFIG });
+    }
     return loadModel({ modelSrc: TTS_MULTILINGUAL_SUPERTONIC3_Q4_0, modelConfig: TTS_CONFIG });
   },
   async unload(modelId: string) {
@@ -79,6 +87,18 @@ export function recognize(photoUri: string, timeoutMs: number = OCR_TIMEOUT_MS):
     },
     { timeoutMs },
   );
+}
+
+/**
+ * Translates label lines, English to Swahili, with TranslatePsy. The model is
+ * loaded for the first line; the reader calls `releaseModels()` as soon as the
+ * last line is done, so it is only in memory for this step.
+ */
+export function translateLine(text: string): Promise<string> {
+  return models.use('translate', async (modelId) => {
+    const run = translate({ modelId, text, from: 'en', to: 'sw', modelType: 'llamacpp-completion', stream: false });
+    return (await run.text).trim();
+  });
 }
 
 let ttsDir: Directory | null = null;

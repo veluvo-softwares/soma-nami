@@ -95,6 +95,9 @@ export class FakeReaderServices implements ReaderServices {
   recognized: string[] = [];
   prepared: Photo[] = [];
   released = 0;
+  translated: string[] = [];
+  /** What the fake translator returns for a line; set per test. */
+  translateWith: (english: string) => Promise<string> = async (english) => `SW: ${english}`;
   pickResult: Photo | null = null;
   private ocr: Deferred<OcrBlock[]>[] = [];
 
@@ -114,9 +117,14 @@ export class FakeReaderServices implements ReaderServices {
     return d.promise;
   }
 
-  async release() {
+  translate = (english: string): Promise<string> => {
+    this.translated.push(english);
+    return this.translateWith(english);
+  };
+
+  release = async () => {
     this.released++;
-  }
+  };
 
   finishOcr(blocks: OcrBlock[]) {
     const d = this.ocr.shift();

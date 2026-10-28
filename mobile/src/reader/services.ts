@@ -3,7 +3,7 @@ import { launchImageLibraryAsync } from 'expo-image-picker';
 
 import { createExpoAudioBackend } from '../speech/expoAudioBackend';
 import { fitLongSide } from './image';
-import { recognize, releaseModels, synthesize } from './qvacReader';
+import { recognize, releaseModels, synthesize, translateLine } from './qvacReader';
 import type { Photo, ReaderServices } from './types';
 
 async function preparePhoto(photo: Photo): Promise<Photo> {
@@ -40,6 +40,7 @@ export function createReaderServices(): ReaderServices {
     preparePhoto,
     pickPhoto,
     recognize,
+    translate: translateLine,
     speech: createExpoAudioBackend(synthesize),
     release: releaseModels,
   };

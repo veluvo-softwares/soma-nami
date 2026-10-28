@@ -1,9 +1,11 @@
 /**
  * The iPhone 12 has 4 GB and iOS kills an app well before that, so the reader
  * keeps at most one model loaded: OCR for a photo, then the English voice for
- * reading it out (docs/scope.md §5, spike report §1c).
+ * reading it out (docs/scope.md §5, spike report §1c). The translation model
+ * (Tafsiri, C11) is loaded only while a label is being translated and the
+ * reader releases it straight after.
  */
-export type EngineJob = 'ocr' | 'tts';
+export type EngineJob = 'ocr' | 'tts' | 'translate';
 
 /** Thrown when a job outlives its time limit. The job's late result is dropped. */
 export class JobTimeoutError extends Error {
