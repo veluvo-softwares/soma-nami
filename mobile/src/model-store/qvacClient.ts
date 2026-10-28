@@ -5,6 +5,7 @@ import {
   OCR_CRAFT,
   OCR_LATIN,
   QWEN3_1_7B_INST_Q4,
+  TRANSLATEPSY_AFRISLM_0_8B_TRANSLATION_Q4_K_M,
   TTS_MULTILINGUAL_SUPERTONIC3_Q4_0,
   WHISPER_SMALL_Q8_0,
 } from '@qvac/sdk';
@@ -22,6 +23,7 @@ export const MODEL_DESCRIPTORS = {
   TTS_MULTILINGUAL_SUPERTONIC3_Q4_0,
   WHISPER_SMALL_Q8_0,
   QWEN3_1_7B_INST_Q4,
+  TRANSLATEPSY_AFRISLM_0_8B_TRANSLATION_Q4_K_M,
 } satisfies Record<ModelName, { name: string; src: string }>;
 
 /** The real QVAC-backed client. Not unit tested: it needs the native worker. */

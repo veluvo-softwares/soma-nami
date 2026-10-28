@@ -19,6 +19,8 @@ export interface ReaderServices {
   pickPhoto(): Promise<Photo | null>;
   /** QVAC OCR on a prepared photo. */
   recognize(photoUri: string): Promise<OcrBlock[]>;
+  /** TranslatePsy, English to Swahili, one line. Loads the model on first use. */
+  translate(englishLine: string): Promise<string>;
   speech: SpeechBackend;
   /** Hold-to-talk microphone + Whisper. Absent -> the Ask screen shows the question buttons only. */
   listen?: ListenService;

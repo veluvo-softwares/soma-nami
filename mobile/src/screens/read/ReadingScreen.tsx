@@ -6,8 +6,10 @@ import { BigButton } from '../../components/BigButton';
 import { splitDetails } from '../../reader/details';
 import type { LabelLine } from '../../reader/ocrLines';
 import { useBi } from '../../settings/SettingsContext';
+import { PHRASES } from '../../speech/phrases';
 import { buildSpeechPlan, type SpeechStep } from '../../speech/plan';
 import type { SpeechSession, SpeechState } from '../../speech/session';
+import { buildTafsiriPlan, tafsiriLines, type LineTafsiri, type Translate } from '../../tafsiri/tafsiri';
 import { fonts, radius, space, type, usePalette, type Palette } from '../../theme';
 
 /** "Polepole" plays everything at this rate, with pitch kept. */
@@ -17,11 +19,20 @@ interface Props {
   speech: SpeechSession;
   speechState: SpeechState;
   lines: LabelLine[];
+  /** TranslatePsy, one line (C11). */
+  translate: Translate;
+  /** Unloads the translation model when Tafsiri is done. */
+  release: () => Promise<void>;
   onBack: () => void;
   onAsk?: () => void;
   /** Offers "Hifadhi" (save to Dawa zangu). Left out when replaying a saved label. */
   onSave?: () => Promise<void>;
 }
+
+type TafsiriState =
+  | { status: 'idle' }
+  | { status: 'working' }
+  | { status: 'done'; results: LineTafsiri[] };
 
 function languageChip(lines: readonly LabelLine[]) {
   const sw = lines.filter((l) => l.language === 'sw').length;
@@ -37,9 +48,13 @@ function languageChip(lines: readonly LabelLine[]) {
  * unsure of is never shown or read as text: it's an orange box that says it
  * couldn't be read. Batch numbers, manufacturing dates, barcodes and the
  * maker's address are shown small under More details and not read aloud.
- * Translation (C11) and Ask (C5) buttons come with those cards.
+ * "Tafsiri kwa Kiswahili" (C11) translates the lines on the phone and checks
+ * every number, unit and frequency against the original line. A checked
+ * translation is shown under its original, labelled as a translation; if
+ * anything differs the line shows only the original and the app says the
+ * translation isn't safe. The Ask button comes with C5.
  */
-export function ReadingScreen({ speech, speechState, lines, onBack, onAsk, onSave }: Props) {
+export function ReadingScreen({ speech, speechState, lines, translate, release, onBack, onAsk, onSave }: Props) {
   const p = usePalette();
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'failed'>('idle');
   const mounted = useRef(true);
@@ -75,6 +90,38 @@ export function ReadingScreen({ speech, speechState, lines, onBack, onAsk, onSav
   const notAloud = bi('Hayasomwi kwa sauti', 'Not read aloud');
   const saveFailed = bi('Haikuhifadhiwa. Jaribu tena.', "Couldn't save. Try again.");
   const couldntRead = bi('Sijaweza kusoma', 'Couldn’t read');
+
+  const [tafsiri, setTafsiri] = useState<TafsiriState>({ status: 'idle' });
+  const tafsiriRun = useRef(0);
+
+  // Leaving the screen drops a translation still running.
+  useEffect(
+    () => () => {
+      tafsiriRun.current++;
+    },
+    [],
+  );
+
+  const translateLabel = useCallback(async () => {
+    if (tafsiri.status === 'working') return;
+    if (tafsiri.status === 'done') {
+      void speech.speak(buildTafsiriPlan(tafsiri.results), 1);
+      return;
+    }
+    const run = ++tafsiriRun.current;
+    setTafsiri({ status: 'working' });
+    void speech.say('tafsiri_wait');
+    let results: LineTafsiri[] | null = null;
+    try {
+      results = await tafsiriLines(lines, translate, () => run !== tafsiriRun.current);
+    } finally {
+      // The model is only needed for this step: free the memory straight away.
+      await release().catch(() => undefined);
+    }
+    if (results === null || run !== tafsiriRun.current) return;
+    setTafsiri({ status: 'done', results });
+    void speech.speak(buildTafsiriPlan(results), 1);
+  }, [tafsiri, speech, lines, translate, release]);
 
   const start = useCallback(
     (rate: number, prefix?: SpeechStep) => {
@@ -130,6 +177,7 @@ export function ReadingScreen({ speech, speechState, lines, onBack, onAsk, onSav
               ) : (
                 <Text style={[styles.lineText, spoken && styles.spokenText]}>{line.text}</Text>
               )}
+              {tafsiri.status === 'done' && <TafsiriBlock result={tafsiri.results[i]} index={i} styles={styles} />}
             </View>
           );
         })}
@@ -203,6 +251,15 @@ export function ReadingScreen({ speech, speechState, lines, onBack, onAsk, onSav
           </View>
         ) : null}
         <BigButton
+          testID="reading-tafsiri"
+          tone="plain"
+          icon="translate"
+          sw={tafsiri.status === 'working' ? 'Ninatafsiri…' : 'Tafsiri kwa Kiswahili'}
+          en={tafsiri.status === 'working' ? 'Translating…' : 'Translate, numbers checked'}
+          disabled={tafsiri.status === 'working'}
+          onPress={() => void translateLabel()}
+        />
+        <BigButton
           testID="reading-back"
           tone="plain"
           icon="arrow-left"
@@ -214,6 +271,28 @@ export function ReadingScreen({ speech, speechState, lines, onBack, onAsk, onSav
           }}
         />
       </View>
+    </View>
+  );
+}
+
+type Styles = ReturnType<typeof makeStyles>;
+
+/** The translation (or the refusal) shown under one original line. */
+function TafsiriBlock({ result, index, styles }: { result: LineTafsiri | undefined; index: number; styles: Styles }) {
+  if (!result || result.kind === 'skipped') return null;
+  if (result.kind === 'safe') {
+    return (
+      <View style={styles.tafsiri} testID={`reading-line-${index}-tafsiri`}>
+        <Text style={styles.tafsiriLabel}>Tafsiri (si lebo yenyewe) · Translation, not the label</Text>
+        <Text style={styles.tafsiriText}>{result.translation}</Text>
+      </View>
+    );
+  }
+  const reason = result.kind === 'unsafe' ? PHRASES.tafsiri_unsafe : PHRASES.tafsiri_failed;
+  return (
+    <View style={[styles.tafsiri, styles.tafsiriUnsafe]} testID={`reading-line-${index}-tafsiri-unsafe`}>
+      <Text style={styles.tafsiriLabel}>{reason.sw}</Text>
+      <Text style={styles.tafsiriEn}>{reason.en}</Text>
     </View>
   );
 }
@@ -248,6 +327,11 @@ function makeStyles(p: Palette) {
     detailsNote: { fontFamily: fonts.regular, fontSize: type.hint, color: p.textMuted },
     detailText: { fontFamily: fonts.regular, fontSize: type.hint, color: p.textMuted },
     saveFailed: { fontFamily: fonts.bold, fontSize: type.body, color: p.warning, marginTop: space.xs },
+    tafsiri: { marginTop: space.sm, borderTopWidth: 2, borderTopColor: p.outline, paddingTop: space.xs, gap: 2 },
+    tafsiriUnsafe: { borderTopColor: p.warning, borderTopWidth: 4 },
+    tafsiriLabel: { fontFamily: fonts.bold, fontSize: type.hint, color: p.textMuted },
+    tafsiriText: { fontFamily: fonts.regular, fontSize: type.bodyLarge, color: p.text },
+    tafsiriEn: { fontFamily: fonts.regular, fontSize: type.hint, color: p.textMuted },
     actions: { padding: space.md, gap: space.md },
     row: { flexDirection: 'row', gap: space.md },
     half: { flex: 1, paddingHorizontal: space.md },

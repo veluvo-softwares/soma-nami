@@ -349,3 +349,124 @@ describe('ReadFlow: photo -> OCR -> display and speech', () => {
     expect(services.released).toBe(1);
   });
 });
+
+describe('ReadFlow: Tafsiri kwa Kiswahili', () => {
+  async function readLabel(services: FakeReaderServices, lines: (string | { text: string; confidence: number })[]) {
+    services.speech.autoFinish = true;
+    await settle();
+    await takePhoto(services);
+    await act(async () => {
+      services.finishOcr(blocksFor(lines));
+      await flush(40);
+    });
+    expect(screen.getByTestId('reading-screen')).toBeTruthy();
+  }
+
+  async function tapTafsiri() {
+    await act(async () => {
+      fireEvent.press(screen.getByTestId('reading-tafsiri'));
+      await flush(40);
+    });
+  }
+
+  it('shows each checked translation under its original, labelled as a translation, then frees the model', async () => {
+    const services = setup();
+    services.translateWith = async (en) =>
+      ({
+        'Take 2 tablets twice daily.': 'Chukua vidonge viwili mara mbili kwa siku.',
+        'Shake well.': 'Tikisa vizuri.',
+      })[en] ?? 'x';
+    await readLabel(services, ['Take 2 tablets twice daily.', 'Shake well.']);
+    const releasedBefore = services.released;
+    await tapTafsiri();
+
+    expect(services.translated).toEqual(['Take 2 tablets twice daily.', 'Shake well.']);
+    expect(screen.getByText('Take 2 tablets twice daily.')).toBeTruthy();
+    expect(screen.getByText('Chukua vidonge viwili mara mbili kwa siku.')).toBeTruthy();
+    expect(screen.getByText('Tikisa vizuri.')).toBeTruthy();
+    expect(screen.getAllByText('Tafsiri (si lebo yenyewe) · Translation, not the label')).toHaveLength(2);
+    // The translation model is released as soon as the step ends.
+    expect(services.released).toBe(releasedBefore + 1);
+    // The first line fits a template: spoken from clips built on the original's numbers.
+    const names = services.speech.playedNames();
+    expect(names).toEqual(expect.arrayContaining(['tafsiri_wait', 'tpl_take', 'tpl_tab_2', 'tpl_freq_2', 'tafsiri_on_screen']));
+    expect(names.indexOf('tpl_take')).toBeLessThan(names.indexOf('tpl_tab_2'));
+    expect(names.indexOf('tpl_tab_2')).toBeLessThan(names.indexOf('tpl_freq_2'));
+  });
+
+  it('a translated line whose number differs: shows the original, no translation, and says it is not safe', async () => {
+    const services = setup();
+    services.translateWith = async () => 'Chukua vidonge vitatu mara mbili kwa siku.';
+    await readLabel(services, ['Take 2 tablets twice daily.']);
+    await tapTafsiri();
+
+    expect(screen.getByText('Take 2 tablets twice daily.')).toBeTruthy();
+    expect(screen.queryByText('Chukua vidonge vitatu mara mbili kwa siku.')).toBeNull();
+    expect(screen.getByTestId('reading-line-0-tafsiri-unsafe')).toBeTruthy();
+    expect(screen.getByText('Tafsiri hii si salama. Soma ya asili au muulize mfamasia.')).toBeTruthy();
+    const names = services.speech.playedNames();
+    expect(names).toContain('tafsiri_unsafe');
+    expect(names).not.toContain('tpl_tab_2');
+    expect(names).not.toContain('tpl_tab_3');
+  });
+
+  it('a model failure shows the original and says it could not translate; the model is still released', async () => {
+    const services = setup();
+    services.translateWith = async () => {
+      throw new Error('out of memory');
+    };
+    await readLabel(services, ['Shake well.']);
+    const releasedBefore = services.released;
+    await tapTafsiri();
+
+    expect(screen.getByText('Shake well.')).toBeTruthy();
+    expect(screen.getByTestId('reading-line-0-tafsiri-unsafe')).toBeTruthy();
+    expect(services.speech.playedNames()).toContain('tafsiri_failed');
+    expect(services.released).toBe(releasedBefore + 1);
+  });
+
+  it('never translates an unsure line', async () => {
+    const services = setup();
+    await readLabel(services, ['PARACETAMOL', { text: 'Take 4 tablets', confidence: 0.3 }]);
+    await tapTafsiri();
+    expect(services.translated).toEqual(['PARACETAMOL']);
+    expect(screen.getByTestId('reading-line-1-unsure')).toBeTruthy();
+    expect(screen.queryByTestId('reading-line-1-tafsiri')).toBeNull();
+  });
+
+  it('leaving while it translates drops the result: nothing is shown or spoken afterwards', async () => {
+    const services = setup();
+    let finish: (v: string) => void = () => undefined;
+    services.translateWith = () => new Promise<string>((res) => (finish = res));
+    await readLabel(services, ['Shake well.']);
+    await act(async () => {
+      fireEvent.press(screen.getByTestId('reading-tafsiri'));
+      await flush(10);
+    });
+    expect(screen.getByText('Ninatafsiri…')).toBeTruthy();
+
+    await act(async () => {
+      fireEvent.press(screen.getByTestId('reading-back'));
+      await flush(10);
+    });
+    const playedBefore = services.speech.played.length;
+    await act(async () => {
+      finish('Tikisa vizuri.');
+      await flush(20);
+    });
+    expect(screen.queryByText('Tikisa vizuri.')).toBeNull();
+    expect(services.speech.played.length).toBe(playedBefore);
+  });
+
+  it('pressing the button again replays the checked result without translating twice', async () => {
+    const services = setup();
+    await readLabel(services, ['Take 1 tablet once daily.']);
+    services.translateWith = async () => 'Chukua kidonge kimoja mara moja kwa siku.';
+    await tapTafsiri();
+    expect(services.translated).toHaveLength(1);
+    const before = services.speech.played.length;
+    await tapTafsiri();
+    expect(services.translated).toHaveLength(1);
+    expect(services.speech.played.length).toBeGreaterThan(before);
+  });
+});
