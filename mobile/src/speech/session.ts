@@ -1,5 +1,6 @@
-import type { PhraseId } from './phrases';
+import { PHRASES, type PhraseId } from './phrases';
 import type { SpeechStep } from './plan';
+import type { Language } from '../settings/settings';
 
 /** Audio the backend can play: a bundled clip, or a file it synthesised. */
 export type AudioRef = { kind: 'clip'; phrase: PhraseId } | { kind: 'file'; uri: string };
@@ -24,6 +25,18 @@ export interface SpeechState {
 
 export const IDLE: SpeechState = { status: 'idle', line: null };
 
+/** How the session adapts to the caregiver's setup and to a screen reader. Read on every call. */
+export interface SpeechOptions {
+  /** Interface language. In English the app's own phrases are spoken by the on-device English voice instead of the Swahili clips. */
+  language?: () => Language;
+  /** Multiplies every playback rate (the caregiver's voice speed). */
+  speed?: () => number;
+  /** True while VoiceOver or TalkBack is on. */
+  screenReader?: () => boolean;
+  /** Sends text to the screen reader as an announcement. */
+  announce?: (text: string) => void;
+}
+
 /**
  * Speaks a plan step by step and reports which label line is being spoken.
  *
@@ -40,6 +53,7 @@ export class SpeechSession {
   constructor(
     private readonly backend: SpeechBackend,
     private readonly onChange: (state: SpeechState) => void,
+    private readonly options: SpeechOptions = {},
   ) {}
 
   get current(): SpeechState {
@@ -52,9 +66,32 @@ export class SpeechSession {
     this.onChange(state);
   }
 
-  async speak(plan: readonly SpeechStep[], rate = 1): Promise<SpeechStatus> {
+  async speak(input: readonly SpeechStep[], baseRate = 1): Promise<SpeechStatus> {
     const run = ++this.run;
     this.backend.stop();
+    const english = this.options.language?.() === 'en';
+    const rate = baseRate * (this.options.speed?.() ?? 1);
+
+    // With a screen reader on, the app's own fixed phrases go to it as an
+    // announcement instead of being spoken over it (docs/ui.md rule 7).
+    if (this.options.screenReader?.() && this.options.announce && input.every((s) => s.kind === 'clip')) {
+      const text = input.map((s) => (s.kind === 'clip' ? PHRASES[s.phrase][english ? 'en' : 'sw'] : '')).join(' ');
+      this.options.announce(text);
+      this.emit(run, { status: 'done', line: null });
+      return 'done';
+    }
+
+    // English interface: there is no English clip set, so the phrase's English
+    // text is read by the on-device voice. Like a clip, it only frames the
+    // reading: if it fails the label lines are still read.
+    const frame = new Set<number>();
+    const plan: SpeechStep[] = input.map((step, i) => {
+      if (english && step.kind === 'clip') {
+        frame.add(i);
+        return { kind: 'tts', text: PHRASES[step.phrase].en, line: step.line };
+      }
+      return step;
+    });
     const synth = new Map<number, Promise<AudioRef>>();
     const prepare = (i: number) => {
       const step = plan[i];
@@ -75,12 +112,26 @@ export class SpeechSession {
         if (run !== this.run) return 'stopped';
         const step = plan[i]!;
         prepare(i);
-        const audio: AudioRef =
-          step.kind === 'clip' ? { kind: 'clip', phrase: step.phrase } : await synth.get(i)!;
+        let audio: AudioRef;
+        try {
+          audio = step.kind === 'clip' ? { kind: 'clip', phrase: step.phrase } : await synth.get(i)!;
+        } catch (e) {
+          if (run !== this.run) return 'stopped';
+          if (!frame.has(i)) throw e;
+          console.warn(`[soma] phrase skipped: ${e instanceof Error ? e.message : String(e)}`);
+          continue;
+        }
         if (run !== this.run) return 'stopped';
         prepare(nextTts(i + 1));
         this.emit(run, { status: 'speaking', line: step.line ?? null });
-        if (step.kind === 'clip') {
+        if (frame.has(i)) {
+          try {
+            await this.backend.play(audio, rate);
+          } catch (e) {
+            if (run !== this.run) return 'stopped';
+            console.warn(`[soma] phrase skipped: ${e instanceof Error ? e.message : String(e)}`);
+          }
+        } else if (step.kind === 'clip') {
           // A Swahili clip is only a frame around the reading. If one fails to
           // load or play (a Debug build offline can't fetch it from Metro), skip
           // it and keep going, so the label lines are still spoken.

@@ -1,9 +1,12 @@
 import { useEffect, useReducer, useRef, useState } from 'react';
+import { AccessibilityInfo } from 'react-native';
 
 import { assessPhoto } from '../../reader/assess';
 import { flowReducer, INITIAL_FLOW } from '../../reader/flow';
 import { toLines } from '../../reader/ocrLines';
 import type { Photo, ReaderServices } from '../../reader/types';
+import { SPEED_RATE } from '../../settings/settings';
+import { useSettings } from '../../settings/SettingsContext';
 import { IDLE, SpeechSession, type SpeechState } from '../../speech/session';
 import { AimingScreen } from './AimingScreen';
 import { AskScreen } from './AskScreen';
@@ -14,16 +17,48 @@ import { ReadingScreen } from './ReadingScreen';
 
 interface Props {
   services: ReaderServices;
+  /** Opens caregiver setup from Home. */
+  onOpenSetup?: () => void;
+}
+
+/** True while VoiceOver or TalkBack is on; follows it being switched on and off. */
+function useScreenReader(): boolean {
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    AccessibilityInfo.isScreenReaderEnabled()
+      .then((v) => alive && setOn(v))
+      .catch(() => undefined);
+    const sub = AccessibilityInfo.addEventListener('screenReaderChanged', setOn);
+    return () => {
+      alive = false;
+      sub.remove();
+    };
+  }, []);
+  return on;
 }
 
 /**
  * Camera -> OCR -> read aloud (card C4). Owns the flow state, the one speech
  * session every screen talks through, and the OCR request in flight.
  */
-export function ReadFlow({ services }: Props) {
+export function ReadFlow({ services, onOpenSetup }: Props) {
   const [state, dispatch] = useReducer(flowReducer, INITIAL_FLOW);
   const [speechState, setSpeechState] = useState<SpeechState>(IDLE);
-  const [speech] = useState(() => new SpeechSession(services.speech, setSpeechState));
+  const { settings } = useSettings();
+  const screenReader = useScreenReader();
+  // The session lives for the whole reader; it reads the current setup on every call.
+  const live = useRef({ settings, screenReader });
+  live.current = { settings, screenReader };
+  const [speech] = useState(
+    () =>
+      new SpeechSession(services.speech, setSpeechState, {
+        language: () => live.current.settings.language,
+        speed: () => SPEED_RATE[live.current.settings.voiceSpeed],
+        screenReader: () => live.current.screenReader,
+        announce: (text) => AccessibilityInfo.announceForAccessibility(text),
+      }),
+  );
   const request = useRef(0);
   const screen = useRef(state.screen);
   screen.current = state.screen;
@@ -77,7 +112,7 @@ export function ReadFlow({ services }: Props) {
 
   switch (state.screen) {
     case 'home':
-      return <HomeScreen speech={speech} onRead={() => dispatch({ type: 'open-camera' })} />;
+      return <HomeScreen speech={speech} onRead={() => dispatch({ type: 'open-camera' })} onSetup={onOpenSetup} />;
     case 'aiming':
       return (
         <AimingScreen

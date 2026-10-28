@@ -2,18 +2,23 @@ import { useEffect, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { BigButton } from '../../components/BigButton';
+import { useBi } from '../../settings/SettingsContext';
 import type { SpeechSession } from '../../speech/session';
 import { fonts, space, type, usePalette, type Palette } from '../../theme';
 
 interface Props {
   speech: SpeechSession;
   onRead: () => void;
+  /** Opens caregiver setup. Left out where there is no setup screen. */
+  onSetup?: () => void;
 }
 
 /** Screen 1 (docs/ui.md): almost the whole screen is one yellow button. */
-export function HomeScreen({ speech, onRead }: Props) {
+export function HomeScreen({ speech, onRead, onSetup }: Props) {
   const p = usePalette();
   const styles = useMemo(() => makeStyles(p), [p]);
+  const bi = useBi();
+  const offline = bi('Inafanya kazi bila intaneti', 'Works without internet');
 
   useEffect(() => {
     void speech.say('home_open');
@@ -30,8 +35,13 @@ export function HomeScreen({ speech, onRead }: Props) {
         onPress={onRead}
         style={styles.big}
       />
-      <Text style={styles.offline}>Inafanya kazi bila intaneti</Text>
-      <Text style={styles.offlineEn}>Works without internet</Text>
+      <View accessible accessibilityLabel={offline.main} testID="home-offline">
+        <Text style={styles.offline}>{offline.main}</Text>
+        <Text style={styles.offlineEn}>{offline.sub}</Text>
+      </View>
+      {onSetup ? (
+        <BigButton testID="home-setup" tone="plain" icon="cog" sw="Mipangilio" en="Setup" onPress={onSetup} />
+      ) : null}
     </View>
   );
 }

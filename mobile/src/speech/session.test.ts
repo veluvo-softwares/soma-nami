@@ -179,3 +179,65 @@ describe('SpeechSession', () => {
     expect(backend.played).toHaveLength(5);
   });
 });
+
+describe('SpeechSession with setup and a screen reader', () => {
+  const FRAME: SpeechStep[] = [{ kind: 'clip', phrase: 'label_says' }, { kind: 'tts', text: 'PARACETAMOL', line: 0 }];
+
+  it('English interface: the app phrase is spoken by the voice, not the Swahili clip; label text is untouched', async () => {
+    const backend = new FakeSpeechBackend();
+    backend.autoFinish = true;
+    const session = new SpeechSession(backend, () => undefined, { language: () => 'en' });
+    await expect(session.speak(FRAME)).resolves.toBe('done');
+    expect(backend.synthesized).toEqual(['The label says:', 'PARACETAMOL']);
+    expect(backend.playedNames().includes('label_says')).toBe(false);
+  });
+
+  it('English interface: a phrase that fails to speak is skipped and the label is still read', async () => {
+    jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const backend = new FakeSpeechBackend();
+    backend.autoFinish = true;
+    const real = backend.synthesize.bind(backend);
+    backend.synthesize = (text: string) => (text === 'The label says:' ? Promise.reject(new Error('no voice')) : real(text));
+    const session = new SpeechSession(backend, () => undefined, { language: () => 'en' });
+    await expect(session.speak(FRAME)).resolves.toBe('done');
+    expect(backend.played).toHaveLength(1);
+  });
+
+  it('a failing label line is still an error, not skipped', async () => {
+    const backend = new FakeSpeechBackend();
+    const session = new SpeechSession(backend, () => undefined, { language: () => 'en' });
+    const result = session.speak([{ kind: 'tts', text: 'X', line: 0 }]);
+    await flush();
+    backend.failSynth(new Error('boom'));
+    await expect(result).resolves.toBe('error');
+  });
+
+  it('the caregiver speed multiplies every playback rate', async () => {
+    const backend = new FakeSpeechBackend();
+    backend.autoFinish = true;
+    const session = new SpeechSession(backend, () => undefined, { speed: () => 0.8 });
+    await session.speak(FRAME, 1);
+    expect(backend.rates.length).toBeGreaterThan(0);
+    expect(backend.rates.every((r) => r === 0.8)).toBe(true);
+  });
+
+  it('with a screen reader on, fixed phrases are announced to it and not played over it', async () => {
+    const backend = new FakeSpeechBackend();
+    const announced: string[] = [];
+    const session = new SpeechSession(backend, () => undefined, { screenReader: () => true, announce: (t) => announced.push(t) });
+    await expect(session.speak([{ kind: 'clip', phrase: 'home_open' }])).resolves.toBe('done');
+    expect(announced).toEqual(['Gusa popote kusoma.']);
+    expect(backend.played).toEqual([]);
+    expect(session.current).toEqual({ status: 'done', line: null });
+  });
+
+  it('with a screen reader on, a label reading is still spoken aloud', async () => {
+    const backend = new FakeSpeechBackend();
+    backend.autoFinish = true;
+    const announced: string[] = [];
+    const session = new SpeechSession(backend, () => undefined, { screenReader: () => true, announce: (t) => announced.push(t) });
+    await session.speak(FRAME);
+    expect(announced).toEqual([]);
+    expect(backend.synthesized).toEqual(['PARACETAMOL']);
+  });
+});

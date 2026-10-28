@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { LanguageChoice } from '../components/LanguageChoice';
 import { formatBytes, type ModelEntry } from '../model-store/manifest';
 import {
   missingBytes,
@@ -8,6 +9,7 @@ import {
   type ModelState,
   type ModelsState,
 } from '../model-store/modelsState';
+import { useBi } from '../settings/SettingsContext';
 import { fonts, radius, space, touch, type, usePalette, type Palette } from '../theme';
 
 interface Props {
@@ -16,13 +18,13 @@ interface Props {
   onDownload: () => void;
 }
 
-/** Swahili first, English under it (docs/ui.md Rule 6). C6 adds the language switch. */
-interface Bilingual {
+/** Swahili first, English under it (docs/ui.md Rule 6); the two swap in English mode. */
+export interface Bilingual {
   sw: string;
   en: string;
 }
 
-const STATUS_TEXT: Record<ModelState['status'], Bilingual> = {
+export const STATUS_TEXT: Record<ModelState['status'], Bilingual> = {
   unknown: { sw: 'Inakagua…', en: 'Checking…' },
   missing: { sw: 'Haijapakuliwa', en: 'Not downloaded' },
   downloading: { sw: 'Inapakua', en: 'Downloading' },
@@ -30,37 +32,108 @@ const STATUS_TEXT: Record<ModelState['status'], Bilingual> = {
   error: { sw: 'Imeshindwa', en: 'Failed' },
 };
 
+export function downloadLabel(state: ModelsState): Bilingual {
+  return state.phase === 'error'
+    ? { sw: 'Jaribu tena', en: 'Try again' }
+    : { sw: 'Pakua', en: `Download models (${formatBytes(missingBytes(state))})` };
+}
+
+export function phaseText(state: ModelsState, pct: number): Bilingual {
+  switch (state.phase) {
+    case 'checking':
+      return { sw: 'Inakagua modeli…', en: 'Checking models on this phone…' };
+    case 'needs-download':
+      return {
+        sw: 'Modeli hazipo. Unganisha Wi-Fi upakue.',
+        en: 'Models are missing. Connect to Wi-Fi and download them.',
+      };
+    case 'downloading':
+      return { sw: `Inapakua… ${pct}%`, en: `Downloading… ${pct}%. Keep the app open.` };
+    case 'ready':
+      return { sw: 'Tayari', en: 'All models ready' };
+    case 'error':
+      return { sw: 'Upakuaji umesimama.', en: 'Download stopped.' };
+  }
+}
+
+/** The one yellow download button (Pakua); shown only when there is something to download. */
+export function DownloadButton({ state, onDownload }: { state: ModelsState; onDownload: () => void }) {
+  const p = usePalette();
+  const styles = useMemo(() => makeStyles(p), [p]);
+  const bi = useBi();
+  const busy = state.phase === 'checking' || state.phase === 'downloading';
+  const show = state.phase === 'needs-download' || state.phase === 'error';
+  const label = downloadLabel(state);
+  const { main, sub } = bi(label.sw, label.en);
+  if (!show) return null;
+  return (
+    <Pressable
+      style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+      onPress={onDownload}
+      disabled={busy}
+      accessibilityRole="button"
+      accessibilityLabel={main}
+      accessibilityHint={sub}
+      testID="models-download"
+    >
+      <Text style={styles.buttonText}>{main}</Text>
+      <Text style={styles.buttonEnglish}>{sub}</Text>
+    </Pressable>
+  );
+}
+
+/** Each model with its status and size. */
+export function ModelRows({ manifest, state }: { manifest: readonly ModelEntry[]; state: ModelsState }) {
+  const p = usePalette();
+  const styles = useMemo(() => makeStyles(p), [p]);
+  const bi = useBi();
+  return (
+    <View style={styles.list}>
+      {manifest.map((m) => {
+        const s = state.models[m.name];
+        const status = bi(STATUS_TEXT[s.status].sw, STATUS_TEXT[s.status].en);
+        const detail =
+          s.status === 'downloading' ? `${formatBytes(s.downloaded)} / ${formatBytes(s.total)}` : formatBytes(s.total);
+        const text = `${status.main} (${status.sub}) · ${detail}`;
+        return (
+          <View key={m.name} style={styles.row} testID={`model-${m.name}`} accessible accessibilityLabel={`${m.label}: ${text}`}>
+            <Text style={styles.rowLabel}>{m.label}</Text>
+            <Text style={styles.rowStatus}>{text}</Text>
+          </View>
+        );
+      })}
+    </View>
+  );
+}
+
 export function ModelsScreen({ manifest, state, onDownload }: Props) {
   const palette = usePalette();
   const styles = useMemo(() => makeStyles(palette), [palette]);
+  const bi = useBi();
   const pct = Math.round(overallProgress(state) * 100);
-  const busy = state.phase === 'checking' || state.phase === 'downloading';
-  const showButton = state.phase === 'needs-download' || state.phase === 'error';
-  const phase = phaseText(state, pct);
-  const button: Bilingual =
-    state.phase === 'error'
-      ? { sw: 'Jaribu tena', en: 'Try again' }
-      : { sw: 'Pakua', en: `Download models (${formatBytes(missingBytes(state))})` };
+  const rawPhase = phaseText(state, pct);
+  const phase = bi(rawPhase.sw, rawPhase.en);
+  const title = bi('Mipangilio ya modeli', 'Models');
+  const body = bi(
+    'Soma Nami inasoma kwenye simu, bila intaneti. Pakua modeli mara moja, kwenye Wi-Fi.',
+    'Soma Nami reads on the phone, with no internet. Download the models once, on Wi-Fi, before you switch to airplane mode.',
+  );
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <LanguageChoice />
       <Text style={styles.title} accessibilityRole="header">
-        Mipangilio ya modeli
+        {title.main}
       </Text>
-      <Text style={styles.subtitle}>Models</Text>
-      <Text style={styles.body}>
-        Soma Nami inasoma kwenye simu, bila intaneti. Pakua modeli mara moja, kwenye Wi-Fi.
-      </Text>
-      <Text style={styles.english}>
-        Soma Nami reads on the phone, with no internet. Download the models once, on Wi-Fi, before
-        you switch to airplane mode.
-      </Text>
+      <Text style={styles.subtitle}>{title.sub}</Text>
+      <Text style={styles.body}>{body.main}</Text>
+      <Text style={styles.english}>{body.sub}</Text>
 
-      <View accessible accessibilityLabel={phase.sw} accessibilityHint={phase.en}>
+      <View accessible accessibilityLabel={phase.main} accessibilityHint={phase.sub}>
         <Text style={styles.phase} testID="models-phase">
-          {phase.sw}
+          {phase.main}
         </Text>
-        <Text style={styles.english}>{phase.en}</Text>
+        <Text style={styles.english}>{phase.sub}</Text>
       </View>
 
       {state.phase === 'downloading' ? (
@@ -79,59 +152,10 @@ export function ModelsScreen({ manifest, state, onDownload }: Props) {
         </Text>
       ) : null}
 
-      {showButton ? (
-        <Pressable
-          style={({ pressed }) => [styles.button, pressed && styles.pressed]}
-          onPress={onDownload}
-          disabled={busy}
-          accessibilityRole="button"
-          accessibilityLabel={button.sw}
-          accessibilityHint={button.en}
-          testID="models-download"
-        >
-          <Text style={styles.buttonText}>{button.sw}</Text>
-          <Text style={styles.buttonEnglish}>{button.en}</Text>
-        </Pressable>
-      ) : null}
-
-      <View style={styles.list}>
-        {manifest.map((m) => {
-          const s = state.models[m.name];
-          const status = STATUS_TEXT[s.status];
-          const detail =
-            s.status === 'downloading'
-              ? `${formatBytes(s.downloaded)} / ${formatBytes(s.total)}`
-              : formatBytes(s.total);
-          return (
-            <View key={m.name} style={styles.row} testID={`model-${m.name}`}>
-              <Text style={styles.rowLabel}>{m.label}</Text>
-              <Text style={styles.rowStatus}>
-                {status.sw} ({status.en}) · {detail}
-              </Text>
-            </View>
-          );
-        })}
-      </View>
+      <DownloadButton state={state} onDownload={onDownload} />
+      <ModelRows manifest={manifest} state={state} />
     </ScrollView>
   );
-}
-
-function phaseText(state: ModelsState, pct: number): Bilingual {
-  switch (state.phase) {
-    case 'checking':
-      return { sw: 'Inakagua modeli…', en: 'Checking models on this phone…' };
-    case 'needs-download':
-      return {
-        sw: 'Modeli hazipo. Unganisha Wi-Fi upakue.',
-        en: 'Models are missing. Connect to Wi-Fi and download them.',
-      };
-    case 'downloading':
-      return { sw: `Inapakua… ${pct}%`, en: `Downloading… ${pct}%. Keep the app open.` };
-    case 'ready':
-      return { sw: 'Tayari', en: 'All models ready' };
-    case 'error':
-      return { sw: 'Upakuaji umesimama.', en: 'Download stopped.' };
-  }
 }
 
 function makeStyles(p: Palette) {
