@@ -3,7 +3,8 @@ import { MONTHS_EN, MONTHS_SW, speakDates } from './spokenDate';
 describe('speakDates (printed date -> what the voice says)', () => {
   const cases: [string, string, string][] = [
     ['MM/YYYY', 'Exp: 08/2028', 'Exp: August 2028'],
-    ['MM/YYYY, no space', 'EXP08/2028', 'EXPAugust 2028'],
+    ['MM/YYYY, no space', 'EXP08/2028', 'EXP August 2028'],
+    ['DD/MM/YYYY, no space', 'EXP12/08/2028', 'EXP 12 August 2028'],
     ['MM/YY', 'Exp 08/28', 'Exp August 2028'],
     ['MM-YYYY', 'Expiry: 03-2029', 'Expiry: March 2029'],
     ['MM.YYYY', 'Use by 12.2027', 'Use by December 2027'],

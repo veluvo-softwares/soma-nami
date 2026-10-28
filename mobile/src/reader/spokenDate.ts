@@ -87,13 +87,18 @@ function say(day: number | null, month: number, year: number | null, lang: DateL
 export function speakDates(text: string, lang: DateLanguage = 'en', shortYears = false): string {
   const numeric = text.replace(
     NUMERIC,
-    (all: string, day?: string, sep1?: string, month?: string, sep2?: string, year?: string) => {
+    (all: string, day: string | undefined, sep1: string | undefined, month: string, sep2: string,
+      year: string, offset: number) => {
+      // "EXP08/2028" -> "EXP August 2028": a date glued to a word gets a space, or the voice reads "EXPAugust".
+      const gap = /\p{L}/u.test(text[offset - 1] ?? '') ? ' ' : '';
       if (day !== undefined) {
         // DD<sep>MM<sep>YYYY, day first. The separators must match and the year must be in full.
-        if (sep1 !== sep2 || year!.length !== 4) return all;
-        return say(Number(day), Number(month), fullYear(year!), lang) ?? all;
+        if (sep1 !== sep2 || year.length !== 4) return all;
+        const spoken = say(Number(day), Number(month), fullYear(year), lang);
+        return spoken === null ? all : gap + spoken;
       }
-      return say(null, Number(month), fullYear(year!, shortYears), lang) ?? all;
+      const spoken = say(null, Number(month), fullYear(year, shortYears), lang);
+      return spoken === null ? all : gap + spoken;
     },
   );
   return numeric.replace(WORDY, (all: string, day?: string, word?: string, year?: string) => {
