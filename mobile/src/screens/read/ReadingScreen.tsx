@@ -17,6 +17,7 @@ interface Props {
   speechState: SpeechState;
   lines: LabelLine[];
   onBack: () => void;
+  onAsk?: () => void;
 }
 
 function languageChip(lines: readonly LabelLine[]) {
@@ -35,7 +36,7 @@ function languageChip(lines: readonly LabelLine[]) {
  * maker's address are shown small under More details and not read aloud.
  * Translation (C11) and Ask (C5) buttons come with those cards.
  */
-export function ReadingScreen({ speech, speechState, lines, onBack }: Props) {
+export function ReadingScreen({ speech, speechState, lines, onBack, onAsk }: Props) {
   const p = usePalette();
   const styles = useMemo(() => makeStyles(p), [p]);
   const plan = useMemo(() => buildSpeechPlan(lines), [lines]);
@@ -142,6 +143,19 @@ export function ReadingScreen({ speech, speechState, lines, onBack }: Props) {
             style={styles.half}
           />
         </View>
+        {onAsk && (
+          <BigButton
+            testID="reading-ask"
+            tone="ask"
+            icon="microphone"
+            sw="Uliza swali"
+            en="Ask a question"
+            onPress={() => {
+              speech.stop();
+              onAsk();
+            }}
+          />
+        )}
         <BigButton
           testID="reading-back"
           tone="plain"

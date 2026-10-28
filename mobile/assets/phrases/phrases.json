@@ -25,6 +25,20 @@
     "btn_try_again": { "sw": "Jaribu tena.", "en": "Try again." },
     "btn_read_this": { "sw": "Soma hii.", "en": "Read this one." },
     "btn_pick_photo": { "sw": "Chagua picha.", "en": "Choose a photo." },
-    "btn_back": { "sw": "Rudi.", "en": "Back." }
+    "btn_back": { "sw": "Rudi.", "en": "Back." },
+    "btn_ask": { "sw": "Uliza swali.", "en": "Ask a question." },
+    "ask_open": { "sw": "Shikilia kitufe cha bluu, kisha uliza swali lako.", "en": "Hold the blue button, then ask your question." },
+    "ask_no_match": { "sw": "Sijaelewa, jaribu tena.", "en": "I didn't understand, try again." },
+    "ask_not_stated": { "sw": "Lebo haisemi. Muulize mfamasia.", "en": "The label doesn't say. Ask the pharmacist." },
+    "ask_unsure": { "sw": "Sijaweza kusoma sehemu hiyo vizuri. Muulize mfamasia.", "en": "I couldn't read that part clearly. Ask the pharmacist." },
+    "ask_conflict": { "sw": "Lebo inasema vitu tofauti. Muulize mfamasia.", "en": "The label says different things. Ask the pharmacist." },
+    "ask_mic_error": { "sw": "Sikuweza kusikia. Tumia vitufe.", "en": "I couldn't hear you. Use the buttons." },
+    "q_time_of_day": { "sw": "Umeuliza: hii ni ya saa ngapi?", "en": "You asked: what time is this for?" },
+    "q_times_a_day": { "sw": "Umeuliza: mara ngapi kwa siku?", "en": "You asked: how many times a day?" },
+    "q_how_many": { "sw": "Umeuliza: nimeze vidonge vingapi?", "en": "You asked: how many do I take?" },
+    "q_with_food": { "sw": "Umeuliza: nimeze na chakula?", "en": "You asked: with food?" },
+    "q_what_is_it": { "sw": "Umeuliza: ni dawa gani?", "en": "You asked: which medicine is this?" },
+    "q_expiry": { "sw": "Umeuliza: dawa hii inaisha muda lini?", "en": "You asked: when does it expire?" },
+    "q_read_again": { "sw": "Umeuliza: soma tena.", "en": "You asked: read it again." }
   }
 }

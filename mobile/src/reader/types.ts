@@ -20,6 +20,21 @@ export interface ReaderServices {
   /** QVAC OCR on a prepared photo. */
   recognize(photoUri: string): Promise<OcrBlock[]>;
   speech: SpeechBackend;
+  /** Hold-to-talk microphone + Whisper. Absent -> the Ask screen shows the question buttons only. */
+  listen?: ListenService;
   /** Unloads models when the reader goes away. */
   release(): Promise<void>;
+}
+
+/**
+ * Hold-to-talk (C5): the phone's microphone and Whisper. `start()` begins
+ * recording when the user presses the mic; `finish()` is called when they let
+ * go and resolves with the transcript; `cancel()` drops the recording. The
+ * transcript is only ever matched against the fixed question list
+ * (ask/match.ts), never answered from.
+ */
+export interface ListenService {
+  start(): Promise<void>;
+  finish(): Promise<string>;
+  cancel(): Promise<void>;
 }

@@ -15,6 +15,15 @@ describe('flowReducer', () => {
     expect(s).toEqual({ screen: 'reading', lines: LINES });
   });
 
+  it('Ask opens only from reading, keeps the lines, and goes back to the label', () => {
+    const reading: FlowState = { screen: 'reading', lines: LINES };
+    const asking = flowReducer(reading, { type: 'ask' });
+    expect(asking).toEqual({ screen: 'asking', lines: LINES });
+    expect(flowReducer(asking, { type: 'back-to-label' })).toEqual(reading);
+    expect(flowReducer(INITIAL_FLOW, { type: 'ask' })).toBe(INITIAL_FLOW);
+    expect(flowReducer(reading, { type: 'back-to-label' })).toBe(reading);
+  });
+
   it('a hint goes back to the camera with the hint, and "Soma hii" reads what was found', () => {
     let s = flowReducer({ screen: 'processing', request: 2 }, {
       type: 'assessed',

@@ -23,5 +23,19 @@
   "btn_try_again": "d0654c1863844c24",
   "btn_read_this": "d64e77c4bce43edb",
   "btn_pick_photo": "c37c222727fec703",
-  "btn_back": "ff06698007abf1bf"
+  "btn_back": "ff06698007abf1bf",
+  "btn_ask": "2ece87837c5b6c79",
+  "ask_open": "1bdf2ccb4f0d8e6e",
+  "ask_no_match": "e43926ff0ea0210d",
+  "ask_not_stated": "0ad4badfb5c42f93",
+  "ask_unsure": "d58cc0fbb0c95bc5",
+  "ask_conflict": "d4679e7644a4b335",
+  "ask_mic_error": "7cc5ef5a7be1db44",
+  "q_time_of_day": "bfc3786688275e1d",
+  "q_times_a_day": "50e6c705937d9d11",
+  "q_how_many": "24753d3a9704d450",
+  "q_with_food": "58654e89adbbb421",
+  "q_what_is_it": "6b775ccdc5dfeaa4",
+  "q_expiry": "946d4f5ce5b01b5f",
+  "q_read_again": "737ae7cf07e3e949"
 }
