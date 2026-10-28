@@ -5,6 +5,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { BigButton } from '../../components/BigButton';
 import { splitDetails } from '../../reader/details';
 import type { LabelLine } from '../../reader/ocrLines';
+import { useBi } from '../../settings/SettingsContext';
 import { buildSpeechPlan, type SpeechStep } from '../../speech/plan';
 import type { SpeechSession, SpeechState } from '../../speech/session';
 import { fonts, radius, space, type, usePalette, type Palette } from '../../theme';
@@ -45,6 +46,13 @@ export function ReadingScreen({ speech, speechState, lines, onBack, onAsk }: Pro
   const scroll = useRef<ScrollView>(null);
   const lineY = useRef<Record<number, number>>({});
   const chip = languageChip(lines);
+  const bi = useBi();
+  const chipName = bi(chip.sw, chip.en);
+  const asPrinted = bi('inasomwa kama ilivyoandikwa', 'read exactly as printed');
+  const unsureText = bi('Mstari huu sijaweza kuusoma vizuri', "I couldn't read this line clearly. Ask the pharmacist.");
+  const moreDetails = bi('Maelezo zaidi', 'More details');
+  const notAloud = bi('Hayasomwi kwa sauti', 'Not read aloud');
+  const couldntRead = bi('Sijaweza kusoma', 'Couldn’t read');
 
   const start = useCallback(
     (rate: number, prefix?: SpeechStep) => {
@@ -67,9 +75,9 @@ export function ReadingScreen({ speech, speechState, lines, onBack, onAsk }: Pro
 
   return (
     <View style={styles.container} testID="reading-screen">
-      <View style={styles.chip} accessible accessibilityLabel={`${chip.sw}, inasomwa kama ilivyoandikwa`}>
-        <Text style={styles.chipSw}>{chip.sw} · inasomwa kama ilivyoandikwa</Text>
-        <Text style={styles.chipEn}>{chip.en} · read exactly as printed</Text>
+      <View style={styles.chip} accessible accessibilityLabel={`${chipName.main}, ${asPrinted.main}`}>
+        <Text style={styles.chipSw}>{chipName.main} · {asPrinted.main}</Text>
+        <Text style={styles.chipEn}>{chipName.sub} · {asPrinted.sub}</Text>
       </View>
       <ScrollView ref={scroll} style={styles.lines} contentContainerStyle={styles.linesContent}>
         {read.map((i) => {
@@ -93,10 +101,8 @@ export function ReadingScreen({ speech, speechState, lines, onBack, onAsk }: Pro
                 <View style={styles.unsureRow} testID={`reading-line-${i}-unsure`}>
                   <MaterialCommunityIcons name="alert" size={32} color={spoken ? p.onAccent : p.warning} />
                   <View style={styles.unsureText}>
-                    <Text style={[styles.unsureSw, spoken && { color: p.onAccent }]}>Mstari huu sijaweza kuusoma vizuri</Text>
-                    <Text style={[styles.unsureEn, spoken && { color: p.onAccent }]}>
-                      I couldn&apos;t read this line clearly. Ask the pharmacist.
-                    </Text>
+                    <Text style={[styles.unsureSw, spoken && { color: p.onAccent }]}>{unsureText.main}</Text>
+                    <Text style={[styles.unsureEn, spoken && { color: p.onAccent }]}>{unsureText.sub}</Text>
                   </View>
                 </View>
               ) : (
@@ -107,13 +113,13 @@ export function ReadingScreen({ speech, speechState, lines, onBack, onAsk }: Pro
         })}
         {details.length > 0 && (
           <View style={styles.details} testID="reading-details">
-            <Text style={styles.detailsHeading}>Maelezo zaidi · More details</Text>
-            <Text style={styles.detailsNote}>Hayasomwi kwa sauti · Not read aloud</Text>
+            <Text style={styles.detailsHeading}>{moreDetails.main} · {moreDetails.sub}</Text>
+            <Text style={styles.detailsNote}>{notAloud.main} · {notAloud.sub}</Text>
             {details.map((i) => {
               const line = lines[i]!;
               return (
                 <Text key={i} testID={`reading-detail-${i}`} style={styles.detailText}>
-                  {line.lowConfidence ? 'Sijaweza kusoma · Couldn’t read' : line.text}
+                  {line.lowConfidence ? `${couldntRead.main} · ${couldntRead.sub}` : line.text}
                 </Text>
               );
             })}

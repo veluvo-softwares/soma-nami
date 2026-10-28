@@ -4,6 +4,7 @@ import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { BigButton } from '../../components/BigButton';
 import type { Photo } from '../../reader/types';
+import { useBi } from '../../settings/SettingsContext';
 import { PHRASES, type PhraseId } from '../../speech/phrases';
 import type { SpeechSession } from '../../speech/session';
 import { fonts, radius, space, type, usePalette, type Palette } from '../../theme';
@@ -34,6 +35,10 @@ export function AimingScreen({ speech, hint, canReadAnyway, onPhoto, onPick, onR
   const [capturing, setCapturing] = useState(false);
   const granted = permission?.granted ?? false;
   const known = permission !== null;
+  const bi = useBi();
+  const captureLabel = bi('Gusa popote kupiga picha', 'Tap anywhere to take the photo');
+  const hintText = hint ? bi(PHRASES[hint].sw, PHRASES[hint].en) : null;
+  const permText = bi(PHRASES.camera_permission.sw, PHRASES.camera_permission.en);
 
   useEffect(() => {
     if (!known) return;
@@ -55,10 +60,10 @@ export function AimingScreen({ speech, hint, canReadAnyway, onPhoto, onPick, onR
     }
   };
 
-  const hintBanner = hint ? (
+  const hintBanner = hintText ? (
     <View style={styles.banner} accessibilityLiveRegion="polite" testID="aiming-hint">
-      <Text style={styles.bannerSw}>{PHRASES[hint].sw}</Text>
-      <Text style={styles.bannerEn}>{PHRASES[hint].en}</Text>
+      <Text style={styles.bannerSw}>{hintText.main}</Text>
+      <Text style={styles.bannerEn}>{hintText.sub}</Text>
     </View>
   ) : null;
 
@@ -66,8 +71,8 @@ export function AimingScreen({ speech, hint, canReadAnyway, onPhoto, onPick, onR
     <View style={styles.container} testID="aiming-screen">
       {permission && !granted ? (
         <View style={styles.permission}>
-          <Text style={styles.permissionSw}>{PHRASES.camera_permission.sw}</Text>
-          <Text style={styles.permissionEn}>{PHRASES.camera_permission.en}</Text>
+          <Text style={styles.permissionSw}>{permText.main}</Text>
+          <Text style={styles.permissionEn}>{permText.sub}</Text>
           <BigButton
             testID="aiming-allow-camera"
             icon="camera"
@@ -86,8 +91,8 @@ export function AimingScreen({ speech, hint, canReadAnyway, onPhoto, onPick, onR
           onPress={capture}
           disabled={!granted || capturing}
           accessibilityRole="button"
-          accessibilityLabel="Gusa popote kupiga picha"
-          accessibilityHint="Tap anywhere to take the photo"
+          accessibilityLabel={captureLabel.main}
+          accessibilityHint={captureLabel.sub}
         >
           {granted ? (
             <CameraView

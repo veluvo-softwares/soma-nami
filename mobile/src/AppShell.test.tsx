@@ -120,3 +120,54 @@ describe('AppShell read gate', () => {
     expect(client.started).toEqual(['OCR_CRAFT']);
   });
 });
+
+describe('AppShell caregiver setup and language', () => {
+  async function openSetup() {
+    const client = new FakeModelClient();
+    client.cached = new Set(['OCR_CRAFT', 'OCR_LATIN']);
+    render(<AppShell client={client} manifest={TEST_MANIFEST} reader={reader} />);
+    await settle();
+    fireEvent.press(screen.getByTestId('home-setup'));
+    await settle();
+    expect(screen.getByTestId('setup-screen')).toBeTruthy();
+  }
+
+  it('Swahili first by default: the button label is Swahili and the hint is English', async () => {
+    await openSetup();
+    const done = screen.getByTestId('setup-done');
+    expect(done.props.accessibilityLabel).toBe('Tayari');
+    expect(done.props.accessibilityHint).toBe('Done');
+  });
+
+  it('the language toggle swaps label and hint on every screen, and back', async () => {
+    await openSetup();
+    fireEvent.press(screen.getByTestId('language-en'));
+    await settle();
+    expect(screen.getByTestId('language-en').props.accessibilityState.selected).toBe(true);
+    expect(screen.getByTestId('language-sw').props.accessibilityState.selected).toBe(false);
+    expect(screen.getByTestId('setup-done').props.accessibilityLabel).toBe('Done');
+    expect(screen.getByTestId('setup-done').props.accessibilityHint).toBe('Tayari');
+
+    fireEvent.press(screen.getByTestId('setup-done'));
+    await settle();
+    expect(screen.getByTestId('home-read').props.accessibilityLabel).toBe('Tap to read');
+    expect(screen.getByTestId('home-read').props.accessibilityHint).toBe('Gusa kusoma');
+
+    fireEvent.press(screen.getByTestId('home-setup'));
+    await settle();
+    fireEvent.press(screen.getByTestId('language-sw'));
+    await settle();
+    expect(screen.getByTestId('setup-done').props.accessibilityLabel).toBe('Tayari');
+  });
+
+  it('voice speed, theme and the helper number are chosen here, and the number is cleaned', async () => {
+    await openSetup();
+    fireEvent.press(screen.getByTestId('speed-slow'));
+    fireEvent.press(screen.getByTestId('theme-light'));
+    fireEvent.changeText(screen.getByTestId('helper-number'), '0700 abc 123');
+    await settle();
+    expect(screen.getByTestId('speed-slow').props.accessibilityState.selected).toBe(true);
+    expect(screen.getByTestId('theme-light').props.accessibilityState.selected).toBe(true);
+    expect(screen.getByTestId('helper-number').props.value).toBe('0700  123');
+  });
+});

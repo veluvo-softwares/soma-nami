@@ -11,7 +11,7 @@ import type { LabelLine } from '../reader/ocrLines';
  */
 export type SpeechStep =
   | { kind: 'clip'; phrase: PhraseId; line?: number }
-  | { kind: 'tts'; text: string; line: number };
+  | { kind: 'tts'; text: string; line?: number };
 
 /**
  * Turns the label lines into what the app says. Product rules:
