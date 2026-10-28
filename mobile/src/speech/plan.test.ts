@@ -63,7 +63,7 @@ describe('expiry next to an unsure batch code', () => {
   it('speaks the confident expiry and not the unsure batch code', () => {
     expect(buildSpeechPlan(toLines(blocks(0.3, 0.9)))).toEqual([
       { kind: 'clip', phrase: 'label_says' },
-      { kind: 'tts', text: 'Exp: 08/2028', line: 0 },
+      { kind: 'tts', text: 'Exp: August 2028', line: 0 },
       { kind: 'clip', phrase: 'reading_end' },
     ]);
   });

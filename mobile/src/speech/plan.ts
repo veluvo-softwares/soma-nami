@@ -1,5 +1,6 @@
 import type { PhraseId } from './phrases';
-import { lineRole, spokenText } from '../reader/details';
+import { hasExpiry, lineRole, spokenText } from '../reader/details';
+import { speakDates } from '../reader/spokenDate';
 import type { LabelLine } from '../reader/ocrLines';
 
 /**
@@ -14,7 +15,9 @@ export type SpeechStep =
 
 /**
  * Turns the label lines into what the app says. Product rules:
- * - a confident English line is read exactly as printed;
+ * - a confident English line is read as printed, except that a date gets its
+ *   month name ("08/2028" -> "August 2028", reader/spokenDate.ts); the screen
+ *   still shows the label as printed;
  * - a low-confidence line is never read: the app says it couldn't read it and
  *   to ask the pharmacist;
  * - a Swahili line can't be spoken (no on-device Swahili voice; Chatterbox is
@@ -37,7 +40,7 @@ export function buildSpeechPlan(lines: readonly LabelLine[]): SpeechStep[] {
         toldSwahili = true;
       }
     } else {
-      steps.push({ kind: 'tts', text: spokenText(line.text), line: i });
+      steps.push({ kind: 'tts', text: speakDates(spokenText(line.text), 'en', hasExpiry(line.text)), line: i });
     }
   });
   steps.push({ kind: 'clip', phrase: 'reading_end' });

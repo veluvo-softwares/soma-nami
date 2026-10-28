@@ -114,7 +114,7 @@ describe('speech plan with label details', () => {
       { kind: 'clip', phrase: 'label_says' },
       { kind: 'tts', text: 'PARACETAMOL', line: 0 },
       { kind: 'tts', text: '1 to 2 tablets every 4 to 6 hours.', line: 1 },
-      { kind: 'tts', text: 'Exp: 08/2028', line: 3 },
+      { kind: 'tts', text: 'Exp: August 2028', line: 3 },
       { kind: 'tts', text: 'Store below 30°C.', line: 7 },
       { kind: 'clip', phrase: 'reading_end' },
     ]);
