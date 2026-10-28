@@ -17,6 +17,7 @@ export type FlowState =
   | { screen: 'aiming'; hint: PhraseId | null; found: LabelLine[] }
   | { screen: 'processing'; request: number }
   | { screen: 'reading'; lines: LabelLine[] }
+  | { screen: 'asking'; lines: LabelLine[] }
   | { screen: 'not-sure'; reason: 'mostly-unreadable' | 'handwritten-dose' };
 
 export type FlowAction =
@@ -25,6 +26,8 @@ export type FlowAction =
   | { type: 'assessed'; request: number; assessment: Assessment }
   | { type: 'failed'; request: number }
   | { type: 'read-anyway' }
+  | { type: 'ask' }
+  | { type: 'back-to-label' }
   | { type: 'home' };
 
 export const INITIAL_FLOW: FlowState = { screen: 'home' };
@@ -51,6 +54,10 @@ export function flowReducer(state: FlowState, action: FlowAction): FlowState {
     case 'read-anyway':
       if (state.screen !== 'aiming' || state.found.length === 0) return state;
       return { screen: 'reading', lines: state.found };
+    case 'ask':
+      return state.screen === 'reading' ? { screen: 'asking', lines: state.lines } : state;
+    case 'back-to-label':
+      return state.screen === 'asking' ? { screen: 'reading', lines: state.lines } : state;
     case 'home':
       return { screen: 'home' };
     default:

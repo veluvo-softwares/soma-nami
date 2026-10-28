@@ -6,6 +6,7 @@ import { toLines } from '../../reader/ocrLines';
 import type { Photo, ReaderServices } from '../../reader/types';
 import { IDLE, SpeechSession, type SpeechState } from '../../speech/session';
 import { AimingScreen } from './AimingScreen';
+import { AskScreen } from './AskScreen';
 import { HomeScreen } from './HomeScreen';
 import { NotSureScreen } from './NotSureScreen';
 import { ProcessingScreen } from './ProcessingScreen';
@@ -92,7 +93,25 @@ export function ReadFlow({ services }: Props) {
     case 'processing':
       return <ProcessingScreen speech={speech} onBack={home} />;
     case 'reading':
-      return <ReadingScreen speech={speech} speechState={speechState} lines={state.lines} onBack={home} />;
+      return (
+        <ReadingScreen
+          speech={speech}
+          speechState={speechState}
+          lines={state.lines}
+          onBack={home}
+          onAsk={() => dispatch({ type: 'ask' })}
+        />
+      );
+    case 'asking':
+      return (
+        <AskScreen
+          speech={speech}
+          speechState={speechState}
+          lines={state.lines}
+          listen={services.listen}
+          onBackToLabel={() => dispatch({ type: 'back-to-label' })}
+        />
+      );
     case 'not-sure':
       return <NotSureScreen speech={speech} onTryAgain={() => dispatch({ type: 'open-camera' })} onBack={home} />;
   }
