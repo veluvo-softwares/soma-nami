@@ -11,7 +11,7 @@ export interface WhisperDeps {
    * unloads OCR or the voice before loading Whisper, `release()` unloads it.
    */
   models: {
-    use<T>(job: 'asr', work: (modelId: string) => Promise<T>): Promise<T>;
+    use<T>(job: 'asr', work: (modelId: string) => Promise<T>, opts?: { skip?: () => boolean }): Promise<T>;
     release(): Promise<void>;
   };
   /** Stops a Whisper load that is still running (no-op if none). */
@@ -69,7 +69,7 @@ export class WhisperTranscriber implements Transcriber {
         } finally {
           this.requestId = null;
         }
-      });
+      }, { skip: () => this.cancelled });
     } finally {
       this.loading = false;
       this.deps.removeFile(path);

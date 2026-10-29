@@ -23,6 +23,15 @@ export interface UseOptions {
   timeoutMs?: number;
   /** How long to wait for the stuck model to unload before abandoning it. Default 10 s. */
   unloadGraceMs?: number;
+  /** Checked when the job's turn comes; true drops it before its model loads. */
+  skip?: () => boolean;
+}
+
+export class JobSkippedError extends Error {
+  constructor(job: EngineJob) {
+    super(`${job} skipped: cancelled while queued`);
+    this.name = 'JobSkippedError';
+  }
 }
 
 export interface ModelLoader {
@@ -45,8 +54,14 @@ export class ExclusiveModels {
     return this.current?.job ?? null;
   }
 
+  /**
+   * `opts.skip` is checked when the job's turn comes, before anything is loaded:
+   * a request dropped while it waited in the queue (hold-to-talk cancelled)
+   * then ends with JobSkippedError instead of loading a model nobody needs.
+   */
   use<T>(job: EngineJob, work: (modelId: string) => Promise<T>, opts: UseOptions = {}): Promise<T> {
     return this.enqueue(async () => {
+      if (opts.skip?.()) throw new JobSkippedError(job);
       if (this.current?.job !== job) {
         await this.unloadCurrent();
         const id = await this.loader.load(job);

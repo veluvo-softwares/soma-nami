@@ -14,7 +14,7 @@ function setup() {
   const t = new WhisperTranscriber({
     isCached: async () => qvac.cached,
     models: {
-      use: (job, work) => models.use(job, work),
+      use: (job, work, opts) => models.use(job, work, opts),
       release: () => (failUnloads-- > 0 ? Promise.reject(new Error('unload failed')) : realRelease()),
     },
     cancelLoad: qvac.cancelLoad,
@@ -63,6 +63,21 @@ describe('WhisperTranscriber', () => {
     qvac.cached = false;
     await expect(t.isAvailable()).resolves.toBe(false);
     expect(qvac.log).toEqual([]);
+  });
+
+  it('cancelled while queued behind OCR: Whisper is never loaded', async () => {
+    const { t, qvac, models } = setup();
+    let finishOcr!: () => void;
+    const ocr = models.use('ocr', () => new Promise<void>((r) => (finishOcr = r)));
+    await Promise.resolve();
+    const text = t.transcribe(new Uint8Array(32000));
+    await t.cancel();
+    finishOcr();
+    await ocr;
+    await expect(text).rejects.toThrow(/skipped/);
+    expect(qvac.log.filter((l) => l === 'load asr')).toEqual([]);
+    expect(qvac.loaded.size).toBe(0);
+    expect(qvac.files.size).toBe(0);
   });
 
   it('cancel() with nothing running is harmless', async () => {
