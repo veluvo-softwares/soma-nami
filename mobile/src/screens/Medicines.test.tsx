@@ -270,3 +270,132 @@ describe('Dawa zangu in caregiver setup', () => {
     expect(screen.getByTestId('setup-a-morning').props.accessibilityState.selected).toBe(false);
   });
 });
+
+describe('notes on saved medicines', () => {
+  const NOTE = 'Kunywa baada ya kifungua kinywa. Daktari alisema wiki 2.';
+  const seedMed = (note?: string) =>
+    new MemoryMedicineStorage({
+      medicines: [
+        {
+          id: 'a',
+          name: 'PARACETAMOL',
+          photoUri: 'file:///medicines/a.jpg',
+          savedAt: '2026-10-29T08:00:00.000Z',
+          times: [],
+          ...(note === undefined ? {} : { note }),
+          lines: [{ text: 'PARACETAMOL', minConfidence: 0.9, lowConfidence: false, language: 'en', box: null }],
+        },
+      ],
+    });
+
+  async function openReplay(storage: MemoryMedicineStorage) {
+    const utils = setup(storage);
+    await settle();
+    fireEvent.press(screen.getByTestId('home-medicines'));
+    await settle();
+    fireEvent.press(screen.getByTestId('medicine-a'));
+    await settle();
+    return utils;
+  }
+
+  it('an old medicine with no note offers "Add a note", and adding one shows it under the label', async () => {
+    const storage = seedMed();
+    await openReplay(storage);
+    expect(screen.queryByTestId('reading-note')).toBeNull();
+    expect(screen.getByTestId('reading-note-edit')).toHaveTextContent(/Ongeza maelezo/);
+
+    fireEvent.press(screen.getByTestId('reading-note-edit'));
+    await settle();
+    expect(screen.getByTestId('note-screen')).toBeTruthy();
+    expect(screen.queryByTestId('note-delete')).toBeNull(); // nothing to delete yet
+    expect(screen.getByTestId('note-save').props.accessibilityState.disabled).toBe(true); // nothing typed
+    const input = screen.getByTestId('note-input');
+    expect(input.props.accessibilityLabel).toContain('Maelezo ya dawa hii');
+    expect(input.props.accessibilityHint).toContain('not read aloud');
+    fireEvent.changeText(input, NOTE);
+    fireEvent.press(screen.getByTestId('note-save'));
+    await settle();
+
+    expect(storage.saved.at(-1)![0]!.note).toBe(NOTE);
+    expect(screen.getByTestId('reading-note')).toHaveTextContent(NOTE);
+    expect(screen.getByTestId('reading-note-edit')).toHaveTextContent(/Hariri maelezo/);
+  });
+
+  it('never speaks the note', async () => {
+    const { services } = await openReplay(seedMed(NOTE));
+    expect(screen.getByTestId('reading-note')).toHaveTextContent(NOTE);
+    expect(services.speech.synthesized.join(' ')).not.toContain('Kunywa');
+    expect(services.speech.synthesized).toContain('PARACETAMOL');
+  });
+
+  it('edits a note', async () => {
+    const storage = seedMed(NOTE);
+    await openReplay(storage);
+    fireEvent.press(screen.getByTestId('reading-note-edit'));
+    await settle();
+    expect(screen.getByTestId('note-input').props.value).toBe(NOTE);
+    fireEvent.changeText(screen.getByTestId('note-input'), 'Jioni tu.');
+    fireEvent.press(screen.getByTestId('note-save'));
+    await settle();
+    expect(storage.saved.at(-1)![0]!.note).toBe('Jioni tu.');
+    expect(screen.getByTestId('reading-note')).toHaveTextContent('Jioni tu.');
+  });
+
+  it('deletes a note only after a confirm', async () => {
+    const storage = seedMed(NOTE);
+    await openReplay(storage);
+    fireEvent.press(screen.getByTestId('reading-note-edit'));
+    await settle();
+    fireEvent.press(screen.getByTestId('note-delete'));
+    expect(screen.getByTestId('note-confirm')).toBeTruthy();
+    expect(storage.saved).toEqual([]);
+
+    fireEvent.press(screen.getByTestId('note-delete-no'));
+    expect(screen.queryByTestId('note-confirm')).toBeNull();
+    expect(storage.saved).toEqual([]);
+
+    fireEvent.press(screen.getByTestId('note-delete'));
+    fireEvent.press(screen.getByTestId('note-delete-yes'));
+    await settle();
+    expect(storage.saved.at(-1)![0]!.note).toBe('');
+    expect(screen.queryByTestId('reading-note')).toBeNull();
+    expect(screen.getByTestId('reading-note-edit')).toHaveTextContent(/Ongeza maelezo/);
+  });
+
+  it('says so when the note could not be saved, keeps the text, and lets the user retry', async () => {
+    const storage = seedMed();
+    await openReplay(storage);
+    fireEvent.press(screen.getByTestId('reading-note-edit'));
+    await settle();
+    fireEvent.changeText(screen.getByTestId('note-input'), 'Asubuhi');
+    storage.failSave = true;
+    fireEvent.press(screen.getByTestId('note-save'));
+    await settle();
+    expect(screen.getByTestId('note-failed')).toBeTruthy();
+    expect(screen.getByTestId('note-input').props.value).toBe('Asubuhi');
+    expect(screen.getByTestId('note-save').props.accessibilityState.disabled).toBe(false);
+
+    storage.failSave = false;
+    fireEvent.press(screen.getByTestId('note-save'));
+    await settle();
+    expect(storage.saved.at(-1)![0]!.note).toBe('Asubuhi');
+    expect(screen.getByTestId('reading-note')).toHaveTextContent('Asubuhi');
+  });
+
+  it('back leaves the note alone, and the list shows a preview of it', async () => {
+    const storage = seedMed(NOTE);
+    await openReplay(storage);
+    fireEvent.press(screen.getByTestId('reading-note-edit'));
+    await settle();
+    fireEvent.changeText(screen.getByTestId('note-input'), 'changed');
+    fireEvent.press(screen.getByTestId('note-back'));
+    await settle();
+    expect(storage.saved).toEqual([]);
+    expect(screen.getByTestId('reading-note')).toHaveTextContent(NOTE);
+
+    fireEvent.press(screen.getByTestId('reading-more'));
+    fireEvent.press(screen.getByTestId('reading-back'));
+    await settle();
+    expect(screen.getByTestId('medicine-a-note')).toHaveTextContent(NOTE);
+  });
+});

@@ -27,6 +27,10 @@ interface Props {
   onAsk?: () => void;
   /** Offers "Hifadhi" (save to Dawa zangu). Left out when replaying a saved label. */
   onSave?: () => Promise<void>;
+  /** A saved medicine's note, shown under the label text. Never spoken. */
+  note?: string;
+  /** Opens the note editor. Given only when replaying a saved label. */
+  onNote?: () => void;
 }
 
 type TafsiriState =
@@ -56,7 +60,7 @@ function languageChip(lines: readonly LabelLine[]) {
  * anything differs the line shows only the original and the app says the
  * translation isn't safe. The Ask button comes with C5.
  */
-export function ReadingScreen({ speech, speechState, lines, translate, release, onBack, onAsk, onSave }: Props) {
+export function ReadingScreen({ speech, speechState, lines, translate, release, onBack, onAsk, onSave, note, onNote }: Props) {
   const p = usePalette();
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'failed'>('idle');
   const mounted = useRef(true);
@@ -92,6 +96,7 @@ export function ReadingScreen({ speech, speechState, lines, translate, release, 
   const notAloud = bi('Hayasomwi kwa sauti', 'Not read aloud');
   const saveFailed = bi('Haikuhifadhiwa. Jaribu tena.', "Couldn't save. Try again.");
   const couldntRead = bi('Sijaweza kusoma', 'Couldn’t read');
+  const noteHeading = bi('Maelezo yako', 'Your note');
 
   const [tafsiri, setTafsiri] = useState<TafsiriState>({ status: 'idle' });
   const tafsiriRun = useRef(0);
@@ -239,6 +244,26 @@ export function ReadingScreen({ speech, speechState, lines, translate, release, 
               </View>
             );
           })}
+          {onNote ? (
+            // The caregiver's note, under the label text. Shown only: never sent to the voice.
+            <View style={styles.note} testID="reading-note-block">
+              <Text style={styles.noteHeading}>{noteHeading.main} · {noteHeading.sub}</Text>
+              {note ? (
+                <Text style={styles.noteText} testID="reading-note">
+                  {note}
+                </Text>
+              ) : null}
+              <BigButton
+                testID="reading-note-edit"
+                tone="plain"
+                icon={note ? 'pencil' : 'note-plus'}
+                sw={note ? 'Hariri maelezo' : 'Ongeza maelezo'}
+                en={note ? 'Edit note' : 'Add a note'}
+                hint={note ? 'Edit or delete the note for this medicine' : 'Add a note for this medicine'}
+                onPress={onNote}
+              />
+            </View>
+          ) : null}
           {details.length > 0 && (
             <View style={styles.details} testID="reading-details">
               <Text style={styles.detailsHeading}>{moreDetails.main} · {moreDetails.sub}</Text>
@@ -440,6 +465,9 @@ function makeStyles(p: Palette) {
     unsureText: { flexShrink: 1 },
     unsureSw: { fontFamily: fonts.bold, fontSize: type.bodyLarge, color: p.text },
     unsureEn: { fontFamily: fonts.regular, fontSize: type.hint, color: p.textMuted },
+    note: { marginTop: space.md, paddingTop: space.sm, borderTopWidth: 4, borderTopColor: p.outline, gap: space.sm },
+    noteHeading: { fontFamily: fonts.bold, fontSize: type.hint, color: p.textMuted },
+    noteText: { fontFamily: fonts.bold, fontSize: type.bodyLarge, color: p.text },
     details: { marginTop: space.md, paddingTop: space.sm, borderTopWidth: 2, borderTopColor: p.outline, gap: space.xs },
     detailsHeading: { fontFamily: fonts.bold, fontSize: type.hint, color: p.textMuted },
     detailsNote: { fontFamily: fonts.regular, fontSize: type.hint, color: p.textMuted },

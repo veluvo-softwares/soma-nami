@@ -31,6 +31,19 @@ export interface SavedMedicine {
   lines: LabelLine[];
   /** Set only by the caregiver (or the pharmacist). Empty means none: show none. */
   times: TimeOfDay[];
+  /**
+   * The caregiver's own note (e.g. "Kunywa baada ya kifungua kinywa"). Empty means none.
+   * Shown, never spoken: notes are often Swahili and the phone has no Swahili voice.
+   */
+  note: string;
+}
+
+/** Longest note kept. A note is a few lines, not a document. */
+export const NOTE_MAX = 500;
+
+/** Trims a note and cuts it to NOTE_MAX; whitespace only becomes "" (no note). */
+export function cleanNote(raw: unknown): string {
+  return typeof raw === 'string' ? raw.trim().slice(0, NOTE_MAX) : '';
 }
 
 export interface NewMedicine {
@@ -106,6 +119,8 @@ export function parseMedicines(raw: unknown): SavedMedicine[] {
       savedAt: typeof r.savedAt === 'string' ? r.savedAt : '',
       lines: lines as LabelLine[],
       times: normaliseTimes(Array.isArray(r.times) ? r.times : []),
+      // Medicines saved before notes existed have none.
+      note: cleanNote(r.note),
     });
   }
   return out;
@@ -204,6 +219,7 @@ export class MedicineStore {
         savedAt: (input.now ?? new Date()).toISOString(),
         lines: input.lines.map((l) => ({ ...l })),
         times: [],
+        note: '',
       };
       try {
         await this.storage.save([...this.items, medicine]);
@@ -222,6 +238,18 @@ export class MedicineStore {
     return this.enqueue(async () => {
       if (!this.items.some((m) => m.id === id)) return;
       const next = this.items.map((m) => (m.id === id ? { ...m, times: normaliseTimes(times) } : m));
+      await this.storage.save(next);
+      this.items = next;
+      this.emit();
+    });
+  }
+
+  /** Adds, edits or (with empty text) deletes the note of one medicine. */
+  setNote(id: string, note: string): Promise<void> {
+    return this.enqueue(async () => {
+      if (!this.items.some((m) => m.id === id)) return;
+      const clean = cleanNote(note);
+      const next = this.items.map((m) => (m.id === id ? { ...m, note: clean } : m));
       await this.storage.save(next);
       this.items = next;
       this.emit();

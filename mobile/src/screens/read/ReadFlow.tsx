@@ -10,6 +10,7 @@ import { useSettings } from '../../settings/SettingsContext';
 import { IDLE, SpeechSession, type SpeechState } from '../../speech/session';
 import { useMedicines } from '../../medicines/MedicinesContext';
 import type { SavedMedicine } from '../../medicines/medicines';
+import { MedicineNoteScreen } from '../MedicineNoteScreen';
 import { MedicinesScreen } from '../MedicinesScreen';
 import { AimingScreen } from './AimingScreen';
 import { AskScreen } from './AskScreen';
@@ -51,7 +52,7 @@ export function ReadFlow({ services, onOpenSetup, now }: Props) {
   const [state, dispatch] = useReducer(flowReducer, INITIAL_FLOW);
   const [speechState, setSpeechState] = useState<SpeechState>(IDLE);
   // Dawa zangu sits beside the read flow: the flow's own state is kept while it is open.
-  const [medicinesView, setMedicinesView] = useState<{ kind: 'list' } | { kind: 'replay'; medicine: SavedMedicine } | null>(null);
+  const [medicinesView, setMedicinesView] = useState<{ kind: 'list' } | { kind: 'replay' | 'note'; medicine: SavedMedicine } | null>(null);
   const { store, items } = useMedicines();
   const lastPhoto = useRef<Photo | null>(null);
   const { settings } = useSettings();
@@ -133,16 +134,34 @@ export function ReadFlow({ services, onOpenSetup, now }: Props) {
       />
     );
   }
+  if (medicinesView?.kind === 'note') {
+    // Take the live copy, so the editor shows the note as last saved.
+    const medicine = items.find((m) => m.id === medicinesView.medicine.id) ?? medicinesView.medicine;
+    return (
+      <MedicineNoteScreen
+        medicine={medicine}
+        onSave={(note) => store.setNote(medicine.id, note)}
+        onBack={() => setMedicinesView({ kind: 'replay', medicine })}
+      />
+    );
+  }
   if (medicinesView?.kind === 'replay') {
     // Read from storage: the saved lines go straight to speech, no OCR.
+    // The note is shown under the label and never spoken (no Swahili voice on the phone).
+    const medicine = items.find((m) => m.id === medicinesView.medicine.id) ?? medicinesView.medicine;
     return (
       <ReadingScreen
-        key={medicinesView.medicine.id}
+        key={medicine.id}
         speech={speech}
         speechState={speechState}
-        lines={medicinesView.medicine.lines}
+        lines={medicine.lines}
         translate={services.translate}
         release={services.release}
+        note={medicine.note}
+        onNote={() => {
+          speech.stop();
+          setMedicinesView({ kind: 'note', medicine });
+        }}
         onBack={() => setMedicinesView({ kind: 'list' })}
       />
     );

@@ -92,6 +92,11 @@ export function MedicinesScreen({ medicines, onOpen, onBack, now = realNow }: Pr
                     {timeText}
                   </Text>
                 ) : null}
+                {m.note ? (
+                  <Text style={styles.noteText} numberOfLines={2} testID={`medicine-${m.id}-note`}>
+                    {m.note}
+                  </Text>
+                ) : null}
                 <Text style={styles.sub}>
                   {tapHint.main} · {tapHint.sub}
                 </Text>
@@ -125,6 +130,7 @@ function makeStyles(p: Palette) {
     cardText: { padding: space.md, gap: space.xs },
     name: { fontFamily: fonts.bold, fontSize: type.heading, color: p.text },
     times: { fontFamily: fonts.bold, fontSize: type.bodyLarge, color: p.text },
+    noteText: { fontFamily: fonts.regular, fontSize: type.body, color: p.text },
     nowBadge: {
       alignSelf: 'flex-start',
       flexDirection: 'row',
