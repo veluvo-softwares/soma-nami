@@ -11,10 +11,12 @@ interface Props {
   onRead: () => void;
   /** Opens caregiver setup. Left out where there is no setup screen. */
   onSetup?: () => void;
+  /** Opens Dawa zangu. Left out where there is none. */
+  onMedicines?: () => void;
 }
 
 /** Screen 1 (docs/ui.md): almost the whole screen is one yellow button. */
-export function HomeScreen({ speech, onRead, onSetup }: Props) {
+export function HomeScreen({ speech, onRead, onSetup, onMedicines }: Props) {
   const p = usePalette();
   const styles = useMemo(() => makeStyles(p), [p]);
   const bi = useBi();
@@ -39,6 +41,9 @@ export function HomeScreen({ speech, onRead, onSetup }: Props) {
         <Text style={styles.offline}>{offline.main}</Text>
         <Text style={styles.offlineEn}>{offline.sub}</Text>
       </View>
+      {onMedicines ? (
+        <BigButton testID="home-medicines" tone="ask" icon="pill" sw="Dawa zangu" en="My medicines" onPress={onMedicines} />
+      ) : null}
       {onSetup ? (
         <BigButton testID="home-setup" tone="plain" icon="cog" sw="Mipangilio" en="Setup" onPress={onSetup} />
       ) : null}
