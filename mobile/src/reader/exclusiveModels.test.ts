@@ -1,4 +1,4 @@
-import { ExclusiveModels, type EngineJob } from './exclusiveModels';
+import { ExclusiveModels, JobTimeoutError, type EngineJob } from './exclusiveModels';
 import { deferred } from './testing';
 import { flush } from '../model-store/testing';
 
@@ -107,5 +107,63 @@ describe('ExclusiveModels', () => {
     await released;
     expect(loader.loaded.size).toBe(0);
     expect(models.loadedJob).toBeNull();
+  });
+
+  describe('timeout', () => {
+    beforeEach(() => jest.useFakeTimers());
+    afterEach(() => jest.useRealTimers());
+
+    it('gives up on stuck work, unloads the model, drops the late result, and the next call loads fresh', async () => {
+      const loader = new FakeLoader();
+      const models = new ExclusiveModels(loader);
+      const stuck = deferred<string>();
+      const caught = models.use('ocr', () => stuck.promise, { timeoutMs: 1000 }).catch((e) => e);
+      await jest.advanceTimersByTimeAsync(1000);
+      expect(await caught).toBeInstanceOf(JobTimeoutError);
+      expect(models.loadedJob).toBeNull();
+      expect(loader.loaded.size).toBe(0);
+
+      // The engine finishes after all (or fails): nothing happens, nothing is thrown.
+      stuck.resolve('late');
+      await jest.advanceTimersByTimeAsync(0);
+
+      await expect(models.use('ocr', async (id) => id, { timeoutMs: 1000 })).resolves.toBe('ocr-2');
+      expect(loader.maxLoaded).toBe(1);
+    });
+
+    it('a late failure after the timeout is swallowed', async () => {
+      const loader = new FakeLoader();
+      const models = new ExclusiveModels(loader);
+      const stuck = deferred<string>();
+      const caught = models.use('ocr', () => stuck.promise, { timeoutMs: 1000 }).catch((e) => e);
+      await jest.advanceTimersByTimeAsync(1000);
+      expect(await caught).toBeInstanceOf(JobTimeoutError);
+      stuck.reject(new Error('model was unloaded under it'));
+      await jest.advanceTimersByTimeAsync(0); // an unhandled rejection would fail the test
+    });
+
+    it('a stuck unload does not block the voice queued behind it', async () => {
+      const loader = new FakeLoader();
+      const models = new ExclusiveModels(loader);
+      const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+      const realUnload = loader.unload.bind(loader);
+      loader.unload = (id: string) => (id.startsWith('ocr') ? new Promise<void>(() => undefined) : realUnload(id));
+      const caught = models
+        .use('ocr', () => new Promise<string>(() => undefined), { timeoutMs: 1000, unloadGraceMs: 500 })
+        .catch((e) => e);
+      const tts = models.use('tts', async (id) => id);
+      await jest.advanceTimersByTimeAsync(1500);
+      expect(await caught).toBeInstanceOf(JobTimeoutError);
+      await expect(tts).resolves.toBe('tts-2');
+      warn.mockRestore();
+    });
+
+    it('work that finishes in time is untouched and leaves no timer behind', async () => {
+      const loader = new FakeLoader();
+      const models = new ExclusiveModels(loader);
+      await expect(models.use('ocr', async () => 'ok', { timeoutMs: 1000 })).resolves.toBe('ok');
+      expect(jest.getTimerCount()).toBe(0);
+      expect(models.loadedJob).toBe('ocr');
+    });
   });
 });
