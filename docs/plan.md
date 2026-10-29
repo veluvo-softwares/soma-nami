@@ -30,6 +30,7 @@ Hand-offs to Wesley (C3a, C4a, C12) are not separate board cards: the Bond card 
 | C7 | `t_3605b8f3` | Stretch: pharmacist send over Pears | C4, C5, C6 working offline | Bond | in review: private-bootstrap design proven on the VPS under Bare, worklet + app side + screens built and tested; not on Home yet, native addons not linked, no two-phone check yet (see card details) | `feat/c7-pears-send` |
 | C8 | `t_55dd85be` | Submission pack: README (both platforms, tested devices) and demo video script | C4a, C5, C6, C11, C12 | Bond prepares, Wesley submits | todo | |
 | A | `t_06809dde` | Read only the medicine: crop to the frame, reading scope, Not sure rule (from the build 3 iPhone test) | C4 | Bond | in review 29 Oct: built and unit tested; needs build 4 on the iPhone (see A below) | `feat/a-read-only-the-medicine` |
+| C | `t_261c36bd` | Notes on saved medicines: optional text note per medicine, added/edited/deleted from the replay of a saved label (Dawa zangu), shown under the label text and never spoken; stored in the local-only store, older medicines load with no note | C9, B | Bond | in review 30 Oct: store and screen tests added; not yet seen on the iPhone. Left out: voice notes (recorded with expo-audio, better for low-vision users), reading the note aloud | `feat/c-medicine-notes` |
 
 Priority order after C4: C5, C6, C11, then C9, then C7. C9 and C7 are cut first if Thursday looks tight. C10 runs alongside C4 so TestFlight is ready for the Tuesday milestone.
 

@@ -3,6 +3,7 @@ import {
   MedicineStore,
   MemoryMedicineStorage,
   nameAsPrinted,
+  NOTE_MAX,
   normaliseTimes,
   parseMedicines,
   timeOfDay,
@@ -222,5 +223,72 @@ describe('parseMedicines', () => {
 
   it('normaliseTimes orders and de-duplicates', () => {
     expect(normaliseTimes(['night', 'morning', 'morning', 'x'])).toEqual(['morning', 'night']);
+  });
+});
+
+describe('notes on saved medicines', () => {
+  async function withOne() {
+    const { storage, store } = makeStore();
+    await store.add({ photoUri: 'file:///a.jpg', lines: LABEL_A });
+    return { storage, store };
+  }
+
+  it('a new medicine starts with no note', async () => {
+    const { store } = await withOne();
+    expect(store.list()[0]!.note).toBe('');
+  });
+
+  it('adds, edits and deletes a note, each written to storage', async () => {
+    const { storage, store } = await withOne();
+    await store.setNote('id1', '  Kunywa baada ya kifungua kinywa.  ');
+    expect(store.list()[0]!.note).toBe('Kunywa baada ya kifungua kinywa.');
+    expect(storage.saved.at(-1)![0]!.note).toBe('Kunywa baada ya kifungua kinywa.');
+
+    await store.setNote('id1', 'Daktari alisema wiki 2.');
+    expect(store.list()[0]!.note).toBe('Daktari alisema wiki 2.');
+
+    await store.setNote('id1', '');
+    expect(store.list()[0]!.note).toBe('');
+    expect(storage.saved.at(-1)![0]!.note).toBe('');
+  });
+
+  it('treats a whitespace-only note as no note, and cuts a very long one', async () => {
+    const { store } = await withOne();
+    await store.setNote('id1', '   \n ');
+    expect(store.list()[0]!.note).toBe('');
+    await store.setNote('id1', 'x'.repeat(NOTE_MAX + 50));
+    expect(store.list()[0]!.note).toHaveLength(NOTE_MAX);
+  });
+
+  it('ignores an unknown id, and keeps the old note when the write fails', async () => {
+    const { storage, store } = await withOne();
+    await store.setNote('nope', 'x');
+    expect(storage.saved).toHaveLength(1); // only the add
+    await store.setNote('id1', 'first');
+    storage.failSave = true;
+    await expect(store.setNote('id1', 'second')).rejects.toThrow('disk full');
+    expect(store.list()[0]!.note).toBe('first');
+  });
+
+  it('does not touch times, photo or lines', async () => {
+    const { store } = await withOne();
+    await store.setTimes('id1', ['night']);
+    const before = store.list()[0]!;
+    await store.setNote('id1', 'hi');
+    expect(store.list()[0]).toEqual({ ...before, note: 'hi' });
+  });
+
+  it('migration: a medicine saved before notes existed loads with no note, and a note survives a reload', async () => {
+    const old = { id: 'x', name: 'N', photoUri: 'file:///x.jpg', savedAt: '2026-10-29T00:00:00.000Z', times: [], lines: [line('A')] };
+    expect(parseMedicines({ medicines: [old] })[0]!.note).toBe('');
+    expect(parseMedicines({ medicines: [{ ...old, note: 42 }] })[0]!.note).toBe('');
+
+    const storage = new MemoryMedicineStorage({ medicines: [old] });
+    const first = new MedicineStore(storage);
+    await first.load();
+    await first.setNote('x', 'Jioni tu');
+    const second = new MedicineStore(storage);
+    await second.load();
+    expect(second.list()[0]!.note).toBe('Jioni tu');
   });
 });
