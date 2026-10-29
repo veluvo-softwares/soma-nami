@@ -37,7 +37,7 @@ Home → camera (tap anywhere to take the photo, or **Chagua picha** to pick one
 | Speaking, highlighting the spoken line, prefetching the next line, stop and restart. A Swahili clip that fails to load or play is skipped, so the label lines are still read | `src/speech/session.ts`, `src/speech/expoAudioBackend.ts` |
 | Screens | `src/screens/read/` |
 
-Only one model is loaded at a time (`src/reader/exclusiveModels.ts`): OCR is unloaded before the voice loads and vice versa. Each read logs `[soma] ocr <ms> ...` to the Xcode console.
+Only one model is loaded at a time (`src/reader/exclusiveModels.ts`): OCR, the voice and Whisper (hold-to-talk, `src/listen/`) each unload the others before they load, and Whisper is unloaded as soon as a question is transcribed. Each read logs `[soma] ocr <ms> ...` and each spoken question `[soma] asr load <ms>` and `[soma] asr <ms>, <ms> of audio` to the Xcode console.
 
 QVAC runs on the CPU on iOS (`plugins/withQvacCpuOnly.js` sets `GGML_METAL_DEVICES=0` at launch). QVAC's iOS build compiles its Metal shaders from source on the phone at every launch, and on the iPhone 12 iOS killed the shader compiler four times per launch, so Metal never worked anyway (C4a). The draft upstream issue is `docs/qvac-metal-issue.md`; remove the plugin once QVAC ships a precompiled metallib.
 
