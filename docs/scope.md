@@ -12,8 +12,8 @@ Tags: **[V]** verified on the VPS or from a cited source, **[A]** assumption to 
 | OCR, hard cases (handwriting, curved boxes) | `OCR_0_6B_MULTIMODAL_Q4_K_M` (LightOnOCR-2, vision LLM) | 397 MB + 819 MB mmproj | n/a | to check in C2 | none; we say "can't read this, ask the pharmacist" |
 | Read aloud, English | `TTS_MULTILINGUAL_SUPERTONIC3_Q4_0` | 85 MB | **No** [V] | OpenRAIL-M [V] | Supertonic 3 Q8 (127 MB) |
 | Read aloud, Swahili | `TTS_T3_MULTILINGUAL_CHATTERBOX_Q4_0` + `TTS_S3GEN_MULTILINGUAL_CHATTERBOX_Q4_0` | 345 MB + 788 MB | Yes, `sw` is on the supported list [V] | MIT (upstream Chatterbox) [A] | Too slow to run live (spike: 30–47× slower than real time on one VPS thread, 1.9 GB peak RSS) [V]. **Decided:** every fixed Swahili phrase is generated ahead of time with Chatterbox and shipped as audio. iOS probably has no Swahili system voice [A, Wesley checks] |
-| Grounded Q&A | `QWEN3_1_7B_INST_Q4` | 1,057 MB | weak to fair [A] | Apache-2.0 | `QWEN3_600M_INST_Q4` (382 MB) |
-| Tafsiri, English → Swahili (approved, rule in §6) | `TRANSLATEPSY_AFRISLM_0_8B_TRANSLATION_Q4_K_M` (`qvac/TranslatePsy-AfriSLM-0.8B-Q4-GGUF`, Tether's own model) | 672 MB | Yes [V] | Apache-2.0 [V] | `TRANSLATEPSY_AFRISLM_2B_TRANSLATION_Q4_K_M` (1,560 MB) if 0.8B is weak and memory allows. C2 also tests whether it can replace Qwen3 for Q&A |
+| Grounded Q&A | **No model** (decided 29 Oct): Ask picks and quotes the matching label line in code (C5). `QWEN3_1_7B_INST_Q4` (1,057 MB) passed the C2 spike but gave one unsafe dose answer, so it is not downloaded | 0 MB | n/a | n/a | none needed |
+| Tafsiri, English → Swahili (approved, rule in §6) | `TRANSLATEPSY_AFRISLM_0_8B_TRANSLATION_Q4_K_M` (`qvac/TranslatePsy-AfriSLM-0.8B-Q4-GGUF`, Tether's own model) | 672 MB | Yes [V] | Apache-2.0 [V] | `TRANSLATEPSY_AFRISLM_2B_TRANSLATION_Q4_K_M` (1,560 MB) if 0.8B is weak and memory allows |
 | Voice questions, hold-to-talk (decided) | `WHISPER_SMALL_Q8_0` | 264 MB | Rough: WER 0.71, CER 0.15 on FLEURS Swahili in the spike [V], so the transcript is matched against a fixed list of questions, not used as free text | MIT | `WHISPER_BASE_Q8_0` (82 MB, WER 0.95); question buttons |
 
 Sizes are `expectedSize` values from the `@qvac/sdk` 0.22.0 model registry, read on the VPS [V].
@@ -65,13 +65,13 @@ From the QVAC docs ([JS/TS SDK](https://docs.qvac.tether.io/sdk/js-ts-sdk/), [sy
 | Read | OCR (CRAFT + Latin) | ~0.2 GB |
 | Speak (English) | Supertonic 3 Q4 | ~0.2 GB |
 | Speak (Swahili) | Chatterbox mtl Q4 (T3 + S3Gen) | ~1.3 GB [A], tight |
-| Ask | Qwen3 1.7B Q4, 2k context | ~1.3 GB [A]; drop to 0.6B if the phone struggles |
+| Ask | none: the answer is the label line, picked in code (C5) | 0 |
 | Tafsiri | TranslatePsy 0.8B Q4 | ~0.8 GB [A] |
 | Voice question | Whisper small Q8 | ~0.4 GB |
 
-If TranslatePsy 0.8B can also answer label questions (C2 test 6), it replaces Qwen3 and the Ask and Tafsiri rows become one model.
+Qwen3 was dropped on 29 Oct: nothing loads it, so TranslatePsy 0.8B (Tafsiri) is the largest model the phone loads.
 
-Total disk for the full set (without LightOnOCR) is about 3.3 GB including TranslatePsy 0.8B.
+The phone downloads about 1.1 GB: OCR (98 MB), Supertonic 3 (85 MB), Whisper small (264 MB) and TranslatePsy 0.8B (672 MB). The list is `mobile/src/model-store/manifest.ts`.
 
 ## 6. Product risks that the scope exposes
 
@@ -105,7 +105,7 @@ On Wesley's iPhone 12.
 | Chatterbox multilingual | MIT upstream | [A] check in C2 |
 | EasyOCR models | Apache-2.0 upstream | [A] check in C2 |
 | LightOnOCR-2 | unknown | check in C2 before use |
-| Qwen3 | Apache-2.0 | [A] check in C2 |
+| Qwen3 | Apache-2.0, **not shipped** (dropped 29 Oct; spike only) | [A] |
 | TranslatePsy-AfriSLM (0.8B and 2B) | Apache-2.0, Tether | [V] |
 | Whisper | MIT | [A] |
 | Atkinson Hyperlegible font | SIL Open Font License 1.1 | [A] check in C3 |
