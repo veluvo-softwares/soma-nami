@@ -33,12 +33,13 @@ export const MAX_UNREADABLE_SHARE = 0.5;
  * read as "Tab 4 tds" at 0.93), so a confidence gate can't make them safe.
  * Prescriber abbreviations don't appear on printed retail packs, so they
  * trip the check on a page of any length, unless OCR was unsure of the line
- * and there is no number on it: that is noise from artwork or a logo ("od",
- * "stat"), and it must not send a clear label to Not sure. On a short page
- * they trip it in any case. The "1x3" and "7/7" patterns also match printed
- * pack counts ("3 x 10 tablets"), so they only count on short pages.
+ * and the line is nothing but the abbreviation: that is noise from artwork
+ * or a logo ("od", "stat"), and it must not send a clear label to Not sure.
+ * On a short page they trip it in any case. The "1x3" and "7/7" patterns also
+ * match printed pack counts ("3 x 10 tablets"), so they only count on short pages.
  */
 const DOSE_WORDS = /\b(bd|bid|tds|tid|qds|qid|od|nocte|mane|prn|stat)\b/i;
+const SHORTHAND_ALONE = /^\W*(bd|bid|tds|tid|qds|qid|od|nocte|mane|prn|stat)\W*$/i;
 const DOSE_PATTERNS = /(\b\S{1,2}\s*[x×]\s*\d+\b)|(\b\d+\s*\/\s*7\b)/i;
 
 /**
@@ -50,7 +51,7 @@ const DOSE_PATTERNS = /(\b\S{1,2}\s*[x×]\s*\d+\b)|(\b\d+\s*\/\s*7\b)/i;
  */
 export function looksLikeHandwrittenDose(lines: readonly LabelLine[]): boolean {
   if (lines.length === 0) return false;
-  if (lines.some((l) => DOSE_WORDS.test(l.text) && (!l.lowConfidence || /\d/.test(l.text)))) return true;
+  if (lines.some((l) => DOSE_WORDS.test(l.text) && !(l.lowConfidence && SHORTHAND_ALONE.test(l.text)))) return true;
   if (lines.length > 3) return false;
   const all = lines.map((l) => l.text).join(' ');
   if (DOSE_WORDS.test(all) || DOSE_PATTERNS.test(all)) return true;
@@ -182,9 +183,9 @@ export const GOOD_LABEL_LINES = 3;
 /**
  * The share of the label's lines that couldn't be read. On a good read (at
  * least GOOD_LABEL_LINES readable lines that are spoken), unreadable lines
- * that no rule ties to the medicine (artwork, a logo, a batch code: they go
- * to More details, reader/scope.ts) are left out, so one or two of them can't
- * tip a clear label into Not sure. Otherwise every line counts, as before.
+ * that go to More details (reader/scope.ts: scraps with no word or number in
+ * them, such as artwork, and batch codes) are left out, so they can't tip a
+ * clear label into Not sure. Otherwise every line counts, as before.
  */
 export function unreadableShare(lines: readonly LabelLine[]): number {
   if (lines.length === 0) return 0;
