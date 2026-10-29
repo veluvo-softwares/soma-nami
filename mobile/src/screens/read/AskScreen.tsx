@@ -7,6 +7,7 @@ import { matchQuestion } from '../../ask/match';
 import { buildAnswerPlan, REFUSAL_PHRASE } from '../../ask/plan';
 import { getQuestion, QUESTIONS, type QuestionId } from '../../ask/questions';
 import { BigButton } from '../../components/BigButton';
+import { listenErrorKind } from '../../listen/holdToTalk';
 import type { LabelLine } from '../../reader/ocrLines';
 import type { ListenService } from '../../reader/types';
 import { PHRASES, type PhraseId } from '../../speech/phrases';
@@ -29,6 +30,20 @@ type Shown =
 
 type Mic = 'idle' | 'listening' | 'thinking';
 
+/** Why hold-to-talk is off for the rest of this visit; the buttons still work. */
+type MicOff = 'permission' | 'model-missing';
+
+const MIC_OFF_TEXT: Record<MicOff, { sw: string; en: string }> = {
+  permission: {
+    sw: 'Kipaza sauti kimezimwa. Ruhusu Soma Nami kwenye Mipangilio, au tumia vitufe.',
+    en: 'The microphone is off. Allow it for Soma Nami in Settings, or use the buttons.',
+  },
+  'model-missing': {
+    sw: 'Modeli ya sauti haipo kwenye simu. Tumia vitufe.',
+    en: 'The speech model is not on this phone (download it on the Models screen). Use the buttons.',
+  },
+};
+
 /**
  * Screen 4 (docs/ui.md, Ask). The question comes from a button, or from the
  * hold-to-talk mic whose rough Whisper transcript is matched against the
@@ -42,18 +57,22 @@ export function AskScreen({ speech, speechState, lines, listen, onBackToLabel }:
   const styles = useMemo(() => makeStyles(p), [p]);
   const [shown, setShown] = useState<Shown>({ kind: 'none' });
   const [mic, setMic] = useState<Mic>('idle');
+  const [micOff, setMicOff] = useState<MicOff | null>(null);
   const press = useRef(0); // each press-and-hold is one request; a stale one never reports
   const holding = useRef(false);
+  const busy = useRef(false); // recording or transcribing: the mic or Whisper may be in use
 
   useEffect(() => {
     void speech.speak([{ kind: 'clip', phrase: 'ask_open' }]);
   }, [speech]);
 
-  // Leaving the screen drops a recording in progress.
+  // Leaving the screen drops a recording or a transcription in progress, so
+  // the mic is switched off and Whisper unloaded.
   useEffect(
     () => () => {
       press.current++;
-      if (holding.current) void listen?.cancel().catch(() => undefined);
+      if (busy.current) void listen?.cancel().catch(() => undefined);
+      busy.current = false;
     },
     [listen],
   );
@@ -81,18 +100,36 @@ export function AskScreen({ speech, speechState, lines, listen, onBackToLabel }:
     [lines, speech, onBackToLabel],
   );
 
+  /** What the user sees and hears when a press gives no transcript. */
+  const listenFailed = useCallback(
+    (e: unknown) => {
+      const kind = listenErrorKind(e);
+      if (kind === 'cancelled') return;
+      console.warn('[soma] listen failed', e);
+      if (kind === 'too-short') {
+        note('ask_no_match'); // "Sijaelewa, jaribu tena."
+        return;
+      }
+      if (kind === 'permission' || kind === 'model-missing') setMicOff(kind);
+      note('ask_mic_error'); // "Sikuweza kusikia. Tumia vitufe."
+    },
+    [note],
+  );
+
   const onPressIn = () => {
-    if (!listen || mic !== 'idle') return;
+    if (!listen || micOff || mic !== 'idle') return;
     const id = ++press.current;
     speech.stop();
     holding.current = true;
+    busy.current = true;
     setMic('listening');
     listen.start().catch((e) => {
-      console.warn('[soma] mic start failed', e);
-      if (id !== press.current) return;
+      // Already let go: finish() rejects with the same error and reports it.
+      if (id !== press.current || !holding.current) return;
       holding.current = false;
+      busy.current = false;
       setMic('idle');
-      note('ask_mic_error');
+      listenFailed(e);
     });
   };
 
@@ -105,6 +142,7 @@ export function AskScreen({ speech, speechState, lines, listen, onBackToLabel }:
       .finish()
       .then((transcript) => {
         if (id !== press.current) return;
+        busy.current = false;
         setMic('idle');
         const m = matchQuestion(transcript);
         if (m.kind === 'match') ask(m.id);
@@ -112,10 +150,10 @@ export function AskScreen({ speech, speechState, lines, listen, onBackToLabel }:
         else note('ask_no_match');
       })
       .catch((e) => {
-        console.warn('[soma] listen failed', e);
         if (id !== press.current) return;
+        busy.current = false;
         setMic('idle');
-        note('ask_mic_error');
+        listenFailed(e);
       });
   };
 
@@ -124,7 +162,14 @@ export function AskScreen({ speech, speechState, lines, listen, onBackToLabel }:
   return (
     <View style={styles.container} testID="ask-screen">
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
-        {listen && (
+        {listen && micOff && (
+          <View style={styles.micOff} testID="ask-mic-off" accessibilityLiveRegion="polite">
+            <MaterialCommunityIcons name="microphone-off" size={40} color={p.textMuted} />
+            <Text style={styles.answerSw}>{MIC_OFF_TEXT[micOff].sw}</Text>
+            <Text style={styles.answerEn}>{MIC_OFF_TEXT[micOff].en}</Text>
+          </View>
+        )}
+        {listen && !micOff && (
           <Pressable
             testID="ask-mic"
             onPressIn={onPressIn}
@@ -233,6 +278,7 @@ function makeStyles(p: Palette) {
       borderColor: p.ask,
     },
     micOn: { borderColor: p.text },
+    micOff: { borderRadius: radius.md, borderWidth: 2, borderColor: p.outline, padding: space.md, gap: space.sm, alignItems: 'center' },
     micText: { fontFamily: fonts.bold, fontSize: type.button, color: p.onAccent, textAlign: 'center' },
     micEn: { fontFamily: fonts.regular, fontSize: type.hint, color: p.onAccent },
     result: { borderRadius: radius.md, borderWidth: 2, borderColor: p.outline, padding: space.md, gap: space.sm },
