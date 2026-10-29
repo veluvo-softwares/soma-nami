@@ -52,6 +52,15 @@ export function translatedLines(lines: readonly LabelLine[]): number[] {
  * call at a time anyway). `cancelled()` is polled between lines so leaving
  * the screen stops the work; a cancelled run returns null and reports nothing.
  */
+/**
+ * The lines that go to the model: translatedLines without the expiry, batch
+ * and manufacturing lines, which come from fixed templates. The screen counts
+ * its "Line n of N" progress from these, since it counts model calls.
+ */
+export function modelLines(lines: readonly LabelLine[]): number[] {
+  return translatedLines(lines).filter((i) => fixedTranslation(lines[i]!.text.trim()) === null);
+}
+
 export async function tafsiriLines(
   lines: readonly LabelLine[],
   translate: Translate,
