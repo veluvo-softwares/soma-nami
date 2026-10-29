@@ -1,4 +1,5 @@
 import {
+  cancel,
   loadModel,
   ocr,
   OCR_CRAFT,
@@ -8,9 +9,11 @@ import {
   TRANSLATEPSY_AFRISLM_0_8B_TRANSLATION_Q4_K_M,
   TTS_MULTILINGUAL_SUPERTONIC3_Q4_0,
   unloadModel,
+  WHISPER_SMALL_Q8_0,
 } from '@qvac/sdk';
 import { Directory, File, Paths } from 'expo-file-system';
 
+import { whisperPrompt } from '../listen/prompt';
 import type { AudioRef } from '../speech/session';
 import { encodeWav } from '../speech/wav';
 import { ExclusiveModels, type EngineJob } from './exclusiveModels';
@@ -47,6 +50,29 @@ export const TRANSLATE_CONFIG = { ctx_size: 2048 };
 const SUPERTONIC_FALLBACK_RATE = 44100;
 
 /**
+ * Whisper small for hold-to-talk (C5b), as in the C2 spike (§5,
+ * spike/asr_match.mjs): Swahili, greedy, temperature 0, prompted with the
+ * question list so it leans toward our wording. The prompt is set at load
+ * (the spike passed it per call, which makes the SDK reload the model with it
+ * as initial_prompt: same effect, one load fewer). CPU only, like every model
+ * in the app (plugins/withQvacCpuOnly.js).
+ */
+export const WHISPER_CONFIG = {
+  language: 'sw',
+  translate: false,
+  strategy: 'greedy' as const,
+  temperature: 0.0,
+  no_timestamps: true,
+  suppress_blank: true,
+  suppress_nst: true,
+  n_threads: 4,
+  initial_prompt: whisperPrompt(),
+  contextParams: { use_gpu: false },
+};
+
+let asrLoadId: string | null = null;
+
+/**
  * Loads only from the phone's model cache: the models screen downloaded them
  * on Wi-Fi, and the SDK checks its cache before touching the network, so this
  * works in airplane mode.
@@ -56,6 +82,18 @@ const loader = {
     if (job === 'ocr') return loadModel({ modelSrc: OCR_LATIN, modelConfig: OCR_CONFIG });
     if (job === 'translate') {
       return loadModel({ modelSrc: TRANSLATEPSY_AFRISLM_0_8B_TRANSLATION_Q4_K_M, modelConfig: TRANSLATE_CONFIG });
+    }
+    if (job === 'asr') {
+      const t0 = Date.now();
+      const op = loadModel({ modelSrc: WHISPER_SMALL_Q8_0, modelConfig: WHISPER_CONFIG });
+      asrLoadId = op.requestId;
+      try {
+        const id = await op;
+        console.log(`[soma] asr load ${Date.now() - t0} ms`);
+        return id;
+      } finally {
+        asrLoadId = null;
+      }
     }
     return loadModel({ modelSrc: TTS_MULTILINGUAL_SUPERTONIC3_Q4_0, modelConfig: TTS_CONFIG });
   },
@@ -126,6 +164,12 @@ export function synthesize(text: string): Promise<AudioRef> {
     file.write(encodeWav(samples, rate));
     return { kind: 'file', uri: file.uri };
   });
+}
+
+/** Stops a Whisper load in progress (hold-to-talk cancelled). No-op otherwise. */
+export async function cancelAsrLoad(): Promise<void> {
+  const requestId = asrLoadId;
+  if (requestId) await cancel({ requestId });
 }
 
 export function releaseModels(): Promise<void> {
