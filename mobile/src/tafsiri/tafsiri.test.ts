@@ -163,3 +163,30 @@ describe('buildTafsiriPlan', () => {
     expect(buildTafsiriPlan([{ kind: 'skipped' }])).toEqual([]);
   });
 });
+
+describe('card D: expiry and batch lines never reach the model', () => {
+  it('uses the fixed Swahili, and the model is not asked', async () => {
+    const asked: string[] = [];
+    const lines = linesOf(['Take 2 tablets twice daily for 5 days.', 'Batch No: PX2417 Exp: 08/2028']);
+    const results = await tafsiriLines(lines, async (l) => {
+      asked.push(l);
+      return 'Nambari ya mafunzo: PX2417 Maelezo ya mwisho: 08/2028';
+    });
+    expect(asked).toEqual(['Take 2 tablets twice daily for 5 days.']);
+    expect(results?.[1]).toMatchObject({
+      kind: 'safe',
+      original: 'Batch No: PX2417 Exp: 08/2028',
+      translation: 'Nambari ya kundi: PX2417. Inaisha muda: Agosti 2028',
+    });
+  });
+
+  it('shows only the original when the date cannot be rendered exactly', async () => {
+    const asked: string[] = [];
+    const results = await tafsiriLines(linesOf(['Exp: 13/2028']), async (l) => {
+      asked.push(l);
+      return 'x';
+    });
+    expect(asked).toEqual([]);
+    expect(results).toEqual([{ kind: 'failed', original: 'Exp: 13/2028' }]);
+  });
+});

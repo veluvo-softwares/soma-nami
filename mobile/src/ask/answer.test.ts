@@ -169,3 +169,66 @@ describe('refusals', () => {
     expect(answerQuestion('with_food', bare)).toEqual({ kind: 'refuse', question: 'with_food', reason: 'not-stated' });
   });
 });
+
+// Card D (30 Oct): the Paracetamol label from the iPhone 12, build 3. OCR read "1to 2",
+// "houn", and the storage line was unreadable.
+describe('card D: the Paracetamol label from the phone', () => {
+  const PARA = () =>
+    toLines(
+      (
+        [
+          ['PARACETAMOL', 0.95, 60],
+          ['Tablets BP 500 mg', 0.95, 30],
+          ['100 Tablets', 0.95, 30],
+          ['Dosage: Adults and children over 12 years:', 0.95, 30],
+          ['1to 2 tablets every 4 to 6 hours', 0.95, 30],
+          ['Do not take more than 8 tablets in 24 houn', 0.95, 30],
+          ['Store below 30C. Keep out of reach of children.', 0.3, 30],
+          ['Batch No: PX2417 Exp: 08/2028', 0.95, 30],
+        ] as const
+      ).map(([text, confidence, h], i) => ({
+        text,
+        confidence,
+        bbox: [10, i * 70, 400, i * 70 + h] as [number, number, number, number],
+      })),
+    );
+
+  it('"Ni dawa gani?" answers the name line first, then the strength', () => {
+    expect(quotes(answerQuestion('what_is_it', PARA()))).toEqual(['PARACETAMOL', 'Tablets BP 500 mg']);
+  });
+
+  it('"1 to 2 tablets every 4 to 6 hours" is one dose answer: the range, the "Dosage:" heading and the pack size are no conflict', () => {
+    expect(quotes(answerQuestion('how_many', PARA()))).toEqual(['1to 2 tablets every 4 to 6 hours']);
+  });
+
+  it('the maximum is a warning, never the dose', () => {
+    const lines = label('Ibuprofen Tablets 200 mg', 'Do not take more than 8 tablets in 24 hours');
+    expect(answerQuestion('how_many', lines)).toMatchObject({ kind: 'refuse', reason: 'not-stated' });
+  });
+
+  it.each(['1 to 2 tablets', '1-2 tablets', '1to 2 tablets', '1 – 2 tablets'])('a range "%s" is one instruction', (range) => {
+    const lines = label('Ibuprofen Tablets 200 mg', `Take ${range} every 6 hours`);
+    expect(quotes(answerQuestion('how_many', lines))).toEqual([`Take ${range} every 6 hours`]);
+  });
+
+  it('an interval answers both "how often" and "what time"', () => {
+    expect(quotes(answerQuestion('times_a_day', PARA()))).toEqual(['1to 2 tablets every 4 to 6 hours']);
+    expect(quotes(answerQuestion('time_of_day', PARA()))).toEqual(['1to 2 tablets every 4 to 6 hours']);
+  });
+
+  it('an unreadable storage line does not block a dose answer, or turn "not stated" into "unsure"', () => {
+    const lines = label('Ibuprofen Tablets 200 mg', 'Take 1 tablet daily', '~Store below 30C. Keep dry', 'Batch No: AB123');
+    expect(quotes(answerQuestion('how_many', lines))).toEqual(['Take 1 tablet daily']);
+    expect(answerQuestion('time_of_day', lines)).toMatchObject({ kind: 'refuse', reason: 'not-stated' });
+  });
+
+  it('an unreadable line among the dosing lines still blocks, since it could be the answer', () => {
+    const lines = label('Ibuprofen Tablets 200 mg', 'Dosage: Adults and children', '~Tke 2 tbs evry 8 hrs', 'Exp: 08/2028');
+    expect(answerQuestion('times_a_day', lines)).toMatchObject({ kind: 'refuse', reason: 'unsure' });
+  });
+
+  it('two different doses (adults and children) are still a conflict', () => {
+    const lines = label('Syrup 100 mg/5 ml', 'Adults: take 10 ml', 'Children: take 5 ml');
+    expect(answerQuestion('how_many', lines)).toMatchObject({ kind: 'refuse', reason: 'conflict' });
+  });
+});

@@ -39,6 +39,8 @@ export interface CheckResult {
   numbers: Diff;
   frequencies: Diff;
   units: Diff;
+  /** Key terms (expiry, batch, manufactured) missing from or added to the translation. */
+  terms: Diff;
 }
 
 // ---------------------------------------------------------------- vocabulary
@@ -149,7 +151,7 @@ const UNIT_PATTERNS: [string, RegExp[]][] = [
   ['degree', [/°/, /\bdegrees?\b/, /\bdigrii\b/]],
   ['celsius', [/°\s*c\b/, /\bcelsius\b/, /\bselsiasi\b/]],
   ['fahrenheit', [/°\s*f\b/, /\bfahrenheit\b/, /\bfaren?haiti\b/]],
-  ['hour', [/\bhours?\b/, /\bhrs?\b/, /\bsaa\b/]],
+  ['hour', [/\bhou[rn]s?\b/, /\bhrs?\b/, /\bsaa\b/]],
   ['minute', [/\bminutes?\b/, /\bmins?\b/, /\bdakika\b/]],
   ['day', [/\bdays?\b/, /\bdaily\b/, /\bsiku\b/]],
   ['week', [/\bweeks?\b/, /\bwiki\b/, /\bjuma\b/]],
@@ -162,7 +164,8 @@ const UNIT_PATTERNS: [string, RegExp[]][] = [
   ['drop', [/\bdrops?\b/, /\btone\b/, /\bmatone\b/]],
   ['spoon', [/\bteaspoons?\b/, /\btablespoons?\b/, /\bspoonfuls?\b/, /\bkijiko\b/, /\bvijiko\b/]],
   ['sachet', [/\bsachets?\b/, /\bsacheti\b/]],
-  ['dose', [/\bdoses?\b/, /\bdozi\b/, /\bkipimo\b/, /\bvipimo\b/]],
+  // "Dosage:" is the dose heading (kipimo); OCR also reads "hours" as "houn" above.
+  ['dose', [/\bdos(?:e|es|age)\b/, /\bdozi\b/, /\bkipimo\b/, /\bvipimo\b/]],
   ['puff', [/\bpuffs?\b/, /\bpafu\b/]],
   ['patch', [/\bpatch(?:es)?\b/, /\bplasta\b/]],
   // when in the day
@@ -335,6 +338,34 @@ function unitDiff(original: readonly string[], translated: readonly string[]): D
 const same = (d: Diff) => d.missing.length === 0 && d.extra.length === 0;
 
 /**
+ * Key label terms that must come through with the right meaning. A term in
+ * the original needs one of its Swahili words in the translation, and the
+ * translation may not carry the Swahili word without the English term. The
+ * model once wrote "mafunzo" (training) for batch and "maelezo ya mwisho"
+ * (final notes) for expiry; the numbers matched, so nothing flagged it.
+ * Cheap on purpose: only terms where a wrong meaning is dangerous.
+ */
+const KEY_TERMS: [string, RegExp, RegExp][] = [
+  ['expiry', /\b(?:exp(?![a-z])|expiry|expires|expiration|use by|use before|best before|valid (?:until|till))/, /\b(?:inaisha|inakwisha|kumalizika|kwisha|muda wa (?:matumizi|kuisha|kumalizika)|kuisha muda|mwisho wa matumizi|tarehe ya (?:kuisha|mwisho wa matumizi)|tumia kabla)/],
+  ['batch', /\b(?:batch|lot)\b/, /\b(?:kundi|bechi|betchi|batch)\b/],
+  ['manufactured', /\b(?:mfg|mfd|manufactured|manufacture)\b/, /\b(?:imetengenezwa|kutengenezwa|utengenezaji)\b/],
+];
+
+function termDiff(original: string, translation: string): Diff {
+  const o = original.toLowerCase();
+  const t = translation.toLowerCase();
+  const missing: string[] = [];
+  const extra: string[] = [];
+  for (const [name, en, sw] of KEY_TERMS) {
+    const inEn = en.test(o);
+    const inSw = sw.test(t);
+    if (inEn && !inSw) missing.push(name);
+    if (!inEn && inSw) extra.push(name);
+  }
+  return { missing, extra };
+}
+
+/**
  * Compares an English original with its Swahili translation. `safe` is true
  * only when no number, frequency or unit differs.
  */
@@ -344,5 +375,6 @@ export function checkTranslation(original: string, translation: string): CheckRe
   const numbers = multisetDiff(a.numbers, b.numbers);
   const frequencies = multisetDiff(a.frequencies, b.frequencies);
   const units = unitDiff(a.units, b.units);
-  return { safe: same(numbers) && same(frequencies) && same(units), numbers, frequencies, units };
+  const terms = termDiff(original, translation);
+  return { safe: same(numbers) && same(frequencies) && same(units) && same(terms), numbers, frequencies, units, terms };
 }

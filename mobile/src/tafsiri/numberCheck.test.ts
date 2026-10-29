@@ -236,3 +236,28 @@ describe('edge cases', () => {
     expect(safe('Batch: B2417.', 'Kundi: B2418.')).toBe(false);
   });
 });
+
+describe('card D: key terms and OCR typos', () => {
+  it('refuses "training number / final notes" for batch and expiry although the numbers match', () => {
+    expect(safe('Batch No: PX2417 Exp: 08/2028', 'Nambari ya mafunzo: PX2417 Maelezo ya mwisho: 08/2028')).toBe(false);
+    const r = checkTranslation('Exp: 08/2028', 'Maelezo ya mwisho: 08/2028');
+    expect(r.terms.missing).toEqual(['expiry']);
+  });
+
+  it('accepts the right Swahili for expiry and batch', () => {
+    expect(checkTranslation('Exp: Aug 2028', 'Inaisha muda: Agosti 2028').terms).toEqual({ missing: [], extra: [] });
+    expect(checkTranslation('Batch: B2417', 'Nambari ya kundi: B2417').terms).toEqual({ missing: [], extra: [] });
+  });
+
+  it('refuses "kundi" where the original has no batch', () => {
+    expect(checkTranslation('Take 1 tablet', 'Chukua kidonge 1 kundi').terms.extra).toEqual(['batch']);
+  });
+
+  it('reads the OCR typo "houn" as hours', () => {
+    expect(safe('Do not take more than 8 tablets in 24 houn', 'Usitumie zaidi ya vidonge 8 katika saa 24')).toBe(true);
+  });
+
+  it('"Dosage:" and "Kipimo:" are the same heading', () => {
+    expect(safe('Dosage: Adults and children over 12 years:', 'Kipimo: Watu wazima na watoto zaidi ya miaka 12:')).toBe(true);
+  });
+});
