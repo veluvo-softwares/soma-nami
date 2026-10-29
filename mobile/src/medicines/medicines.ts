@@ -1,4 +1,4 @@
-import { splitDetails } from '../reader/details';
+import { splitDetails } from '../reader/scope';
 import type { LabelLine } from '../reader/ocrLines';
 
 /**

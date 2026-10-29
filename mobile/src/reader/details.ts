@@ -126,11 +126,3 @@ export function lineRole(line: Pick<LabelLine, 'text' | 'lowConfidence'>): LineR
   if (isBarcode(text) || isAddress(text)) return 'detail';
   return /[a-z0-9]/i.test(spokenText(text)) ? 'read' : 'detail';
 }
-
-/** Splits label lines into those read aloud and those shown under More details, keeping each line's index. */
-export function splitDetails(lines: readonly LabelLine[]): { read: number[]; details: number[] } {
-  const read: number[] = [];
-  const details: number[] = [];
-  lines.forEach((l, i) => (lineRole(l) === 'detail' ? details : read).push(i));
-  return { read, details };
-}

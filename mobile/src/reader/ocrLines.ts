@@ -38,6 +38,13 @@ export interface LabelLine {
  */
 export const LOW_CONFIDENCE = 0.5;
 
+/**
+ * Blocks on one row further apart than this many line heights are separate
+ * lines (another column, another pack). Words on one printed line sit well
+ * under one line height apart.
+ */
+export const ROW_SPLIT_GAP = 3;
+
 function boxOf(b: OcrBlock): Box | null {
   if (!b.bbox) return null;
   const [x1, y1, x2, y2] = b.bbox;
@@ -99,7 +106,22 @@ export function toLines(blocks: readonly OcrBlock[], threshold = LOW_CONFIDENCE)
   }
   const noBox = items.filter((i) => !i.box).map((it) => ({ cy: Number.POSITIVE_INFINITY, h: 0, items: [it] }));
 
-  return [...groups, ...noBox].map((g) => {
+  // Text side by side on one row is only one line when it sits close together:
+  // a wide gap means a different column or another pack next to the label.
+  const rows = groups.flatMap((g) => {
+    const its = [...g.items].sort((a, b) => a.x - b.x || a.order - b.order);
+    const parts: Item[][] = [];
+    for (const it of its) {
+      const part = parts[parts.length - 1];
+      const prev = part?.[part.length - 1];
+      const gap = prev?.box && it.box ? it.box.x1 - prev.box.x2 : 0;
+      if (part && prev && gap <= ROW_SPLIT_GAP * Math.max(prev.h, it.h, 1)) part.push(it);
+      else parts.push([it]);
+    }
+    return parts.map((p) => ({ cy: g.cy, h: g.h, items: p }));
+  });
+
+  return [...rows, ...noBox].map((g) => {
     const its = [...g.items].sort((a, b) => a.x - b.x || a.order - b.order);
     const text = its.map((i) => i.block.text.trim()).join(' ');
     const confidences = its.map((i) => i.block.confidence ?? 0);

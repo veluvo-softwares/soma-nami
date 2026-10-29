@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { BigButton } from '../../components/BigButton';
-import { splitDetails } from '../../reader/details';
+import { splitDetails } from '../../reader/scope';
 import type { LabelLine } from '../../reader/ocrLines';
 import { useBi } from '../../settings/SettingsContext';
 import { PHRASES } from '../../speech/phrases';
@@ -46,8 +46,10 @@ function languageChip(lines: readonly LabelLine[]) {
  * Screen 3 (docs/ui.md, Reading): the label lines in large type, read aloud
  * as printed, the spoken line highlighted and kept on screen. A line OCR was
  * unsure of is never shown or read as text: it's an orange box that says it
- * couldn't be read. Batch numbers, manufacturing dates, barcodes and the
- * maker's address are shown small under More details and not read aloud.
+ * couldn't be read. Only the medicine's name and strength, how to take it,
+ * the expiry and key warnings are listed and read, in that order
+ * (reader/scope.ts); everything else on the label is shown small under More
+ * details and not read aloud.
  * "Tafsiri kwa Kiswahili" (C11) translates the lines on the phone and checks
  * every number, unit and frequency against the original line. A checked
  * translation is shown under its original, labelled as a translation; if

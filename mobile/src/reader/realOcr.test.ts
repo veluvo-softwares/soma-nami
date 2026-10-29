@@ -41,19 +41,21 @@ describe('pipeline on real QVAC OCR output', () => {
       'Store below 30*C. Keep out of reach of children.',
     ]);
     expect(assessment.kind).toBe('read');
+    // The storage line also says to keep it from children: a warning, read last, as unsure.
     expect(plan.filter((s) => s.kind === 'clip' && s.phrase === 'line_unsure')).toEqual([
       { kind: 'clip', phrase: 'line_unsure', line: 6 },
     ]);
-    // Batch and maker lines aren't read (Wesley, C4a); the expiry date on the batch line is.
+    // Read in order: name and strength, how to take it, expiry, warnings (card A). The pack
+    // count and the maker are under More details; the expiry on the batch line is read.
     expect(plan.filter((s) => s.kind === 'tts').map((s) => (s.kind === 'tts' ? s.text : ''))).toEqual([
       'PARACETAMOL',
       'Tablets BP 500 mg',
-      '100 Tablets',
       'Dosage: Adults and children over 12 years:',
       '1 to 2 tablets every 4 to 6 hours:',
-      'Do not take more than 8 tablets in 24 hours.',
       'Exp: August 2028',
+      'Do not take more than 8 tablets in 24 hours.',
     ]);
+    expect(plan.at(-2)).toEqual({ kind: 'clip', phrase: 'line_unsure', line: 6 });
   });
 
   it('handwritten "Tab 1 tds": OCR returns "Tab 4 tds" above the confidence gate, and the app refuses to read it', () => {
