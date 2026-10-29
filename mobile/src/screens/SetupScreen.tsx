@@ -72,7 +72,7 @@ export function SetupScreen({ manifest, state, onDownload, onDone }: Props) {
       </View>
 
       <Section styles={styles} label={theme} />
-      <View style={styles.row} accessibilityRole="radiogroup">
+      <View style={styles.speeds} accessibilityRole="radiogroup">
         <BigButton
           testID="theme-dark"
           tone="plain"
@@ -81,7 +81,6 @@ export function SetupScreen({ manifest, state, onDownload, onDone }: Props) {
           en="Dark"
           selected={settings.theme === 'dark'}
           onPress={() => update({ theme: 'dark' })}
-          style={styles.half}
         />
         <BigButton
           testID="theme-light"
@@ -91,7 +90,6 @@ export function SetupScreen({ manifest, state, onDownload, onDone }: Props) {
           en="Light"
           selected={settings.theme === 'light'}
           onPress={() => update({ theme: 'light' })}
-          style={styles.half}
         />
       </View>
 
@@ -140,8 +138,6 @@ function makeStyles(p: Palette) {
     section: { marginTop: space.md },
     sectionMain: { fontFamily: fonts.bold, fontSize: type.heading, color: p.text },
     en: { fontFamily: fonts.regular, fontSize: type.hint, color: p.textMuted },
-    row: { flexDirection: 'row', gap: space.md },
-    half: { flex: 1, paddingHorizontal: space.md },
     speeds: { gap: space.md },
     input: {
       minHeight: touch.minSize,

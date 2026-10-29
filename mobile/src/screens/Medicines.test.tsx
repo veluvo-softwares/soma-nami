@@ -71,6 +71,7 @@ describe('Dawa zangu: save, list, hear again', () => {
     await settle();
     await readLabel(services, LABEL);
 
+    fireEvent.press(screen.getByTestId('reading-more'));
     fireEvent.press(screen.getByTestId('reading-save'));
     await settle();
     expect(storage.saved.at(-1)).toHaveLength(1);
@@ -107,6 +108,7 @@ describe('Dawa zangu: save, list, hear again', () => {
     expect(screen.getByTestId('reading-line-2-unsure')).toBeTruthy();
     expect(services.speech.synthesized).not.toContain('Take 4 tablets');
     // A replay is not offered for saving again.
+    fireEvent.press(screen.getByTestId('reading-more'));
     expect(screen.queryByTestId('reading-save')).toBeNull();
 
     fireEvent.press(screen.getByTestId('reading-back'));
@@ -121,6 +123,7 @@ describe('Dawa zangu: save, list, hear again', () => {
     await settle();
     await readLabel(services, LABEL);
 
+    fireEvent.press(screen.getByTestId('reading-more'));
     fireEvent.press(screen.getByTestId('reading-save'));
     await settle();
     expect(screen.getByTestId('reading-save-failed')).toBeTruthy();

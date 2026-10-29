@@ -123,6 +123,7 @@ export function AimingScreen({ speech, hint, canReadAnyway, onPhoto, onPick, onR
         <View style={styles.row}>
           <BigButton
             testID="aiming-pick"
+            layout="stacked"
             tone="plain"
             icon="image-outline"
             sw="Chagua picha"
@@ -133,7 +134,7 @@ export function AimingScreen({ speech, hint, canReadAnyway, onPhoto, onPick, onR
             }}
             style={styles.half}
           />
-          <BigButton testID="aiming-back" tone="plain" icon="arrow-left" sw="Rudi" en="Back" onPress={onBack} style={styles.half} />
+          <BigButton testID="aiming-back" layout="stacked" tone="plain" icon="arrow-left" sw="Rudi" en="Back" onPress={onBack} style={styles.half} />
         </View>
       </View>
     </View>
@@ -173,6 +174,6 @@ function makeStyles(p: Palette) {
     permissionEn: { fontFamily: fonts.regular, fontSize: type.hint, color: p.textMuted },
     actions: { padding: space.md, gap: space.md },
     row: { flexDirection: 'row', gap: space.md },
-    half: { flex: 1, paddingHorizontal: space.md },
+    half: { flex: 1 },
   });
 }

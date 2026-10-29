@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from '@testing-library/react-native';
+import { act, fireEvent, render, screen, within } from '@testing-library/react-native';
 
 import { ReadFlow } from './ReadFlow';
 import { flush } from '../../model-store/testing';
@@ -202,6 +202,7 @@ describe('ReadFlow: photo -> OCR -> display and speech', () => {
       services.finishOcr(blocksFor(['AMOXICILLIN']));
       await flush(20);
     });
+    fireEvent.press(screen.getByTestId('reading-more'));
     fireEvent.press(screen.getByTestId('reading-slower'));
     await settle();
     const names = services.speech.playedNames();
@@ -210,6 +211,7 @@ describe('ReadFlow: photo -> OCR -> display and speech', () => {
     expect(services.speech.rates.at(-1)).toBe(0.8);
 
     const stopsBefore = services.speech.stops;
+    fireEvent.press(screen.getByTestId('reading-more'));
     fireEvent.press(screen.getByTestId('reading-back'));
     await settle();
     expect(services.speech.stops).toBeGreaterThan(stopsBefore);
@@ -388,6 +390,7 @@ describe('ReadFlow: Tafsiri kwa Kiswahili', () => {
   }
 
   async function tapTafsiri() {
+    fireEvent.press(screen.getByTestId('reading-more'));
     await act(async () => {
       fireEvent.press(screen.getByTestId('reading-tafsiri'));
       await flush(40);
@@ -464,12 +467,14 @@ describe('ReadFlow: Tafsiri kwa Kiswahili', () => {
     let finish: (v: string) => void = () => undefined;
     services.translateWith = () => new Promise<string>((res) => (finish = res));
     await readLabel(services, ['Shake well.']);
+    fireEvent.press(screen.getByTestId('reading-more'));
     await act(async () => {
       fireEvent.press(screen.getByTestId('reading-tafsiri'));
       await flush(10);
     });
-    expect(screen.getByText('Ninatafsiri…')).toBeTruthy();
+    expect(screen.getByText(/Ninatafsiri…/)).toBeTruthy();
 
+    fireEvent.press(screen.getByTestId('reading-more'));
     await act(async () => {
       fireEvent.press(screen.getByTestId('reading-back'));
       await flush(10);
@@ -493,5 +498,59 @@ describe('ReadFlow: Tafsiri kwa Kiswahili', () => {
     await tapTafsiri();
     expect(services.translated).toHaveLength(1);
     expect(services.speech.played.length).toBeGreaterThan(before);
+  });
+
+  it('shows Line n of N while translating, and the Swahili line big with the original small when done', async () => {
+    const services = setup();
+    const waiting: ((v: string) => void)[] = [];
+    services.translateWith = () => new Promise<string>((res) => waiting.push(res));
+    await readLabel(services, ['Shake well.', 'Keep dry.']);
+    await tapTafsiri();
+    expect(screen.getByTestId('reading-progress')).toBeTruthy();
+    expect(screen.getByText(/Mstari 1 kati ya 2/)).toBeTruthy();
+    await act(async () => {
+      waiting[0]!('Tikisa vizuri.');
+      await flush(20);
+    });
+    expect(screen.getByText(/Mstari 2 kati ya 2/)).toBeTruthy();
+    await act(async () => {
+      waiting[1]!('Weka mahali pakavu.');
+      await flush(20);
+    });
+    expect(screen.queryByTestId('reading-progress')).toBeNull();
+    const line = screen.getByTestId('reading-line-0-tafsiri');
+    expect(within(line).getByText('Tikisa vizuri.')).toBeTruthy();
+    expect(within(line).getByText('Shake well.')).toBeTruthy();
+  });
+});
+
+describe('ReadFlow: Zaidi panel', () => {
+  it('starts closed with only Soma tena, Uliza swali and Zaidi; a tap on the handle opens and closes it', async () => {
+    const services = setup();
+    services.speech.autoFinish = true;
+    await settle();
+    await takePhoto(services);
+    await act(async () => {
+      services.finishOcr(blocksFor(['AMOXICILLIN']));
+      await flush(20);
+    });
+    expect(screen.getByTestId('reading-again')).toBeTruthy();
+    expect(screen.getByTestId('reading-ask')).toBeTruthy();
+    expect(screen.queryByTestId('reading-more-panel')).toBeNull();
+    expect(screen.queryByTestId('reading-slower')).toBeNull();
+
+    const handle = screen.getByTestId('reading-more');
+    expect(handle.props.accessibilityRole).toBe('button');
+    expect(handle.props.accessibilityHint).toContain('Fungua');
+    expect(handle.props.accessibilityHint).toContain('Opens');
+    expect(handle.props.accessibilityState.expanded).toBe(false);
+    fireEvent.press(handle);
+    expect(screen.getByTestId('reading-more-panel')).toBeTruthy();
+    expect(screen.getByTestId('reading-slower')).toBeTruthy();
+    expect(screen.getByTestId('reading-tafsiri')).toBeTruthy();
+    expect(screen.getByTestId('reading-back')).toBeTruthy();
+    expect(screen.getByTestId('reading-more').props.accessibilityState.expanded).toBe(true);
+    fireEvent.press(screen.getByTestId('reading-more'));
+    expect(screen.queryByTestId('reading-more-panel')).toBeNull();
   });
 });

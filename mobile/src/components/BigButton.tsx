@@ -24,9 +24,19 @@ interface Props {
   testID?: string;
   style?: StyleProp<ViewStyle>;
   size?: 'normal' | 'huge';
+  /** 'stacked': icon above the words, for two buttons side by side. */
+  layout?: 'row' | 'stacked';
+  /** Replaces the accessibility hint (default: the second line). */
+  hint?: string;
+  /** For a button that opens a panel: whether the panel is open. */
+  expanded?: boolean;
 }
 
-/** ui.md rule 6: every button has an icon, a Swahili word and a small English line. Never smaller than 88 pt. */
+/**
+ * ui.md rule 6: every button has an icon, a Swahili word and a small English line. Never smaller than 88 pt.
+ * Words never break across lines: the text shrinks to fit (adjustsFontSizeToFit), and a half-width pair
+ * should use layout="stacked" or be stacked full width.
+ */
 export function BigButton({
   icon,
   sw,
@@ -39,6 +49,9 @@ export function BigButton({
   testID,
   style,
   size = 'normal',
+  layout = 'row',
+  hint,
+  expanded,
 }: Props) {
   const p = usePalette();
   const swapped = useBi()(sw, en);
@@ -46,6 +59,10 @@ export function BigButton({
   const bg = tone === 'primary' ? p.primary : tone === 'ask' ? p.ask : tone === 'warning' ? p.warning : 'transparent';
   const fg = tone === 'plain' ? p.text : p.onAccent;
   const huge = size === 'huge';
+  const stacked = !huge && layout === 'stacked';
+  const state: { disabled: boolean; selected?: boolean; expanded?: boolean } = { disabled: !!disabled };
+  if (selected !== undefined) state.selected = selected;
+  if (expanded !== undefined) state.expanded = expanded;
   return (
     <Pressable
       testID={testID}
@@ -53,11 +70,11 @@ export function BigButton({
       disabled={disabled}
       accessibilityRole="button"
       accessibilityLabel={main}
-      accessibilityHint={sub}
-      accessibilityState={selected === undefined ? { disabled: !!disabled } : { disabled: !!disabled, selected }}
+      accessibilityHint={hint ?? sub}
+      accessibilityState={state}
       style={({ pressed }) => [
         styles.base,
-        huge ? styles.huge : styles.row,
+        huge ? styles.huge : stacked ? styles.stacked : styles.row,
         {
           backgroundColor: bg,
           borderColor: tone === 'plain' ? (selected ? p.primary : p.outline) : bg,
@@ -67,10 +84,24 @@ export function BigButton({
         style,
       ]}
     >
-      <MaterialCommunityIcons name={selected ? 'check-circle' : icon} size={huge ? 96 : 40} color={fg} />
-      <View style={huge ? styles.hugeText : styles.text}>
-        <Text style={[styles.sw, huge && styles.swHuge, { color: fg }]}>{main}</Text>
-        <Text style={[styles.en, { color: fg }]}>{sub}</Text>
+      <MaterialCommunityIcons name={selected ? 'check-circle' : icon} size={huge ? 96 : stacked ? 32 : 40} color={fg} />
+      <View style={huge || stacked ? styles.centeredBox : styles.text}>
+        <Text
+          numberOfLines={2}
+          adjustsFontSizeToFit
+          minimumFontScale={0.5}
+          style={[styles.sw, huge && styles.swHuge, stacked && styles.centered, { color: fg }]}
+        >
+          {main}
+        </Text>
+        <Text
+          numberOfLines={2}
+          adjustsFontSizeToFit
+          minimumFontScale={0.6}
+          style={[styles.en, stacked && styles.centered, { color: fg }]}
+        >
+          {sub}
+        </Text>
       </View>
     </Pressable>
   );
@@ -87,9 +118,11 @@ const styles = StyleSheet.create({
   },
   selected: { borderWidth: 6 },
   row: { flexDirection: 'row', alignItems: 'center', gap: space.md },
+  stacked: { alignItems: 'center', justifyContent: 'center', gap: space.xs, paddingHorizontal: space.sm },
   huge: { alignItems: 'center', justifyContent: 'center', gap: space.lg },
   text: { flexShrink: 1 },
-  hugeText: { alignItems: 'center' },
+  centeredBox: { alignItems: 'center', alignSelf: 'stretch' },
+  centered: { textAlign: 'center' },
   sw: { fontFamily: fonts.bold, fontSize: type.button },
   swHuge: { fontSize: type.display, textAlign: 'center' },
   en: { fontFamily: fonts.regular, fontSize: type.hint },
