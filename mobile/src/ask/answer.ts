@@ -1,5 +1,6 @@
 import { hasExpiry, lineRole, spokenText } from '../reader/details';
 import type { LabelLine } from '../reader/ocrLines';
+import { lineGroups } from '../reader/scope';
 import type { QuestionId } from './questions';
 
 /**
@@ -50,13 +51,15 @@ const PATTERNS: Record<Exclude<QuestionId, 'expiry' | 'read_again'>, RegExp[]> =
     /\b\d{1,2}\s?(?:am|pm)\b/i,
     /\b(?:morning|noon|afternoon|evening|night|bedtime|at night|asubuhi|mchana|jioni|usiku)\b/i,
     /\b(?:nocte|mane)\b/i,
+    // The hours between doses is the time answer too: "every 8 hours", "every 4 to 6 hours".
+    new RegExp(`\\bevery\\s+${NUM}\\s*(?:(?:-|–|to)\\s*${NUM}\\s*)?(?:hours?|hrs?|h)\\b`, 'i'),
   ],
   // How often: "3 times a day", "twice daily", "every 8 hours", dosing shorthand as printed.
   times_a_day: [
     new RegExp(`\\b${NUM}\\s*(?:x|times?)\\s*(?:a|per|each|every|kwa)?\\s*(?:day|daily|siku)\\b`, 'i'),
     /\b(?:once|twice|thrice)\b/i,
     /\b(?:daily|every\s+day|each\s+day|kila\s+siku|mara\s+\S+\s+kwa\s+siku)\b/i,
-    new RegExp(`\\bevery\\s+${NUM}\\s*(?:-\\s*${NUM}\\s*)?(?:hours?|hrs?|h)\\b`, 'i'),
+    new RegExp(`\\bevery\\s+${NUM}\\s*(?:(?:-|–|to)\\s*${NUM}\\s*)?(?:hours?|hrs?|h)\\b`, 'i'),
     /\b(?:od|bd|bid|tds|tid|qds|qid|nocte)\b/i,
     /\b\d\s?[x×]\s?\d\b/i,
   ],
@@ -102,8 +105,33 @@ function isCandidate(question: Exclude<QuestionId, 'read_again'>, line: LabelLin
   return PATTERNS[question].some((re) => re.test(text));
 }
 
-/** The medicine name line: the first confident line that names a form or strength. */
-function nameCandidates(lines: readonly LabelLine[]): number[] {
+/** A line that says an amount to take ("Take 2", "1 to 2 tablets"), as opposed to a header ("Dosage:"). */
+const AMOUNT_LINE = [PATTERNS.how_many[0]!, PATTERNS.how_many[1]!, PATTERNS.how_many[2]!];
+
+/** What is left of a name line once form, strength and pharmacopoeia words are removed: the name itself. */
+function nameWords(text: string): string {
+  return text
+    .replace(/\b\d+(?:[.,]\d+)?\s*(?:mg|mcg|g|ml|iu|%)/gi, ' ')
+    .replace(/\b(?:tablets?|capsules?|caplets?|syrup|suspension|solution|injection|cream|ointment|gel|drops|sachets?|oral|b\.?p\.?|usp|film[- ]coated|each|contains?)\b/gi, ' ')
+    .replace(/[^a-z]+/gi, ' ')
+    .trim();
+}
+
+/**
+ * The medicine name, then its strength. The lines are the ones the reading
+ * scope calls the name (printed largest, or the first line; reader/scope.ts).
+ * The line that is the name itself leads and a form / strength line ("Tablets
+ * BP 500 mg") follows it, whatever order they are printed in. Falls back to
+ * the first line that names a form or strength when no size tells them apart.
+ */
+function nameCandidates(lines: readonly LabelLine[], groups: readonly string[]): number[] {
+  const named = lines.flatMap((_, i) =>
+    groups[i] === 'name' && !hasExpiry(lines[i]!.text) && !STRENGTH_LINE.test(lines[i]!.text) ? [i] : [],
+  );
+  if (named.length > 0) {
+    const lead = named.find((i) => nameWords(lines[i]!.text).length >= 3);
+    return (lead === undefined ? named : [lead, ...named.filter((i) => i !== lead)]).slice(0, 2);
+  }
   const first = lines.findIndex((l) => NAME_LINE.test(l.text) && lineRole(l) !== 'detail' && !hasExpiry(l.text));
   return first === -1 ? [] : [first];
 }
@@ -122,16 +150,26 @@ export function answerQuestion(question: QuestionId, lines: readonly LabelLine[]
   // Nearly nothing readable: whatever this finds would be a guess.
   if (lines.length === 0 || unreadable.length * 2 > lines.length) return refuse('unsure');
 
-  const candidates =
+  const groups = lineGroups(lines);
+  let candidates =
     question === 'what_is_it'
-      ? nameCandidates(lines)
-      : lines.flatMap((line, i) => (isCandidate(question, line) ? [i] : []));
+      ? nameCandidates(lines, groups)
+      : lines.flatMap((line, i) => (isCandidate(question, line) && !(DOSE_QUESTIONS.has(question) && groups[i] === 'detail') ? [i] : []));
+
+  // "Dosage:" on its own line is a header, not the amount: when another line
+  // says the amount, the header does not make the label disagree with itself.
+  if (question === 'how_many' && candidates.some((i) => AMOUNT_LINE.some((re) => re.test(lines[i]!.text)))) {
+    candidates = candidates.filter((i) => AMOUNT_LINE.some((re) => re.test(lines[i]!.text)));
+  }
 
   // The line that would answer is unreadable: say so, never show a guess.
   if (candidates.some((i) => lines[i]!.lowConfidence)) return refuse('unsure');
   if (candidates.length === 0) {
-    // The answer to a dose question may be in a line we couldn't read.
-    return refuse(DOSE_QUESTIONS.has(question) && unreadable.length > 0 ? 'unsure' : 'not-stated');
+    // The answer to a dose question may be in a line we couldn't read, but
+    // only a line that sits among the dosing lines could be it: unreadable
+    // storage or artwork text can't (reader/scope.ts decides which is which).
+    const couldBeDose = lines.some((l, i) => l.lowConfidence && groups[i] === 'dose');
+    return refuse(DOSE_QUESTIONS.has(question) && couldBeDose ? 'unsure' : 'not-stated');
   }
 
   // The same text twice (a pack printed on two faces) is one answer.
@@ -143,9 +181,10 @@ export function answerQuestion(question: QuestionId, lines: readonly LabelLine[]
     return true;
   });
 
-  // Two lines with different numbers: the label disagrees with itself.
+  // Two lines with different numbers: the label disagrees with itself. (Not for
+  // the name: "PARACETAMOL" and "Tablets BP 500 mg" are one answer.)
   const numberSets = new Set(unique.map((i) => numbersIn(lines[i]!.text).join('|')));
-  if (numberSets.size > 1 || unique.length > MAX_QUOTES) return refuse('conflict');
+  if ((question !== 'what_is_it' && numberSets.size > 1) || unique.length > MAX_QUOTES) return refuse('conflict');
 
   return { kind: 'answer', question, quotes: unique.map((i) => quote(lines, i)) };
 }

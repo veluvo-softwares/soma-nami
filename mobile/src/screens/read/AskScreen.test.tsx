@@ -11,7 +11,7 @@ import { IDLE, SpeechSession } from '../../speech/session';
 const rows = [
   'Paracetamol Tablets BP 500 mg',
   'Take 2 tablets 3 times a day with food',
-  '~Keep in a cool dry place',
+  '~Tke 2 tabl evry 8 hurs',
   'Exp: 08/2028',
 ];
 const lines = toLines(
@@ -77,7 +77,7 @@ describe('AskScreen buttons', () => {
     expect(backend.synthesized).toEqual(['Take 2 tablets 3 times a day with food']);
   });
 
-  it('refuses and points to the pharmacist when a dose question meets an unreadable line; reads no label text', async () => {
+  it('refuses and points to the pharmacist when a dose question meets an unreadable dosing line; reads no label text', async () => {
     const { backend } = setup();
     await settle();
     fireEvent.press(screen.getByTestId('ask-q-time_of_day'));

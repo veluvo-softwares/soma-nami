@@ -3,6 +3,7 @@ import type { LabelLine } from '../reader/ocrLines';
 import { splitDetails } from '../reader/scope';
 import type { SpeechStep } from '../speech/plan';
 import { checkTranslation, type CheckResult } from './numberCheck';
+import { fixedTranslation } from './fixedLines';
 import { spokenClipsFor } from './spokenTemplate';
 import type { PhraseId } from '../speech/phrases';
 
@@ -66,6 +67,16 @@ export async function tafsiriLines(
       continue;
     }
     const original = line.text.trim();
+    // Expiry / batch / manufacturing lines come from fixed templates, never from the model.
+    const fixed = fixedTranslation(original);
+    if (fixed) {
+      out.push(
+        fixed.kind === 'translated'
+          ? { kind: 'safe', original, translation: fixed.translation, clips: spokenClipsFor(original) }
+          : { kind: 'failed', original },
+      );
+      continue;
+    }
     let translation: string;
     try {
       translation = (await translate(original)).trim();
