@@ -38,6 +38,15 @@ export function isTranslatable(line: LabelLine): boolean {
 }
 
 /**
+ * Indices of the lines tafsiriLines sends to the model: read aloud (not under
+ * More details) and translatable. The screen counts its progress from this.
+ */
+export function translatedLines(lines: readonly LabelLine[]): number[] {
+  const spoken = new Set(splitDetails(lines).read);
+  return lines.flatMap((line, i) => (spoken.has(i) && isTranslatable(line) ? [i] : []));
+}
+
+/**
  * Translates and checks the lines one at a time (the phone runs one model
  * call at a time anyway). `cancelled()` is polled between lines so leaving
  * the screen stops the work; a cancelled run returns null and reports nothing.
@@ -49,10 +58,10 @@ export async function tafsiriLines(
 ): Promise<LineTafsiri[] | null> {
   const out: LineTafsiri[] = [];
   // Only lines that are read aloud: a line under More details isn't translated either.
-  const spoken = new Set(splitDetails(lines).read);
+  const sent = new Set(translatedLines(lines));
   for (const [i, line] of lines.entries()) {
     if (cancelled()) return null;
-    if (!spoken.has(i) || !isTranslatable(line)) {
+    if (!sent.has(i)) {
       out.push({ kind: 'skipped' });
       continue;
     }

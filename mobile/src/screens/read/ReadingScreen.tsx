@@ -9,7 +9,7 @@ import { useBi } from '../../settings/SettingsContext';
 import { PHRASES } from '../../speech/phrases';
 import { buildSpeechPlan, type SpeechStep } from '../../speech/plan';
 import type { SpeechSession, SpeechState } from '../../speech/session';
-import { buildTafsiriPlan, isTranslatable, tafsiriLines, type LineTafsiri, type Translate } from '../../tafsiri/tafsiri';
+import { buildTafsiriPlan, tafsiriLines, translatedLines, type LineTafsiri, type Translate } from '../../tafsiri/tafsiri';
 import { fonts, radius, space, type, usePalette, type Palette } from '../../theme';
 
 /** "Polepole" plays everything at this rate, with pitch kept. */
@@ -111,7 +111,7 @@ export function ReadingScreen({ speech, speechState, lines, translate, release, 
       return;
     }
     const run = ++tafsiriRun.current;
-    const total = lines.filter(isTranslatable).length;
+    const total = translatedLines(lines).length;
     let doneLines = 0;
     setTafsiri({ status: 'working', line: 0, total });
     void speech.say('tafsiri_wait');
