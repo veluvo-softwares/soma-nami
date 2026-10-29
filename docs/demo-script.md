@@ -19,7 +19,7 @@ Each step says whether it has been **tested on the phone** or **not yet**. Recor
 | 1 | Control Centre: airplane mode on, Wi-Fi off. Open the app. | "Airplane mode is on. Everything you'll see runs on this phone, with QVAC." The app speaks its Swahili opening line from a pre-made clip. | Read path tested in airplane mode on the iPhone 12 (26 Oct). Home screen line: tested. |
 | 2 | Home, then Aiming: point at the paracetamol label and tap anywhere. Wait about 20 seconds on the processing screen. | "Tap anywhere to take the photo. QVAC's OCR reads it on the phone. It takes about twenty seconds." | Tested: OCR about 22 s on the phone. |
 | 3 | Reading screen: lines in large type, the spoken line highlighted. | "It reads exactly what is printed, nothing added. The expiry is said with the month name." | Reading and highlight: tested. Spoken month names: **not yet run on a phone**; check it before recording and drop this sentence if the voice says "8 slash 2028". |
-| 4 | Tap **Uliza swali** ("Ask a question"), then tap the question about how many to take. | "I ask about this label. The app repeats my question, then reads the exact line from the label and shows the quote. No AI makes up an answer: it is the label's own words." | Ask: **not yet run on a phone.** Buttons only; do not say "hold to talk" or show a microphone (hold-to-talk is PR #26, unmerged; add it only if it merges and you test it). |
+| 4 | Tap **Uliza swali** ("Ask a question"), then tap the question about how many to take. | "I ask about this label. The app repeats my question, then reads the exact line from the label and shows the quote. No AI makes up an answer: it is the label's own words." | Ask: **not yet run on a phone.** Use the buttons, or optionally hold the microphone and say "Nimeze ngapi?" (hold-to-talk with Whisper on the phone, #26). Use the voice version only if it works in your off-camera run and answers in under about 30 s; otherwise keep to the buttons. |
 | 5 | Ask something the label doesn't say (the food question on the label without a food line). | "If the label doesn't say, the app says so and sends me to the pharmacist. It never guesses a dose." The voice says "Lebo haisemi. Muulize mfamasia." | **Not yet run on a phone.** |
 | 5b | Optional: on a label with a dose line ("Take 2 tablets 3 times a day for 5 days"), tap **Tafsiri kwa Kiswahili**. | "It can translate to Swahili on the phone. Before showing it, the app checks every number against the label, and if one differs it refuses." Show the translation labelled as a translation, and the spoken Swahili if the line fits the template. | Tafsiri (PR #25): **not yet run on a phone.** Speed and memory unknown; the model load may take a while, so cut or shorten in the edit. Don't claim it translates anything accurately: only quantities are checked. |
 | 5c | Optional: tap **Hifadhi kwenye Dawa zangu**, go Home, open **Dawa zangu**, tap the card. | "A caregiver can save a medicine. Tap it later and it reads again with no photo and no wait." | Dawa zangu (PR #27): **not yet run on a phone.** Don't mention backup unless you've confirmed it on a new build. |
@@ -29,18 +29,18 @@ Each step says whether it has been **tested on the phone** or **not yet**. Recor
 
 ## Left out on purpose
 
-The app does **not** do these yet, so the video must not show or claim them: hold-to-talk questions (PR #26 is unmerged), the pharmacist hand-off over Pears (built and self-tested on a server only; not reachable from Home, not tried on two phones, peer identity not pinned), and anything on Android (not tested). Mention them only as "next" in the closing line.
+The app does **not** do these yet, so the video must not show or claim them: the pharmacist hand-off over Pears (built and self-tested on a server only; not reachable from Home, not tried on two phones, peer identity not pinned), and anything on Android (not tested). Mention them only as "next" in the closing line.
 
 ## Claims that must stay true
 
 - "Nothing leaves the phone" and "no internet": true for read, Ask and Not sure by design; recorded in airplane mode.
-- "QVAC": OCR, the English voice and the Tafsiri translation run through QVAC on the phone. The Swahili phrases are QVAC-made (Chatterbox) but were rendered on a server ahead of time, so don't say Swahili is generated live on the phone.
-- Don't say the app "understands Swahili speech". It matches buttons.
+- "QVAC": OCR, the English voice, the Tafsiri translation and (if shown) the hold-to-talk transcription with Whisper run through QVAC on the phone. The Swahili phrases are QVAC-made (Chatterbox) but were rendered on a server ahead of time, so don't say Swahili is generated live on the phone.
+- Don't say the app "understands Swahili speech". With hold-to-talk it matches what you say to a fixed list of questions; anything else gets "Sijaelewa".
 - Tafsiri: say the app checks numbers, not that the translation is correct.
 - Say "about twenty seconds" for OCR, not "instant".
 
 ## Before you record
 
-1. Install the newest build from main (through #28; check which PRs are in it) and let the app finish the model download on Wi-Fi (about 2.2 GB, until Tayari).
+1. Install the newest build from main (through #29; check which PRs are in it) and let the app finish the model download on Wi-Fi (about 1.1 GB, until Tayari).
 2. Run steps 2 to 7, plus 5b and 5c if you will use them, once off camera, in airplane mode.
 3. Cut or reword any step that doesn't behave as described above.

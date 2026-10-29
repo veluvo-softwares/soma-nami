@@ -20,17 +20,16 @@ The same goes for everything else printed: bank letters, school notices and test
 
 ## What it does (as built)
 
-Status on 29 Oct 2026. This section describes what is on `main` (everything up to and including PR #28) and what has been run on a phone. Open PRs #26 (hold-to-talk) and #29 (drop Qwen from the download list) are **not** counted here. "Tested on a phone" means Wesley's iPhone 12; see "Tested devices". Every feature below has unit or component tests, but only the first read-aloud path has been run on a phone.
+Status on 29 Oct 2026. This section describes what is on `main` (everything up to and including PR #29, which includes hold-to-talk in #26 and dropping Qwen in #29) and what has been run on a phone. "Tested on a phone" means Wesley's iPhone 12; see "Tested devices". Every feature below has unit or component tests, but only the first read-aloud path has been run on a phone.
 
 1. **Read aloud.** Camera (tap anywhere) or photo library, then QVAC OCR on the phone, then the label lines in large type, each read aloud exactly as printed with the on-device English voice. Expiry dates are spoken with the month name ("Exp 08/2028" is said "Exp August 2028"); the screen text stays as printed. After a photo the app may speak a framing hint (left, right, up, down, further, closer, no text) and wait for another tap. Batch numbers, manufacturing dates, barcodes and the maker's address are shown under "More details" and are not spoken. A stuck OCR read is stopped after 120 seconds and the app says it couldn't read the photo (unit-tested; not seen on a phone). Tilted photos are not straightened: deskew was measured and not shipped.
 2. **Not sure.** A line OCR is unsure about is never shown or read: the app says it couldn't read that line. A page that is mostly unreadable, or that looks like a handwritten dose ("1x3", "2 bd", "Tab 1 tds"), goes to a Not sure screen: "Sitakisia dozi. Muulize mfamasia au daktari." An optional "call my helper" button dials a number the caregiver saved.
-3. **Ask about it.** Seven fixed question buttons (what is it, how many, how many times a day, what time, with food, expiry, read again). The app repeats the question from a pre-made clip and then reads the label line that answers it, quoted exactly, with the quote on screen. If the label doesn't say, the line is unreadable, or two lines disagree, it refuses and says to ask the pharmacist. Alcohol, children, pregnancy, allergy and missed-dose questions always go to the pharmacist. **No AI model writes or computes the answer**: it is the OCR line, matched by code.
+3. **Ask about it.** Seven fixed question buttons (what is it, how many, how many times a day, what time, with food, expiry, read again). The app repeats the question from a pre-made clip and then reads the label line that answers it, quoted exactly, with the quote on screen. If the label doesn't say, the line is unreadable, or two lines disagree, it refuses and says to ask the pharmacist. Alcohol, children, pregnancy, allergy and missed-dose questions always go to the pharmacist. **No AI model writes or computes the answer**: it is the OCR line, matched by code. **Hold-to-talk:** instead of a button, hold the microphone and ask in Swahili. QVAC Whisper small transcribes on the phone (Whisper is loaded only for that step, with every other model unloaded), and the transcript is matched to the same fixed question list. Anything it can't match gets "Sijaelewa, jaribu tena" (I didn't understand, try again). The microphone path is unit-tested with a fake microphone. Not yet run on a phone, so its speed on the iPhone 12 is unknown.
 4. **Setup for a caregiver.** Interface language (Kiswahili or English), voice speed, light or dark theme, helper's number, model status. Saved on the phone only. Every control has a VoiceOver/TalkBack label and hint; touch targets are at least 88 pt.
 5. **Tafsiri kwa Kiswahili (translate to Swahili).** A button on the Reading screen. TranslatePsy-AfriSLM 0.8B translates each confident English line on the phone, then a number check compares every number, frequency, unit and before/after-meals word with the original. If anything differs, the translation is not shown and the app says "Tafsiri hii si salama" and points to the original. A safe translation is shown under the original and labelled as a translation, not the label. It is spoken in Swahili only when the original English line fits a dose or expiry template, using pre-made clips with the numbers taken from the original, never from the model. The check covers quantities only: it does not catch a wrongly translated word or a dropped "do not". Not run on a phone, so speed and memory of the 0.8B model on the iPhone 12 are unknown.
 6. **Dawa zangu (my medicines).** After a read, "Hifadhi kwenye Dawa zangu" saves the photo and the OCR lines as read. Tapping a saved card reads it again with no OCR, so it should be instant and work offline. A caregiver can set times of day (morning, midday, evening, night) in setup, and a card shows "Sasa" when its time matches; nothing is worked out from the label. Saved medicines are stored on the device and excluded from iCloud backup (a small local Swift module sets the exclusion flag; Android Auto Backup is off). Unit-tested; the iCloud exclusion needs a new native build and has not been checked on a phone.
 
 **In progress, not in this submission:**
-- **Hold-to-talk.** Ask has question buttons; hold-to-talk is in PR #26 and is not merged. Until it is, the microphone path does not exist.
 - **Pharmacist send over Pears.** Built and self-tested on a server (VPS, Bare runtime) using a private bootstrap run by the pharmacist's phone on its hotspot, so no internet is needed in design. It has **not** been tried on two phones. It is **not usable in the app today**: no button on Home leads to it, and its native addons are not linked into the iOS build. The only protection on who receives the message is a 4-digit code; peer identity is not pinned yet (see Roadmap).
 
 Printed Swahili label lines are shown but not read aloud (no Swahili voice runs on the phone) except through the Tafsiri templates above.
@@ -55,7 +54,7 @@ Fastest way to try it:
 
 - **iPhone:** install the TestFlight build (link supplied with the submission). Needs iOS 17 or later on a physical iPhone; QVAC does not run in the simulator.
 - **Android:** install the APK from the public releases repo, `veluvo-softwares/soma-nami-releases` (Android 12+, arm64). See "Tested devices" for what has and hasn't been run.
-- Open the app on Wi-Fi once. It downloads the models (about 2.2 GB) and shows **Tayari** (ready). Then switch to airplane mode.
+- Open the app on Wi-Fi once. It downloads the models (about 1.1 GB) and shows **Tayari** (ready). Then switch to airplane mode.
 
 From source (Mac, Xcode, an iPhone, Node 24):
 
@@ -92,11 +91,10 @@ Downloaded once, on Wi-Fi, by the app's first-run screen (`mobile/src/model-stor
 | `OCR_CRAFT` | finds text in the photo | 83 MB | yes |
 | `OCR_LATIN` | reads Latin-script text (so Swahili and English) | 15 MB | yes |
 | `TTS_MULTILINGUAL_SUPERTONIC3_Q4_0` | English voice | 85 MB | yes |
-| `WHISPER_SMALL_Q8_0` | hold-to-talk questions | 264 MB | **no**: downloaded for hold-to-talk, which is in PR #26 and not merged |
-| `QWEN3_1_7B_INST_Q4` | question answering | 1,057 MB | **no**: Ask is answered by code from the OCR lines; no LLM is loaded. PR #29 removes it from the download list and is not merged yet |
+| `WHISPER_SMALL_Q8_0` | hold-to-talk questions (Swahili) | 264 MB | yes (not yet run on a phone) |
 | `TRANSLATEPSY_AFRISLM_0_8B_TRANSLATION_Q4_K_M` | Tafsiri, English to Swahili | 672 MB | yes (not yet run on a phone) |
 
-Total download: about 2.2 GB (2,177 MB, summed from the manifest). If PR #29 merges, Qwen goes and the total is about 1.1 GB; edit this table then. The OCR and TTS models come peer-to-peer over QVAC's registry (Hyperswarm); Whisper and Qwen come over HTTPS from Hugging Face; TranslatePsy's download source was not separately checked.
+Total download: about 1.1 GB (1,120 MB, summed from the manifest). Qwen3 1.7B was tested in the spike as a question-answering model and dropped because it gave an unsafe dose answer; it is not downloaded. The OCR and TTS models come peer-to-peer over QVAC's registry (Hyperswarm); Whisper and TranslatePsy come over HTTPS from Hugging Face.
 
 **Swahili speech.** Chatterbox multilingual (`TTS_T3_MULTILINGUAL_CHATTERBOX_Q4_0` + `TTS_S3GEN_MULTILINGUAL_CHATTERBOX_Q4_0`) is the only Swahili-capable voice in QVAC's registry, and it runs 30 to 47 times slower than real time on a CPU, so it does not run on the phone. Every fixed Swahili phrase (prompts, hints, question read-backs, refusals and the Tafsiri dose and expiry pieces) was rendered with it ahead of time on a server through QVAC `textToSpeech` and ships in the app as a small audio clip in `mobile/assets/phrases/sw/`. To regenerate: `node mobile/scripts/phrases/generate.mjs`. These clips are covered by the build and tests; a Swahili speaker has not yet judged their pronunciation.
 
@@ -106,6 +104,7 @@ Total download: about 2.2 GB (2,177 MB, summed from the manifest). If PR #29 mer
 - `mobile/src/reader/qvacReader.ts`: `loadModel` / `unloadModel` for OCR, the English voice and TranslatePsy, `ocr` on the photo (`canvasSize 1024`, `recognizerBatchSize 1`), `textToSpeech` per label line, and `translate` (English to Swahili, one line at a time) for Tafsiri.
 - `mobile/src/reader/exclusiveModels.ts`: only one model is loaded at a time.
 - `mobile/src/tafsiri/`: the Tafsiri flow, template speech and number check (plain code; the model call goes through `qvacReader.ts`).
+- `mobile/src/listen/`: hold-to-talk. `expoRecorder.ts` records 16 kHz mono audio, and `whisper.ts` / `qvacListen.ts` load Whisper small through the one-model slot, transcribe in Swahili with the question list as the prompt, and unload it.
 - `mobile/scripts/phrases/generate.mjs`: `textToSpeech` with Chatterbox, build-time only (not in the app).
 - `mobile/app.json`, `mobile/qvac.config.json`, `mobile/plugins/withQvacCpuOnly.js`: the QVAC Expo plugin, bundled addons, and CPU-only execution on iOS (see below).
 - `spike/`: the Node scripts used to test QVAC OCR, TTS, Whisper and Qwen on a server before the app was built. Results in [docs/spike-report.md](docs/spike-report.md).
@@ -119,7 +118,7 @@ QVAC runs on the CPU on iOS on purpose. QVAC's iOS build compiles its Metal shad
 | iPhone 12 (4 GB) | iOS 26.6.1, built with Xcode 27.0 | Tested by hand 25 and 26 Oct (Release build, airplane mode): clean paracetamol and small-print ibuprofen labels were read end to end; a hard photo and a handwritten dose went to Not sure, the safe outcome. Models download and the app reports ready. |
 | Any Android phone | Android 12+, arm64 | **Built, not tested on a physical device.** An APK is built on EAS and published to the releases repo, but no result from an Android phone has been recorded. Treat Android as untested. |
 
-Not tested on a device: spoken month names, Ask, accessibility and setup, the OCR timeout, Tafsiri and Dawa zangu (including the iCloud exclusion) have unit and component tests, but have not been run on a phone, and VoiceOver has not been used with them. Pears has been self-tested on a server only. The Swahili clips have not been judged by ear.
+Not tested on a device: spoken month names, Ask (buttons and hold-to-talk), accessibility and setup, the OCR timeout, Tafsiri and Dawa zangu (including the iCloud exclusion) have unit and component tests, but have not been run on a phone, and VoiceOver has not been used with them. Pears has been self-tested on a server only. The Swahili clips have not been judged by ear.
 
 ## Memory and speed
 
@@ -127,7 +126,7 @@ Measured on the iPhone 12 in a Release build (Xcode memory gauge), 26 Oct:
 
 - Peak **1.44 GB** during one read (OCR), back to about **531 MB** idle once the models are freed. The app was never killed.
 - OCR takes about **22 s** per photo on the phone's CPU (828 x 1280 photo, `canvasSize 1024`).
-- Ask loads no model, so it adds no model memory.
+- Ask with buttons loads no model, so it adds no model memory. Hold-to-talk loads Whisper small (264 MB file) for the transcription step only; its memory and speed on the iPhone 12 are **not measured**.
 - Tafsiri loads TranslatePsy (672 MB file) for the translate step and unloads it straight after. Its memory and speed on the iPhone 12 are **not measured**.
 
 On a one-core server, OCR took 78 s (spike report). Android memory has not been measured.
@@ -142,15 +141,15 @@ On a one-core server, OCR took 78 s (spike report). Android memory has not been 
 | Supertonic 3 | OpenRAIL-M (use restrictions apply; commercial use allowed) | upstream model card |
 | Chatterbox multilingual (clips only) | MIT | upstream repo, in the spike; we ship its output, not the model |
 | Whisper small | MIT | upstream repo, in the spike |
-| Qwen3 1.7B | Apache-2.0 | upstream Hugging Face page, in the spike |
-| TranslatePsy-AfriSLM 0.8B (Tether) | Apache-2.0 | stated in docs/scope.md from the model page; not re-checked since |
+| Qwen3 1.7B (spike only, not in the app) | Apache-2.0 | upstream Hugging Face page, in the spike |
+| TranslatePsy-AfriSLM 0.8B (Tether) | Apache-2.0 | Hugging Face model metadata for `qvac/TranslatePsy-AfriSLM-0.8B-Q4-GGUF`, checked 29 Oct |
 | Atkinson Hyperlegible font | SIL Open Font License 1.1 | `mobile/assets/fonts/OFL.txt` |
 
 Licences were read from upstream pages, not from the quantised copies in QVAC's registry. QVAC Genesis datasets (CC-BY-NC) are not used.
 
 ## What needs a network
 
-- **First-run model download** (about 2.2 GB): needs the internet once. OCR and TTS models use QVAC's peer-to-peer registry; Whisper and Qwen use huggingface.co.
+- **First-run model download** (about 1.1 GB): needs the internet once. OCR and TTS models use QVAC's peer-to-peer registry; Whisper and TranslatePsy use huggingface.co.
 - **Installing the app**: TestFlight or the GitHub releases page.
 - **"Call my helper"** hands the saved number to the phone's dialler; that is a phone call, not an app network request.
 - **Pears pharmacist send** (not usable in the app yet, see above) is designed to use a local Wi-Fi or hotspot link between two phones, not the internet.
@@ -170,7 +169,7 @@ The code, Swahili phrase text, matching rules and tests were written during the 
 
 ## Roadmap
 
-Next steps: hold-to-talk questions (PR #26: the Ask screen and matcher exist; the microphone and Whisper path is in review); finishing the pharmacist hand-off over Pears (add an entry button on Home, link the native addons into the iOS and Android builds, check it on two phones in airplane mode, and **pin the peer's identity** so the 4-digit code isn't the only protection); checking Tafsiri, Dawa zangu and Ask on a phone. Beyond that: Kikuyu. English to Kikuyu translation models exist (C-elo Labs, DeepSahel), but there is no open, offline Kikuyu voice yet, which is the blocker. See [docs/scope.md](docs/scope.md) section 9.
+Next steps: checking hold-to-talk, Tafsiri, Dawa zangu and Ask on a phone (and switching to Whisper base, about 3x faster, if Whisper small is too slow on the CPU); finishing the pharmacist hand-off over Pears (add an entry button on Home, link the native addons into the iOS and Android builds, check it on two phones in airplane mode, and **pin the peer's identity** so the 4-digit code isn't the only protection). Beyond that: Kikuyu. English to Kikuyu translation models exist (C-elo Labs, DeepSahel), but there is no open, offline Kikuyu voice yet, which is the blocker. See [docs/scope.md](docs/scope.md) section 9.
 
 ## License
 
