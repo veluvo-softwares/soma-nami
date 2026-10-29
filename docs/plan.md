@@ -72,7 +72,7 @@ C4a results (Wesley, 25–26 Oct, iPhone 12, iOS 26.6.1, Xcode 27.0): the clean 
 - The framing hint uses only the main block of text, so stray text at the photo's edges doesn't trigger it.
 - Batch / lot, manufacturing dates, barcodes and the maker's name and address aren't spoken; they're shown under More details. The expiry date is always spoken.
 - Xcode 27: pods raised to iOS 17.0 (SDWebImage's resource bundle was 9.0) and `ENABLE_USER_SCRIPT_SANDBOXING = NO`, both in `plugins/withIosBuildFixes.js`. Testers cancel Xcode's "Update to recommended settings".
-- Still open: printed Swahili label lines aren't read aloud (undecided); no OCR timeout; no deskew for tilted photos.
+- Still open: printed Swahili label lines aren't read aloud (undecided). OCR timeout and deskew: see C4 follow-ups below.
 
 C4a second run (Wesley, 26 Oct, iPhone 12, iOS 26.6.1, PR #11 at `d52a84c`, CPU-only QVAC):
 - Release, Xcode attached, network on: clean paracetamol label → read (OCR 21.9 s, 828×1280, 24 blocks, 11 lines); hard paracetamol photo → Not sure (22.2 s, 13 lines), the safe outcome.
@@ -81,6 +81,10 @@ C4a second run (Wesley, 26 Oct, iPhone 12, iOS 26.6.1, PR #11 at `d52a84c`, CPU-
 - OCR is ~22 s per photo on the phone (the VPS takes 78 s on one thread), so `canvasSize` stays at **1024** (Wesley, 26 Oct); 768 would misread small print ("1 OF 2").
 - Console `fopen failed for data file: errno = 2` lines: written by Apple's `libCoreFSCache.dylib` (the graphics shader cache) on first use. Not an app, QVAC or model file: no QVAC binary or package in `node_modules` contains the string. Harmless, nothing to ship or fix.
 - Not yet checked: the spoken expiry line and the More details split (check in the TestFlight build); Polepole / Rudi.
+
+C4 follow-ups (`feat/c4-ocr-timeout-deskew`):
+- OCR timeout: `recognize()` gives up after 120 s (`OCR_TIMEOUT_MS`; a read is ~22 s on the iPhone 12, ~50 s in Debug). `ExclusiveModels.use` takes `timeoutMs`; on timeout it rejects with `JobTimeoutError`, unloads the OCR model (waits at most 10 s, then abandons it so the voice queued behind is not stuck), and drops the engine's late result or error. The next read loads a fresh model. ReadFlow already turns any OCR error into the `error` clip and back to the camera. Tested in `exclusiveModels.test.ts` and `ReadFlow.test.tsx`.
+- Deskew: **not shipped.** Measured on the VPS (`spike/deskew_eval.mjs`, `spike/deskew.py`, results in `spike/results/deskew_eval.json`). A projection-profile angle estimate costs ~100 ms and needs no second OCR pass, so it would not double the time. But it doesn't help reliably: p4_ors_sw_hard (-11.75°) CER 0.386 → 0.293 and still flagged Not sure; p1_paracetamol_hard CER 0.252 → 0.278; p5_ibuprofen_small_hard CER 0.028 → 0.092 and it stopped being flagged while reading worse (the unsafe direction); p2 and p3 unchanged. Not sure on a badly tilted photo is the safe outcome, so it stays. Possible later: rotate only past ~8°, tested on more than one tilted photo (only one here).
 
 ### C4a iOS hand-off: read-aloud on the iPhone
 C4 blocks for Wesley: install the latest TestFlight build (or build locally), then a scripted test in airplane mode with the synthetic labels in `spike/fixtures` printed out. Report: works or not, time to first spoken word, crashes, RAM.

@@ -3,6 +3,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import { ReadFlow } from './ReadFlow';
 import { flush } from '../../model-store/testing';
 import { blocksFor, FakeReaderServices } from '../../reader/testing';
+import { JobTimeoutError } from '../../reader/exclusiveModels';
 
 const mockTakePicture = jest.fn();
 let mockPermission: { granted: boolean; canAskAgain: boolean } | null = { granted: true, canAskAgain: true };
@@ -292,6 +293,26 @@ describe('ReadFlow: photo -> OCR -> display and speech', () => {
     });
     expect(screen.getByTestId('aiming-screen')).toBeTruthy();
     expect(services.speech.playedNames().at(-1)).toBe('error');
+  });
+
+  it('an OCR timeout returns to the camera with the error clip, and the late result is dropped', async () => {
+    const services = setup();
+    services.speech.autoFinish = true;
+    await settle();
+    await takePhoto(services);
+    await act(async () => {
+      services.failOcr(new JobTimeoutError('ocr', 120_000));
+      await flush(20);
+    });
+    expect(screen.getByTestId('aiming-screen')).toBeTruthy();
+    expect(services.speech.playedNames().at(-1)).toBe('error');
+    // The engine's answer arrives anyway after the user is back on the camera.
+    const before = services.speech.playedNames().length;
+    await act(async () => {
+      await flush(20);
+    });
+    expect(screen.getByTestId('aiming-screen')).toBeTruthy();
+    expect(services.speech.playedNames().length).toBe(before);
   });
 
   it('a photo chosen from the library goes through the same reading', async () => {

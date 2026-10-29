@@ -1,0 +1,208 @@
+[
+  {
+    "file": "p1_paracetamol_hard.jpg",
+    "angleDeg": -1.25,
+    "estimateMs": 104,
+    "original": {
+      "ms": 56630,
+      "blocks": 16,
+      "pageCer": 0.252,
+      "lineExact": "4/9",
+      "flagged": true,
+      "lowLines": 4,
+      "text": [
+        "PARACETAMOL",
+        "Tablets BP 500 mg",
+        "100 Tablets",
+        "Dosage: Adults and children over 12 years:",
+        "1to 2 tablets every 4to 6 hours ,",
+        "Do not take more than 8 tablets in 24 Store below 30*€ hours.",
+        "Batch Mo: PX2417 Keep out of reach of children ",
+        "Man4acounea24] Geexpe 08/2028 Ezp:",
+        "Phorme Ud"
+      ]
+    },
+    "deskewed": {
+      "ms": 56597,
+      "blocks": 31,
+      "pageCer": 0.278,
+      "lineExact": "3/9",
+      "flagged": true,
+      "lowLines": 3,
+      "text": [
+        "PARACETAMOL",
+        "Tablets BP 500 mg",
+        "100 Tablets",
+        "Dosage: Adults and children over 12",
+        "1to 2 tablets every 4to 6 years:",
+        "Do not take more than 8 tablets hours",
+        "Store below 30\" C Kecp in 24 hours.",
+        "Batch Barch Moupx2417 No Exp: out of reach of 08/2028 children;",
+        "by Gonenc Phorma Gd"
+      ]
+    }
+  },
+  {
+    "file": "p2_amoxicillin_hard.jpg",
+    "angleDeg": -2.5,
+    "estimateMs": 101,
+    "original": {
+      "ms": 49044,
+      "blocks": 10,
+      "pageCer": 0,
+      "lineExact": "8/8",
+      "flagged": false,
+      "lowLines": 0,
+      "text": [
+        "AMOXICILLIN",
+        "Capsules BP 250 mg",
+        "21 Capsules",
+        "Take one capsule three times a day",
+        "for 7 days, or as directed by the prescriber.",
+        "Complete the full course.",
+        "Prescription only medicine;",
+        "Batch: AM0391 Mfg: 03/2026 Exp: 02/2028"
+      ]
+    },
+    "deskewed": {
+      "ms": 51163,
+      "blocks": 10,
+      "pageCer": 0,
+      "lineExact": "8/8",
+      "flagged": false,
+      "lowLines": 0,
+      "text": [
+        "AMOXICILLIN",
+        "Capsules BP 250 mg",
+        "21 Capsules",
+        "Take one capsule three times a day",
+        "for 7 days, or as directed by the prescriber ",
+        "Complete the full course",
+        "Prescription only medicine",
+        "Batch: AM0391 Mfg: 03/2026 Exp: 02/2028"
+      ]
+    }
+  },
+  {
+    "file": "p3_metformin_hard.jpg",
+    "angleDeg": 0,
+    "estimateMs": 77,
+    "original": {
+      "ms": 49680,
+      "blocks": 8,
+      "pageCer": 0.006,
+      "lineExact": "6/7",
+      "flagged": false,
+      "lowLines": 0,
+      "text": [
+        "Metformin Hydrochloride",
+        "Tablets 500 mg",
+        "28 film-coated tablets",
+        "Take 1 tablet twice daily with meals.",
+        "Swallow whole with water",
+        "Read the leaflet before use",
+        "Batch No: MFS520 Exp: 11/2027"
+      ]
+    },
+    "deskewed": {
+      "ms": 49543,
+      "blocks": 8,
+      "pageCer": 0.006,
+      "lineExact": "6/7",
+      "flagged": false,
+      "lowLines": 0,
+      "text": [
+        "Metformin Hydrochloride",
+        "Tablets 500 mg",
+        "28 film-coated tablets",
+        "Take 1 tablet twice daily with meals.",
+        "Swallow whole with water",
+        "Read the leaflet before use",
+        "Batch No: MFS520 Exp: 11/2027"
+      ]
+    }
+  },
+  {
+    "file": "p4_ors_sw_hard.jpg",
+    "angleDeg": -11.75,
+    "estimateMs": 77,
+    "original": {
+      "ms": 45416,
+      "blocks": 23,
+      "pageCer": 0.386,
+      "lineExact": "1/7",
+      "flagged": true,
+      "lowLines": 1,
+      "text": [
+        "SALTS",
+        "REHYDRATION",
+        "ORAL Kurejesha Majl Mwilini",
+        "Chumvi ya litre of clean Water",
+        "sochet Io maji saf",
+        "Dissolve one katika lita 1 ya",
+        "Yeyusho paku moje",
+        "Use within 24 hours",
+        "Jumia ndani ya saa 24",
+        "Banch 0R8812 Exp: 05/2028"
+      ]
+    },
+    "deskewed": {
+      "ms": 44318,
+      "blocks": 18,
+      "pageCer": 0.293,
+      "lineExact": "2/7",
+      "flagged": true,
+      "lowLines": 3,
+      "text": [
+        "ORAL REHYDRATION SALTS",
+        "Chumvi ya Kurejesha Maji Mwilini",
+        "Dissolve one sachet in 1 Yeyusha pakiti moja litre of clean water",
+        "Use within 24 hours katika hite 1 ya maji saf",
+        "umia ndani ya saa 24",
+        "Batch: 0R8812 Ep:",
+        "05/2028"
+      ]
+    }
+  },
+  {
+    "file": "p5_ibuprofen_small_hard.jpg",
+    "angleDeg": -5.5,
+    "estimateMs": 103,
+    "original": {
+      "ms": 44961,
+      "blocks": 9,
+      "pageCer": 0.028,
+      "lineExact": "6/8",
+      "flagged": true,
+      "lowLines": 1,
+      "text": [
+        "IBUPROFEN 200 mg",
+        "24 Tablets",
+        "Adults: 1 or 2 tablets up t0 3 umes 0 day",
+        "Take with or after food",
+        "Leave at least 4 hours between doses",
+        "Do not exceed 6 tablets in 24 hours",
+        "Not for children under 12",
+        "Batch 187734 Exp 01/2028"
+      ]
+    },
+    "deskewed": {
+      "ms": 46006,
+      "blocks": 15,
+      "pageCer": 0.092,
+      "lineExact": "3/8",
+      "flagged": false,
+      "lowLines": 0,
+      "text": [
+        "IBUPROFEN 200",
+        "24 Tablets mg",
+        "Adults 1or 2 tablets up to 3 times",
+        "Take with or atter food day",
+        "Leave at least 4 hours between doses",
+        "Do not exceed 6 tablets in 24 hours",
+        "Not for children under 12",
+        "Batch 187734 Exp 01/2028"
+      ]
+    }
+  }
+]

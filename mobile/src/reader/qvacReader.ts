@@ -58,12 +58,27 @@ const loader = {
 
 export const models = new ExclusiveModels(loader);
 
-/** Runs QVAC OCR on a photo file (already shrunk to OCR_MAX_SIDE). */
-export function recognize(photoUri: string): Promise<OcrBlock[]> {
-  return models.use('ocr', async (modelId) => {
-    const { blocks } = ocr({ modelId, image: uriToPath(photoUri), options: { paragraph: false } });
-    return (await blocks) as OcrBlock[];
-  });
+/**
+ * A read takes ~22 s on the iPhone 12 (~50 s in the first C4a Debug run), all
+ * on the CPU. QVAC's OCR can't be cancelled, so a stuck one would leave the
+ * user on the Processing screen forever: give up after this long.
+ */
+export const OCR_TIMEOUT_MS = 120_000;
+
+/**
+ * Runs QVAC OCR on a photo file (already shrunk to OCR_MAX_SIDE). Rejects with
+ * JobTimeoutError after OCR_TIMEOUT_MS; the model is then unloaded, the next
+ * read loads a fresh one, and the late result is dropped.
+ */
+export function recognize(photoUri: string, timeoutMs: number = OCR_TIMEOUT_MS): Promise<OcrBlock[]> {
+  return models.use(
+    'ocr',
+    async (modelId) => {
+      const { blocks } = ocr({ modelId, image: uriToPath(photoUri), options: { paragraph: false } });
+      return (await blocks) as OcrBlock[];
+    },
+    { timeoutMs },
+  );
 }
 
 let ttsDir: Directory | null = null;
