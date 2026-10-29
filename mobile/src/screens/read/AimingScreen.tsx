@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { BigButton } from '../../components/BigButton';
+import { AIM_FRAME } from '../../reader/image';
 import type { Photo } from '../../reader/types';
 import { useBi } from '../../settings/SettingsContext';
 import { PHRASES, type PhraseId } from '../../speech/phrases';
@@ -33,6 +34,8 @@ export function AimingScreen({ speech, hint, canReadAnyway, onPhoto, onPick, onR
   const camera = useRef<CameraView>(null);
   const [ready, setReady] = useState(false);
   const [capturing, setCapturing] = useState(false);
+  // The preview's size on screen: the photo is cropped to the frame drawn on it.
+  const previewSize = useRef<{ width: number; height: number } | null>(null);
   const granted = permission?.granted ?? false;
   const known = permission !== null;
   const bi = useBi();
@@ -51,7 +54,10 @@ export function AimingScreen({ speech, hint, canReadAnyway, onPhoto, onPick, onR
     try {
       speech.stop();
       const pic = await camera.current.takePictureAsync({ quality: 0.8 });
-      if (pic) onPhoto({ uri: pic.uri, width: pic.width, height: pic.height });
+      if (pic) {
+        const preview = previewSize.current;
+        onPhoto({ uri: pic.uri, width: pic.width, height: pic.height, ...(preview ? { preview } : {}) });
+      }
     } catch (e) {
       console.warn('[soma] takePicture failed', e);
       void speech.say('error');
@@ -88,6 +94,10 @@ export function AimingScreen({ speech, hint, canReadAnyway, onPhoto, onPick, onR
         <Pressable
           testID="aiming-capture"
           style={styles.preview}
+          onLayout={(e) => {
+            const { width, height } = e.nativeEvent.layout;
+            previewSize.current = width > 0 && height > 0 ? { width, height } : null;
+          }}
           onPress={capture}
           disabled={!granted || capturing}
           accessibilityRole="button"
@@ -130,16 +140,19 @@ export function AimingScreen({ speech, hint, canReadAnyway, onPhoto, onPick, onR
   );
 }
 
+/** Rounds a share to a percentage with one decimal (0.12 -> 12, not 12.000000000000002). */
+const pct = (share: number) => Math.round(share * 1000) / 10;
+
 function makeStyles(p: Palette) {
   return StyleSheet.create({
     container: { flex: 1, backgroundColor: p.background },
     preview: { flex: 1, overflow: 'hidden', backgroundColor: '#000000' },
     frame: {
       position: 'absolute',
-      top: '12%',
-      left: '8%',
-      right: '8%',
-      bottom: '12%',
+      top: `${pct(AIM_FRAME.top)}%`,
+      left: `${pct(AIM_FRAME.left)}%`,
+      right: `${pct(AIM_FRAME.right)}%`,
+      bottom: `${pct(AIM_FRAME.bottom)}%`,
       borderWidth: 4,
       borderColor: p.primary,
       borderRadius: radius.lg,

@@ -5,6 +5,12 @@ export interface Photo {
   uri: string;
   width: number;
   height: number;
+  /**
+   * The size of the camera preview the photo was taken through. Set only for
+   * camera photos: they are cropped to the aiming frame before OCR. A photo
+   * picked from the library has none and is not cropped.
+   */
+  preview?: { width: number; height: number };
 }
 
 /**
@@ -13,7 +19,7 @@ export interface Photo {
  * fakes, since @qvac/sdk needs its native worker.
  */
 export interface ReaderServices {
-  /** Shrinks a camera or library photo so OCR fits in memory (OCR_MAX_SIDE). */
+  /** Crops a camera photo to the aiming frame, then shrinks it so OCR fits in memory (OCR_MAX_SIDE). */
   preparePhoto(photo: Photo): Promise<Photo>;
   /** Lets the user choose a photo from the library; null if they cancel. */
   pickPhoto(): Promise<Photo | null>;
