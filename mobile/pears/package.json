@@ -1,0 +1,25 @@
+{
+  "name": "soma-nami-pears",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Bare worklet for the pharmacist-to-patient send (C7). Not part of the Expo app's dependency tree: it is bundled with bare-pack and started by react-native-bare-kit.",
+  "type": "module",
+  "scripts": {
+    "selftest": "bare selftest.mjs",
+    "bundle": "bare-pack --linked --host ios-arm64 --host android-arm64 --out ../src/pears/pears.bundle.cjs worker.mjs",
+    "link:ios": "bare-link --preset ios --out ../ios/pears-addons worker.mjs",
+    "link:android": "bare-link --preset android --out ../android/pears-addons worker.mjs"
+  },
+  "dependencies": {
+    "b4a": "^1.6.7",
+    "hyperdht": "^6.20.0",
+    "bare-os": "^3.6.2",
+    "hyperswarm": "^4.14.0"
+  },
+  "devDependencies": {
+    "bare": "^1.17.4",
+    "bare-pack": "^2.0.1",
+    "bare-link": "^4.0.1",
+    "bare-runtime": "^1.34.1"
+  }
+}

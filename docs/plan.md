@@ -23,7 +23,7 @@ Hand-offs to Wesley (C3a, C4a, C12) are not separate board cards: the Bond card 
 | C11 | `t_cb8e5f17` | Tafsiri: English → Swahili with the number check | C2, C4 | Bond | todo | |
 | C12 | (Wesley's checklist) | Android real-phone test at the Wed 28 Oct offline check (borrowed phone) | C4, C10 | Wesley | todo | |
 | C9 | `t_80394eb8` | Dawa zangu: saved medicines with caregiver-set times | C4, C6 | Bond | todo (after C5, C6, C11) | |
-| C7 | `t_3605b8f3` | Stretch: pharmacist send over Pears | C4, C5, C6 working offline | Bond | todo | |
+| C7 | `t_3605b8f3` | Stretch: pharmacist send over Pears | C4, C5, C6 working offline | Bond | in review: private-bootstrap design proven on the VPS under Bare, worklet + app side + screens built and tested; not on Home yet, native addons not linked, no two-phone check yet (see card details) | `feat/c7-pears-send` |
 | C8 | `t_55dd85be` | Submission pack: README (both platforms, tested devices) and demo video script | C4a, C5, C6, C11, C12 | Bond prepares, Wesley submits | todo | |
 
 Priority order after C4: C5, C6, C11, then C9, then C7. C9 and C7 are cut first if Thursday looks tight. C10 runs alongside C4 so TestFlight is ready for the Tuesday milestone.
@@ -126,6 +126,10 @@ At the Wed 28 Oct offline check, on a borrowed Android 12+ arm64 phone: install 
 
 ### C7 Pharmacist send over Pears (stretch)
 Only after C4–C6 work offline. First confirm how two phones find each other with no internet; write the finding on the card before building.
+
+Finding (29 Oct, written on the card first): Hyperswarm only finds peers through bootstrap nodes, and the default ones are on the internet. With a **private bootstrap node run by the pharmacist's phone** on its Wi-Fi/hotspot address, two Hyperswarm instances connected and exchanged a message in ~100 ms under the Bare runtime on the VPS, on loopback and on a non-loopback address, with the default bootstrap never contacted. The VPS was not cut off from the internet, so the real proof is two phones in airplane mode on one hotspot. The QVAC SDK 0.22.0 exposes no swarm API to the app, so the app starts its own Bare worklet through `react-native-bare-kit`, which it already depends on.
+
+Built (PR for `feat/c7-pears-send`; details in `mobile/README.md` → Pharmacist send): the worklet core with a Bare self-test, the app-side protocol/link/reducers, and the pharmacist and patient screens, 51 new Jest tests. The instruction is shown and read aloud exactly as typed; it is not translated. **Not done:** the entry button on Home (waits for C6's shell), linking the native addons into the iOS/Android build, the iOS local-network permission string, and the two-phone check. Those need a new EAS build and Wesley's phones, so they are a hand-off; see the PR.
 
 ### C8 Submission pack
 README sections the rules require, stating **both platforms honestly with the devices each was tested on** (iPhone 12 and iOS version from C3a/C4a; Android from C12, or "built, not tested on a physical device" if C12 fails), and where to get each build (TestFlight link, releases repo). Demo video script following scope.md section 7. Roadmap section: Kikuyu (see scope.md section 9). Wesley submits.
