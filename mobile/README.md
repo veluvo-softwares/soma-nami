@@ -75,6 +75,22 @@ Downloaded once, on Wi-Fi, from the models screen. The app won't open the reader
 
 The list is `src/model-store/manifest.ts`, following `docs/scope.md` §1 and the 24 Oct decisions. Chatterbox is not downloaded to the phone: the fixed Swahili phrases ship as audio pre-generated with it on the VPS (C4). TranslatePsy is added by C11. The C2 spike may still change the list.
 
+## Pharmacist send (card C7, stretch)
+
+The pharmacist types a dosing instruction once; it appears on the patient's phone, is shown large and is read aloud (as typed, no translation). No internet.
+
+How the phones find each other: Hyperswarm's built-in bootstrap nodes are on the internet, so they are not used. The pharmacist's phone runs its **own bootstrap node** on its Wi-Fi or hotspot address, and the patient's phone is pointed at it. Both then meet on a topic derived from a 4-digit code. The pharmacist's screen shows `address-code` (for example `172.20.10.1-4821`); the patient types it. `parseInvite` refuses public addresses, so the app can only talk to a local network. Use one phone's hotspot: venue Wi-Fi often isolates clients and blocks the UDP this needs.
+
+Parts:
+- `pears/` is a separate Bare project (its own `package.json`): `core.mjs` (the logic), `worker.mjs` (the worklet entry), `selftest.mjs`. `cd pears && npm install && npm run selftest [bind-address]` runs both roles in one process against a local bootstrap and checks delivery, the ack, refusals and a wrong code. Needs `bare` (`chmod +x` the binary in `node_modules/bare-runtime-*` if your filesystem drops the bit).
+- `src/pears/` is the app side, tested in Jest: `protocol.ts` (code, address check, instruction check), `link.ts` (IPC framing to the worklet and the two screen reducers), `bareKitTransport.ts` (the only untested piece: starts the worklet with `react-native-bare-kit`).
+- `src/screens/pears/` has `PearsFlow` (choose a side), `PharmacistSendScreen` and `PatientReceiveScreen`. They take the link and the speech backend as props. **Not yet reachable from Home**: add `<PearsFlow createLink={startPearsLink} speech={reader.speech} onExit={...} />` behind a button once the C6 shell (PR #22) is on main.
+
+To use it on a phone, three things are still needed that could not be done on the VPS:
+1. `cd pears && npm install && npm run bundle` writes `src/pears/pears.bundle.cjs` (git-ignored; 780 KB).
+2. Link the worklet's native addons into the app, as `react-native-bare-kit` requires: `sodium-native` 5.x, `udx-native` 1.22, `bare-inspect`, `bare-type` (`npm run link:ios` / `link:android` write `ios/pears-addons` and `android/pears-addons`; the `.xcframework`s must be embedded in the app target, the `.so`s put in `jniLibs`). The QVAC SDK may already link some of these for its own worker; if so, linking them twice can clash, and that is what the first build tells us.
+3. iOS: add `NSLocalNetworkUsageDescription` to `app.json` (iOS asks the user before an app talks to other devices on the LAN).
+
 ## Checks
 
 ```bash
