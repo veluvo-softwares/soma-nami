@@ -4,11 +4,14 @@ import { useSettings } from '../settings/SettingsContext';
 import { space } from '../theme';
 import { BigButton } from './BigButton';
 
-/** Kiswahili / English: the language of the app's own words (never of a label). */
+/**
+ * Kiswahili / English: the language of the app's own words (never of a label).
+ * Stacked full width: a half-width button broke "Kiswahili" and "Kiingereza" mid-word.
+ */
 export function LanguageChoice() {
   const { settings, update } = useSettings();
   return (
-    <View style={styles.row} accessibilityRole="radiogroup">
+    <View style={styles.column} accessibilityRole="radiogroup">
       <BigButton
         testID="language-sw"
         tone="plain"
@@ -18,7 +21,6 @@ export function LanguageChoice() {
         fixedOrder
         selected={settings.language === 'sw'}
         onPress={() => update({ language: 'sw' })}
-        style={styles.half}
       />
       <BigButton
         testID="language-en"
@@ -29,13 +31,11 @@ export function LanguageChoice() {
         fixedOrder
         selected={settings.language === 'en'}
         onPress={() => update({ language: 'en' })}
-        style={styles.half}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: 'row', gap: space.md },
-  half: { flex: 1, paddingHorizontal: space.md },
+  column: { gap: space.md },
 });
