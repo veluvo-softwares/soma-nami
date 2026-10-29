@@ -101,6 +101,20 @@ describe('reading scope: what is read aloud, and in which order', () => {
     ['Store in a cool dry place', 'detail'],
     ['Prescription only medicine', 'detail'],
     ['Lot 7731', 'detail'],
+    // Review findings: dosing and warning wording that must be read.
+    ['Instill 1 drop in each eye', 'dose'],
+    ['Dilute in a glass of water', 'dose'],
+    ['Use 2 puffs', 'dose'],
+    ['Suck slowly', 'dose'],
+    ['Place under the tongue', 'dose'],
+    ['2 tabs', 'dose'],
+    ['5 ml', 'dose'],
+    ['Q6H', 'dose'],
+    ['1 - 0 - 1', 'dose'],
+    ['For oral use only', 'warning'],
+    ['Haifai kwa wajawazito', 'warning'],
+    ['Epuka pombe', 'warning'],
+    ['Ikiwa dalili zinaendelea muone daktari', 'warning'],
   ])('%s -> %s', (text, group) => {
     expect(groupsOf(label([['MEDICINE', 50], [text, 24]]))[text]).toBe(group);
   });
@@ -130,11 +144,25 @@ describe('reading scope: what is read aloud, and in which order', () => {
     ]);
   });
 
-  it('unreadable artwork (no number, no medicine words) goes to More details and is not announced', () => {
+  it('unreadable artwork (no number, no word in it) goes to More details and is not announced', () => {
     const blocks = label([['PARACETAMOL', 50], ['~ wW mM ~', 24, 0.2], ['Take 2 tablets.', 24]]);
     const plan = buildSpeechPlan(toLines(blocks));
     expect(plan.filter((s) => s.kind === 'clip' && s.phrase === 'line_unsure')).toEqual([]);
     expect(splitDetails(toLines(blocks)).details).toEqual([1]);
+  });
+
+  it('garbled dose and warning lines with no number are still announced as unreadable, never dropped', () => {
+    const blocks = label([
+      ['PARACETAMOL', 60],
+      ['Tablets BP 500 mg', 30],
+      ['Tke ine tablt twce daly', 24, 0.3],
+      ['Do nt tke mre thn fur', 24, 0.3],
+      ['Kep out o rech o chldrn', 24, 0.3],
+      ['Exp: 08/2028', 24],
+    ]);
+    const plan = buildSpeechPlan(toLines(blocks));
+    expect(plan.filter((s) => s.kind === 'clip' && s.phrase === 'line_unsure').map((s) => s.line).sort()).toEqual([2, 3, 4]);
+    expect(splitDetails(toLines(blocks)).details).toEqual([]);
   });
 
   it('an unreadable name stands in for the name when nothing readable could be the name', () => {
@@ -206,7 +234,7 @@ describe('the Not sure rule', () => {
 
   it('unreadable artwork lines no longer tip a clear label into Not sure', () => {
     // 4 readable lines and 5 unreadable decorative ones: 5/9 > 0.5 sent this to Not sure before.
-    const art = ['~~', 'wWw', 'Ooo', 'mMm', 'xXx'].map((text) => ({ text, confidence: 0.2 }));
+    const art = ['~~', 'w W', 'O o', '|||', 'mM'].map((text) => ({ text, confidence: 0.2 }));
     const l = toLines(blocksFor([...GOOD, ...art]));
     expect(unreadableShare(l)).toBe(0);
     expect(assessPhoto(l, PHOTO_SIZE).kind).toBe('read');
@@ -242,9 +270,10 @@ describe('the Not sure rule', () => {
     expect(assessPhoto(l, PHOTO_SIZE).kind).toBe('read');
   });
 
-  it('shorthand OCR was sure of, or with a number, still means a handwritten dose', () => {
+  it('shorthand OCR was sure of, or with anything else on the line, still means a handwritten dose', () => {
     expect(looksLikeHandwrittenDose(toLines(blocksFor([...GOOD, 'tds'])))).toBe(true);
     expect(looksLikeHandwrittenDose(toLines(blocksFor([...GOOD, { text: '2 bd', confidence: 0.2 }])))).toBe(true);
+    expect(looksLikeHandwrittenDose(toLines(blocksFor([...GOOD, { text: 'Tab. bd', confidence: 0.2 }])))).toBe(true);
   });
 
   it('a handwritten note beside the label is caught even though it is not part of the label', () => {

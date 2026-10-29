@@ -35,8 +35,8 @@ const WARNING = new RegExp(
   [
     /\b(do not|don'?t|never|keep (out of|away from)|out of (the )?reach|not (to )?exceed|exceed|more than|maximum|max\b\.?|warnings?|caution|overdose)/,
     /\b(not (for|suitable|recommended|to be)|avoid|stop (using|taking)|consult|seek medical|if symptoms persist|pregnan|breast-?feeding|allerg)/,
-    /\b(alcohol|liver|kidney|side effects?|discontinue|harmful|poison|external use)/,
-    /\b(usitumie|usizidishe|usinywe|usimeze|usichanganye|onyo|tahadhari|hatari|mbali na watoto)\b/,
+    /\b(alcohol|liver|kidney|side effects?|discontinue|harmful|poison|(external|oral) use)/,
+    /\b(usitumie|usizidishe|usinywe|usimeze|usichanganye|onyo|tahadhari|hatari|mbali na watoto|haifai|epuka|pombe|wajawazito|mjamzito|daktari)\b/,
   ]
     .map((r) => r.source)
     .join('|'),
@@ -47,6 +47,7 @@ const DOSE = new RegExp(
   [
     /\b(take|taken|takes|dosage|doses?|directions?|usage|adults?|children|child|infants?|babies|years?|every|times?|daily|once|twice|thrice)\b/,
     /\b(hourly|hours?|hrs?|days?|weeks?|morning|evening|night|bedtime|before|after|meals?|food|swallow|chew(ed)?|dissolved?|apply|spoonfuls?|teaspoons?|tsp|course|as directed|shake)\b/,
+    /\b(instil+|inhale|puffs?|drop|drops (in|into)|dilute|mix|gargle|suck|place (it )?(under|on|in)|insert|rub|spray|tabs?|caps?|q\d+h)\b/,
     /\b(chukua|meza|kunywa|tumia|yeyusha|kila|mara|saa|siku|asubuhi|mchana|jioni|usiku|kabla|baada|chakula|wazima|watoto|kijiko|vijiko|vidonge|kidonge|dozi|kipimo)\b/,
   ]
     .map((r) => r.source)
@@ -85,7 +86,8 @@ function groupByText(line: LabelLine): LineGroup | null {
   const count = COUNT_LINE.exec(t);
   if (count) {
     // A pack size is a detail; a small count alone on a line may be the dose, split by OCR.
-    const pack = Boolean(count[2]) || Number(count[1]) >= 10 || count[3]!.toLowerCase() === 'ml';
+    const n = Number(count[1]);
+    const pack = Boolean(count[2]) || (count[3]!.toLowerCase() === 'ml' ? n >= 30 : n >= 10);
     return pack ? 'detail' : 'dose';
   }
   if (STARTS_DOSE.test(t)) return 'dose';
@@ -93,10 +95,10 @@ function groupByText(line: LabelLine): LineGroup | null {
   if (DOSE.test(t)) return 'dose';
   if (STORAGE.test(t)) return 'detail';
   if (STRENGTH.test(t)) return 'name';
-  if (line.lowConfidence) {
-    // OCR's text is a guess: a number on an unreadable line could be the dose.
-    return /\d/.test(t) ? 'dose' : null;
-  }
+  // A number on a line no rule claims could be the dose ("1 - 0 - 1", "Q6H"):
+  // read it. On an unreadable line it is announced as unreadable.
+  if (/\d/.test(t)) return 'dose';
+  if (line.lowConfidence) return null;
   if (FORM.test(t) && words(t) <= 5) return 'name';
   return null;
 }
@@ -104,10 +106,10 @@ function groupByText(line: LabelLine): LineGroup | null {
 /**
  * The group of every line, in the same order as `lines`. Lines no text rule
  * claims are the medicine's name when they are among the tallest on the label
- * (the name is printed largest); the rest are details. An unreadable line
- * that no rule claims is decorative (a logo, artwork) and goes to details,
- * unless the label has no readable name, in which case the tallest one stands
- * in for the name and is announced as unreadable.
+ * (the name is printed largest); the rest are details. An unreadable line no
+ * rule claims stands in for the name when the label has no readable name;
+ * otherwise it is kept with the dose lines and announced as unreadable, unless
+ * it is a scrap with no word in it (artwork), which goes to details.
  */
 export function lineGroups(lines: readonly LabelLine[]): LineGroup[] {
   const groups = lines.map(groupByText);
@@ -137,7 +139,10 @@ export function lineGroups(lines: readonly LabelLine[]): LineGroup[] {
 
   for (const i of pickNames(open(true))) groups[i] = 'name';
   if (!groups.includes('name')) for (const i of pickNames(open(false)).slice(0, 1)) groups[i] = 'name';
-  return groups.map((g) => g ?? 'detail');
+  // An unreadable line with a word-like run of letters may be a dose or a
+  // warning OCR garbled: keep it where a dose would be, announced as unreadable.
+  // Only scraps with no number and no three letters in a row (artwork) are details.
+  return groups.map((g, i) => g ?? (lines[i]!.lowConfidence && /[a-z]{3}/i.test(lines[i]!.text) ? 'dose' : 'detail'));
 }
 
 /**
