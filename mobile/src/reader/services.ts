@@ -1,18 +1,41 @@
-import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
+import { ImageManipulator, SaveFormat, type ImageManipulatorContext } from 'expo-image-manipulator';
 import { launchImageLibraryAsync } from 'expo-image-picker';
 
 import { createListenService } from '../listen/qvacListen';
 import { createExpoAudioBackend } from '../speech/expoAudioBackend';
-import { fitLongSide } from './image';
+import { fitLongSide, frameCrop, type CropRect, type Size } from './image';
 import { recognize, releaseModels, synthesize, translateLine } from './qvacReader';
 import type { Photo, ReaderServices } from './types';
 
 async function preparePhoto(photo: Photo): Promise<Photo> {
-  const target = fitLongSide(photo.width, photo.height);
-  // Re-encode even when small enough: it applies the EXIF rotation, so the
-  // text boxes OCR returns match what the user saw.
-  const ctx = ImageManipulator.manipulate(photo.uri);
+  // A camera photo is cropped to the aiming frame first, so text around the
+  // label (another pack, the table, a screen) is never read, and OCR has less
+  // to look at. The crop is worked out on the photo as the user saw it, so
+  // render it once with its EXIF rotation applied before measuring.
+  if (photo.preview) {
+    const upright = ImageManipulator.manipulate(photo.uri);
+    try {
+      const image = await upright.renderAsync();
+      try {
+        const rect = frameCrop({ width: image.width, height: image.height }, photo.preview);
+        if (rect) return await cropAndShrink(ImageManipulator.manipulate(image), rect, rect);
+      } finally {
+        image.release();
+      }
+    } finally {
+      upright.release();
+    }
+  }
+  return cropAndShrink(ImageManipulator.manipulate(photo.uri), null, photo);
+}
+
+/** Applies the crop (if any), shrinks `size` to OCR_MAX_SIDE and saves a JPEG. Releases `ctx`. */
+async function cropAndShrink(ctx: ImageManipulatorContext, rect: CropRect | null, size: Size): Promise<Photo> {
   try {
+    if (rect) ctx.crop(rect);
+    const target = fitLongSide(size.width, size.height);
+    // Re-encode even when small enough: it applies the EXIF rotation, so the
+    // text boxes OCR returns match what the user saw.
     if (target.resized) ctx.resize({ width: target.width, height: target.height });
     const image = await ctx.renderAsync();
     try {
