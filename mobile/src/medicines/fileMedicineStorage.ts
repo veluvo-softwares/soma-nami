@@ -1,14 +1,10 @@
-import { Directory, File, Paths } from 'expo-file-system';
+import { File } from 'expo-file-system';
+
+import { localFile, photoDir } from '../storage/localStore';
 
 import type { MedicineStorage, SavedMedicine } from './medicines';
 
 const INDEX = 'soma-nami-medicines.json';
-
-function photoDir(): Directory {
-  const dir = new Directory(Paths.document, 'medicines');
-  if (!dir.exists) dir.create();
-  return dir;
-}
 
 /**
  * The saved list as a small JSON file and the photos as files next to it, in
@@ -16,12 +12,12 @@ function photoDir(): Directory {
  */
 export const fileMedicineStorage: MedicineStorage = {
   async load() {
-    const file = new File(Paths.document, INDEX);
+    const file = localFile(INDEX);
     if (!file.exists) return null;
     return JSON.parse(await file.text());
   },
   async save(medicines: readonly SavedMedicine[]) {
-    const file = new File(Paths.document, INDEX);
+    const file = localFile(INDEX);
     if (!file.exists) file.create();
     file.write(JSON.stringify({ medicines }));
   },
