@@ -90,7 +90,7 @@ describe('manifest', () => {
   it('has unique names and a plausible total size', () => {
     const names = MODEL_MANIFEST.map((m) => m.name);
     expect(new Set(names).size).toBe(names.length);
-    expect(formatBytes(totalBytes(MODEL_MANIFEST))).toBe('2.2 GB');
+    expect(formatBytes(totalBytes(MODEL_MANIFEST))).toBe('1.1 GB');
   });
 
   it('follows the 24 Oct decisions: Whisper for questions, no Chatterbox on the phone', () => {
@@ -99,9 +99,15 @@ describe('manifest', () => {
     expect(names.filter((n) => n.includes('CHATTERBOX'))).toEqual([]);
   });
 
+  it('downloads no Qwen: Ask quotes the label line in code (C5) and Tafsiri uses TranslatePsy (C11)', () => {
+    const names: string[] = MODEL_MANIFEST.map((m) => m.name);
+    expect(names.filter((n) => n.includes('QWEN'))).toEqual([]);
+    expect(names).toContain('TRANSLATEPSY_AFRISLM_0_8B_TRANSLATION_Q4_K_M');
+  });
+
   it('offers the whole manifest size on the first download', () => {
     const state = initialModelsState(MODEL_MANIFEST);
-    expect(formatBytes(missingBytes(state))).toBe('2.2 GB');
+    expect(formatBytes(missingBytes(state))).toBe('1.1 GB');
   });
 
   it('formats sizes for people', () => {

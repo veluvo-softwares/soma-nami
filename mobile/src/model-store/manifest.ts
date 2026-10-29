@@ -4,19 +4,19 @@
  * The set follows docs/scope.md §1 and the 24 Oct decisions: no Chatterbox on
  * the phone (the fixed Swahili phrases ship as pre-generated audio), Whisper
  * small for hold-to-talk questions (C5), TranslatePsy 0.8B for Tafsiri (C11).
+ * No Qwen: Ask quotes the matching label line in code (C5), so nothing loads it.
  * Change the set here only; the models screen, the read gate and the size
  * shown to the user all come from this list.
  * `name` must be the QVAC registry constant name exported by @qvac/sdk 0.22.0
  * (see `MODEL_DESCRIPTORS` in qvacClient.ts, which typechecks each one).
  */
-export type ModelJob = 'ocr' | 'speech-en' | 'listen' | 'answer' | 'translate';
+export type ModelJob = 'ocr' | 'speech-en' | 'listen' | 'translate';
 
 export type ModelName =
   | 'OCR_CRAFT'
   | 'OCR_LATIN'
   | 'TTS_MULTILINGUAL_SUPERTONIC3_Q4_0'
   | 'WHISPER_SMALL_Q8_0'
-  | 'QWEN3_1_7B_INST_Q4'
   | 'TRANSLATEPSY_AFRISLM_0_8B_TRANSLATION_Q4_K_M';
 
 export interface ModelEntry {
@@ -42,12 +42,6 @@ export const MODEL_MANIFEST: readonly ModelEntry[] = [
     label: 'Listening to questions',
     job: 'listen',
     approxBytes: 264_464_607,
-  },
-  {
-    name: 'QWEN3_1_7B_INST_Q4',
-    label: 'Question answering',
-    job: 'answer',
-    approxBytes: 1_056_782_912,
   },
   {
     name: 'TRANSLATEPSY_AFRISLM_0_8B_TRANSLATION_Q4_K_M',

@@ -89,9 +89,10 @@ Downloaded once, on Wi-Fi, from the models screen. The app won't open the reader
 | `OCR_LATIN` | reading Latin-script text | 15 MB |
 | `TTS_MULTILINGUAL_SUPERTONIC3_Q4_0` | English voice | 85 MB |
 | `WHISPER_SMALL_Q8_0` | hearing hold-to-talk questions (C5) | 264 MB |
-| `QWEN3_1_7B_INST_Q4` | answering questions about the label | 1,057 MB |
 | `TRANSLATEPSY_AFRISLM_0_8B_TRANSLATION_Q4_K_M` | Tafsiri, English to Swahili (C11) | 672 MB |
-| **Total** | | **≈2.2 GB** |
+| **Total** | | **≈1.1 GB** |
+
+No Qwen: Ask answers by quoting the matching label line, picked in code (C5), so no language model writes or picks an answer.
 
 The list is `src/model-store/manifest.ts`, following `docs/scope.md` §1 and the 24 Oct decisions. Chatterbox is not downloaded to the phone: the fixed Swahili phrases ship as audio pre-generated with it on the VPS (C4). TranslatePsy is added by C11. The C2 spike may still change the list.
 
