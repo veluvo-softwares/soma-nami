@@ -1,6 +1,7 @@
 import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 import { launchImageLibraryAsync } from 'expo-image-picker';
 
+import { createListenService } from '../listen/qvacListen';
 import { createExpoAudioBackend } from '../speech/expoAudioBackend';
 import { fitLongSide } from './image';
 import { recognize, releaseModels, synthesize, translateLine } from './qvacReader';
@@ -34,7 +35,7 @@ async function pickPhoto(): Promise<Photo | null> {
   return { uri: asset.uri, width: asset.width, height: asset.height };
 }
 
-/** The real device services: QVAC OCR and Supertonic, expo-audio, expo-image-*. */
+/** The real device services: QVAC OCR, Supertonic and Whisper, expo-audio, expo-image-*. */
 export function createReaderServices(): ReaderServices {
   return {
     preparePhoto,
@@ -42,6 +43,7 @@ export function createReaderServices(): ReaderServices {
     recognize,
     translate: translateLine,
     speech: createExpoAudioBackend(synthesize),
+    listen: createListenService(),
     release: releaseModels,
   };
 }
