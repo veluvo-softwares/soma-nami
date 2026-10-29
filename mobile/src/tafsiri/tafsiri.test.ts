@@ -1,7 +1,7 @@
 import { toLines } from '../reader/ocrLines';
 import { blocksFor } from '../reader/testing';
 import type { PhraseId } from '../speech/phrases';
-import { buildTafsiriPlan, isTranslatable, tafsiriLines, type LineTafsiri } from './tafsiri';
+import { buildTafsiriPlan, isTranslatable, modelLines, tafsiriLines, translatedLines, type LineTafsiri } from './tafsiri';
 
 const linesOf = (texts: (string | { text: string; confidence: number })[]) => toLines(blocksFor(texts));
 
@@ -188,5 +188,19 @@ describe('card D: expiry and batch lines never reach the model', () => {
     });
     expect(asked).toEqual([]);
     expect(results).toEqual([{ kind: 'failed', original: 'Exp: 13/2028' }]);
+  });
+});
+
+describe('modelLines', () => {
+  it('leaves out the expiry and batch lines, which come from templates, so the progress total matches the model calls', async () => {
+    const lines = linesOf(['Take 2 tablets 3 times a day for 5 days', 'Batch No: PX2417 Exp: 08/2028']);
+    expect(translatedLines(lines)).toEqual([0, 1]);
+    expect(modelLines(lines)).toEqual([0]);
+    const asked: string[] = [];
+    await tafsiriLines(lines, async (en) => {
+      asked.push(en);
+      return 'Meza vidonge 2 mara 3 kwa siku kwa siku 5';
+    });
+    expect(asked).toHaveLength(modelLines(lines).length);
   });
 });
