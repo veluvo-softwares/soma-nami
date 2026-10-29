@@ -504,7 +504,8 @@ describe('ReadFlow: Tafsiri kwa Kiswahili', () => {
     const services = setup();
     const waiting: ((v: string) => void)[] = [];
     services.translateWith = () => new Promise<string>((res) => waiting.push(res));
-    await readLabel(services, ['Shake well.', 'Keep dry.']);
+    // Both lines are read aloud, so both are translated (a line under More details is not).
+    await readLabel(services, ['Shake well.', 'Take with water.']);
     await tapTafsiri();
     expect(screen.getByTestId('reading-progress')).toBeTruthy();
     expect(screen.getByText(/Mstari 1 kati ya 2/)).toBeTruthy();
@@ -514,13 +515,28 @@ describe('ReadFlow: Tafsiri kwa Kiswahili', () => {
     });
     expect(screen.getByText(/Mstari 2 kati ya 2/)).toBeTruthy();
     await act(async () => {
-      waiting[1]!('Weka mahali pakavu.');
+      waiting[1]!('Kunywa na maji.');
       await flush(20);
     });
     expect(screen.queryByTestId('reading-progress')).toBeNull();
     const line = screen.getByTestId('reading-line-0-tafsiri');
     expect(within(line).getByText('Tikisa vizuri.')).toBeTruthy();
     expect(within(line).getByText('Shake well.')).toBeTruthy();
+  });
+
+  it('counts only the lines it translates: a storage line under More details is not in the total', async () => {
+    const services = setup();
+    const waiting: ((v: string) => void)[] = [];
+    services.translateWith = () => new Promise<string>((res) => waiting.push(res));
+    await readLabel(services, ['Shake well.', 'Keep dry.']);
+    await tapTafsiri();
+    expect(screen.getByText(/Mstari 1 kati ya 1/)).toBeTruthy();
+    await act(async () => {
+      waiting[0]!('Tikisa vizuri.');
+      await flush(20);
+    });
+    expect(waiting).toHaveLength(1);
+    expect(screen.queryByTestId('reading-progress')).toBeNull();
   });
 });
 
