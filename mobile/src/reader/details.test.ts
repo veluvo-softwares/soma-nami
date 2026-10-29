@@ -1,4 +1,5 @@
-import { lineRole, spokenText, splitDetails } from './details';
+import { lineRole, spokenText } from './details';
+import { splitDetails } from './scope';
 import { toLines } from './ocrLines';
 import { blocksFor } from './testing';
 import { buildSpeechPlan } from '../speech/plan';
@@ -109,19 +110,18 @@ describe('speech plan with label details', () => {
     ]),
   );
 
-  it('skips batch, manufacturing, maker and barcode lines, even unsure ones, and keeps the expiry date and the storage line', () => {
+  it('skips batch, manufacturing, maker, barcode and storage lines, even unsure ones, and keeps the expiry date', () => {
     expect(buildSpeechPlan(lines)).toEqual([
       { kind: 'clip', phrase: 'label_says' },
       { kind: 'tts', text: 'PARACETAMOL', line: 0 },
       { kind: 'tts', text: '1 to 2 tablets every 4 to 6 hours.', line: 1 },
       { kind: 'tts', text: 'Exp: August 2028', line: 3 },
-      { kind: 'tts', text: 'Store below 30°C.', line: 7 },
       { kind: 'clip', phrase: 'reading_end' },
     ]);
   });
 
   it('splits the lines for the screen: read lines first, details kept with their indices', () => {
-    expect(splitDetails(lines)).toEqual({ read: [0, 1, 3, 7], details: [2, 4, 5, 6] });
+    expect(splitDetails(lines)).toEqual({ read: [0, 1, 3], details: [2, 4, 5, 6, 7] });
   });
 
   it('an unsure expiry line is still marked and spoken as unsure, never dropped', () => {

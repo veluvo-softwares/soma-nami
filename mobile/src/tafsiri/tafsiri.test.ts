@@ -15,12 +15,12 @@ const model = (answers: Record<string, string | Error>) => async (line: string) 
 
 describe('tafsiriLines', () => {
   it('shows a translation whose numbers match, and gives its clips when the original fits a template', async () => {
-    const lines = linesOf(['Take 2 tablets twice daily for 5 days.', 'Store in a cool place.']);
+    const lines = linesOf(['Take 2 tablets twice daily for 5 days.', 'Keep out of reach of children.', 'Store in a cool place.']);
     const results = await tafsiriLines(
       lines,
       model({
         'Take 2 tablets twice daily for 5 days.': 'Chukua vidonge viwili mara mbili kwa siku kwa siku tano.',
-        'Store in a cool place.': 'Hifadhi mahali penye baridi.',
+        'Keep out of reach of children.': 'Weka mbali na watoto.',
       }),
     );
     expect(results).toEqual([
@@ -30,7 +30,9 @@ describe('tafsiriLines', () => {
         translation: 'Chukua vidonge viwili mara mbili kwa siku kwa siku tano.',
         clips: ['tpl_take', 'tpl_tab_2', 'tpl_freq_2', 'tpl_days_5'],
       },
-      { kind: 'safe', original: 'Store in a cool place.', translation: 'Hifadhi mahali penye baridi.', clips: null },
+      { kind: 'safe', original: 'Keep out of reach of children.', translation: 'Weka mbali na watoto.', clips: null },
+      // Storage is under More details (not read aloud), so it is not translated either.
+      { kind: 'skipped' },
     ]);
   });
 
@@ -77,8 +79,8 @@ describe('tafsiriLines', () => {
 
   it('a model error on one line fails that line only', async () => {
     const results = await tafsiriLines(
-      linesOf(['Take 1 tablet.', 'Shake well.']),
-      model({ 'Take 1 tablet.': new Error('worker died'), 'Shake well.': 'Tikisa vizuri.' }),
+      linesOf(['Take 1 tablet.', 'Shake well before use.']),
+      model({ 'Take 1 tablet.': new Error('worker died'), 'Shake well before use.': 'Tikisa vizuri kabla ya kutumia.' }),
     );
     expect(results!.map((r) => r.kind)).toEqual(['failed', 'safe']);
   });

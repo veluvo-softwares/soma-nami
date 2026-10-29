@@ -1,5 +1,6 @@
 import { lineRole } from '../reader/details';
 import type { LabelLine } from '../reader/ocrLines';
+import { splitDetails } from '../reader/scope';
 import type { SpeechStep } from '../speech/plan';
 import { checkTranslation, type CheckResult } from './numberCheck';
 import { spokenClipsFor } from './spokenTemplate';
@@ -20,7 +21,8 @@ import type { PhraseId } from '../speech/phrases';
  *   failed   the model errored or returned nothing: same as unsafe, the
  *            original is shown.
  *   skipped  not translated: a Swahili line already, an unsure line, or a
- *            detail line (batch, barcode, maker).
+ *            line under More details (reader/scope.ts: batch, barcode, maker,
+ *            storage, marketing).
  */
 export type LineTafsiri =
   | { kind: 'safe'; original: string; translation: string; clips: PhraseId[] | null }
@@ -46,9 +48,11 @@ export async function tafsiriLines(
   cancelled: () => boolean = () => false,
 ): Promise<LineTafsiri[] | null> {
   const out: LineTafsiri[] = [];
-  for (const line of lines) {
+  // Only lines that are read aloud: a line under More details isn't translated either.
+  const spoken = new Set(splitDetails(lines).read);
+  for (const [i, line] of lines.entries()) {
     if (cancelled()) return null;
-    if (!isTranslatable(line)) {
+    if (!spoken.has(i) || !isTranslatable(line)) {
       out.push({ kind: 'skipped' });
       continue;
     }

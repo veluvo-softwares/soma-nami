@@ -98,15 +98,40 @@ describe('ReadFlow: photo -> OCR -> display and speech', () => {
       }
     });
 
-    expect(sp.synthesized).toEqual(['PARACETAMOL', 'Tablets BP 500 mg', 'Store below 30°C.']);
+    expect(sp.synthesized).toEqual(['PARACETAMOL', 'Tablets BP 500 mg']);
     expect(sp.playedNames().slice(sp.playedNames().indexOf('label_says'))).toEqual([
       'label_says',
       'file:///tts/1.wav',
       'file:///tts/2.wav',
       'line_unsure',
-      'file:///tts/3.wav',
       'reading_end',
     ]);
+    // Storage is shown under More details, not read (card A, reading scope).
+    expect(screen.getByTestId('reading-detail-3')).toBeTruthy();
+  });
+
+  it('a camera photo carries the preview size, so it is cropped to the frame; a picked photo does not', async () => {
+    const services = setup();
+    services.speech.autoFinish = true;
+    await settle();
+    fireEvent.press(screen.getByTestId('home-read'));
+    await settle();
+    fireEvent(screen.getByTestId('aiming-capture'), 'layout', { nativeEvent: { layout: { x: 0, y: 0, width: 390, height: 600 } } });
+    fireEvent.press(screen.getByTestId('aiming-capture'));
+    await settle();
+    expect(services.prepared).toEqual([{ ...PHOTO, preview: { width: 390, height: 600 } }]);
+
+    // OCR fails: back on the camera; then a photo from the library is read uncropped.
+    await act(async () => {
+      services.failOcr(new Error('boom'));
+      await flush(20);
+    });
+    const picked = { uri: 'file:///library/2.jpg', width: 1200, height: 900 };
+    services.pickResult = picked;
+    fireEvent.press(screen.getByTestId('aiming-pick'));
+    await settle();
+    expect(services.prepared[1]).toEqual(picked);
+    expect(services.prepared[1]).not.toHaveProperty('preview');
   });
 
   it('batch, manufacturing and maker lines are shown under More details and never spoken; the expiry is', async () => {

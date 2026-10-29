@@ -1,5 +1,5 @@
 import { detectLineLanguage } from './language';
-import { LOW_CONFIDENCE, toLines, type OcrBlock } from './ocrLines';
+import { LOW_CONFIDENCE, ROW_SPLIT_GAP, toLines, type OcrBlock } from './ocrLines';
 
 describe('toLines', () => {
   it('joins blocks on the same visual line left to right and orders lines top to bottom', () => {
@@ -111,5 +111,23 @@ describe('confidence of a line is judged on what is spoken', () => {
       { text: 'Batch No: PX2417', bbox: [110, 0, 220, 20], confidence: 0.95 },
     ]);
     expect(line!.lowConfidence).toBe(true);
+  });
+});
+
+describe('toLines: text side by side on one row', () => {
+  it('joins words close together on a row into one line', () => {
+    const lines = toLines([
+      { text: 'Batch No: PX2417', confidence: 0.9, bbox: [160, 450, 370, 490] },
+      { text: 'Exp: 08/2028', confidence: 0.9, bbox: [380, 450, 530, 490] },
+    ]);
+    expect(lines.map((l) => l.text)).toEqual(['Batch No: PX2417 Exp: 08/2028']);
+  });
+
+  it('keeps text more than ROW_SPLIT_GAP line heights apart as separate lines (another pack beside the label)', () => {
+    const lines = toLines([
+      { text: 'Tablets BP 500 mg', confidence: 0.9, bbox: [250, 300, 700, 330] },
+      { text: 'IBUPROFEN 400 mg', confidence: 0.9, bbox: [700 + ROW_SPLIT_GAP * 30 + 10, 300, 990, 330] },
+    ]);
+    expect(lines.map((l) => l.text)).toEqual(['Tablets BP 500 mg', 'IBUPROFEN 400 mg']);
   });
 });

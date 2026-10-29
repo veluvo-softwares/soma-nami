@@ -98,7 +98,8 @@ describe('Dawa zangu: save, list, hear again', () => {
     await settle();
 
     expect(services.recognized.length).toBe(ocrBefore); // no OCR again
-    expect(services.speech.synthesized.slice(-3)).toEqual(['PARACETAMOL', 'Tablets BP 500 mg', 'Store below 30°C.']);
+    // Storage is under More details, so the replay reads name and strength only (card A).
+    expect(services.speech.synthesized.slice(-2)).toEqual(['PARACETAMOL', 'Tablets BP 500 mg']);
     expect(services.speech.played.length).toBeGreaterThan(playedBefore);
     // The saved text is on screen; the unsure line kept its state and is neither shown nor read.
     expect(screen.getByText('Tablets BP 500 mg')).toBeTruthy();

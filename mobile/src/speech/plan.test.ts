@@ -16,16 +16,36 @@ describe('buildSpeechPlan (OCR result -> what is said)', () => {
 
   it('never speaks a low-confidence line: it says it could not read it and to ask the pharmacist', () => {
     const plan = buildSpeechPlan(
-      toLines(blocksFor(['PARACETAMOL', { text: 'Tab 4 tds', confidence: 0.42 }, 'Store below 30°C.'])),
+      toLines(blocksFor(['PARACETAMOL', { text: 'Tab 4 tds', confidence: 0.42 }, 'Take 1 tablet at night.'])),
     );
     expect(plan).toEqual([
       { kind: 'clip', phrase: 'label_says' },
       { kind: 'tts', text: 'PARACETAMOL', line: 0 },
       { kind: 'clip', phrase: 'line_unsure', line: 1 },
-      { kind: 'tts', text: 'Store below 30°C.', line: 2 },
+      { kind: 'tts', text: 'Take 1 tablet at night.', line: 2 },
       { kind: 'clip', phrase: 'reading_end' },
     ]);
     expect(JSON.stringify(plan)).not.toContain('Tab 4 tds');
+  });
+
+  it('reads name, dose, expiry, then warnings, whatever order they are printed in; storage is not read', () => {
+    const plan = buildSpeechPlan(
+      toLines(
+        blocksFor([
+          'PARACETAMOL',
+          'Keep out of reach of children.',
+          'Exp: 08/2028',
+          'Store below 30°C.',
+          '1 to 2 tablets every 4 to 6 hours.',
+        ]),
+      ),
+    );
+    expect(plan.flatMap((s) => (s.kind === 'tts' ? [s.text] : []))).toEqual([
+      'PARACETAMOL',
+      '1 to 2 tablets every 4 to 6 hours.',
+      'Exp: August 2028',
+      'Keep out of reach of children.',
+    ]);
   });
 
   it('does not send Swahili lines to the English voice; it says once that they are on screen', () => {
@@ -36,14 +56,15 @@ describe('buildSpeechPlan (OCR result -> what is said)', () => {
           'Chumvi ya Kurejesha Maji Mwilini',
           'Use within 24 hours.',
           'Tumia ndani ya saa 24.',
+          'Usitumie baada ya saa 24.',
         ]),
       ),
     );
     expect(plan).toEqual([
       { kind: 'clip', phrase: 'label_says' },
       { kind: 'tts', text: 'ORAL REHYDRATION SALTS', line: 0 },
-      { kind: 'clip', phrase: 'line_swahili', line: 1 },
       { kind: 'tts', text: 'Use within 24 hours.', line: 2 },
+      { kind: 'clip', phrase: 'line_swahili', line: 3 },
       { kind: 'clip', phrase: 'reading_end' },
     ]);
   });
