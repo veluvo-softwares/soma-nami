@@ -8,6 +8,7 @@ import type { ModelsState } from '../model-store/modelsState';
 import { sanitizeHelperNumber, type VoiceSpeed } from '../settings/settings';
 import { useBi, useSettings } from '../settings/SettingsContext';
 import { fonts, radius, space, touch, type, usePalette, type Palette } from '../theme';
+import { MedicinesSetup } from './MedicinesSetup';
 import { DownloadButton, ModelRows } from './ModelsScreen';
 
 interface Props {
@@ -42,6 +43,7 @@ export function SetupScreen({ manifest, state, onDownload, onDone }: Props) {
   const helper = bi('Namba ya msaidizi', "Helper's phone number");
   const helperNote = bi('Inabaki kwenye simu hii tu.', 'Stays on this phone only.');
   const models = bi('Modeli', 'Models');
+  const medicines = bi('Dawa zangu', 'My medicines');
 
   return (
     <ScrollView contentContainerStyle={styles.container} testID="setup-screen">
@@ -109,6 +111,9 @@ export function SetupScreen({ manifest, state, onDownload, onDone }: Props) {
         accessibilityHint={`${helper.sub}. ${helperNote.main}`}
       />
       <Text style={styles.en}>{helperNote.main} · {helperNote.sub}</Text>
+
+      <Section styles={styles} label={medicines} />
+      <MedicinesSetup />
 
       <Section styles={styles} label={models} />
       <DownloadButton state={state} onDownload={onDownload} />

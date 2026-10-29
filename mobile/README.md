@@ -54,6 +54,15 @@ node scripts/phrases/generate.mjs --force    # everything
 
 It needs ffmpeg and `@qvac/sdk` 0.22.0 with desktop prebuilds (set `QVAC_SDK=/path/to/node_modules/@qvac/sdk` if the one in `mobile/` lacks them). It rewrites `src/speech/phraseAssets.ts` and `assets/phrases/phrases.lock.json`; `src/speech/phrases.test.ts` fails if a phrase has no clip. Clips are AAC, mono, 24 kHz, about 10 kB each.
 
+## Dawa zangu (card C9)
+
+Saved medicines, kept only on the phone (`src/medicines/`). After a read, **Hifadhi kwenye Dawa zangu** saves the photo (copied into `Documents/medicines/`), the OCR lines exactly as read with their confidence and unsure flag, the name as printed (the first line OCR was sure of) and the date. The list is `soma-nami-medicines.json` next to it. No account, no network.
+
+- Tapping a card on **Dawa zangu** reads the saved lines through the same speech plan as a fresh read: no OCR, so it is instant and works in airplane mode. A line saved as unsure stays unsure and is read as "Mstari huu sijaweza kuusoma vizuri".
+- Times (Asubuhi / Mchana / Jioni / Usiku) are set only by the caregiver, in **Mipangilio → Dawa zangu**, where deleting (with a confirm) also lives. Nothing is worked out from the label text; with no times set the card shows none. (The pharmacist path is C7.)
+- **Sasa · Now** shows only on a medicine with a caregiver-set time that matches the current part of the day: asubuhi 05:00–11:59, mchana 12:00–15:59, jioni 16:00–20:59, usiku 21:00–04:59 (`timeOfDay` in `medicines.ts`).
+- Storage is a JSON file plus photo files rather than `expo-sqlite`: no new native module, so this card needs no new native build.
+
 ## Theme
 
 `src/theme/` holds the design tokens from `docs/ui.md`: dark theme by default (`#0E0E0E`, yellow `#FFD60A` main action, blue `#8EC9FF` ask, orange `#FF9F43` not sure, black text on every accent), a light theme for caregiver setup, type sizes (body ≥ 20, headings 30–52) and the 88 pt touch target. Screens read colours with `usePalette()` and never hard-code them. `src/theme/tokens.test.ts` checks every text/background pair reaches WCAG AAA (7:1).

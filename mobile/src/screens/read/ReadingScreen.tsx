@@ -19,6 +19,8 @@ interface Props {
   lines: LabelLine[];
   onBack: () => void;
   onAsk?: () => void;
+  /** Offers "Hifadhi" (save to Dawa zangu). Left out when replaying a saved label. */
+  onSave?: () => Promise<void>;
 }
 
 function languageChip(lines: readonly LabelLine[]) {
@@ -37,8 +39,27 @@ function languageChip(lines: readonly LabelLine[]) {
  * maker's address are shown small under More details and not read aloud.
  * Translation (C11) and Ask (C5) buttons come with those cards.
  */
-export function ReadingScreen({ speech, speechState, lines, onBack, onAsk }: Props) {
+export function ReadingScreen({ speech, speechState, lines, onBack, onAsk, onSave }: Props) {
   const p = usePalette();
+  const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'failed'>('idle');
+  const mounted = useRef(true);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+  const save = () => {
+    if (!onSave || saveState === 'saving' || saveState === 'saved') return;
+    setSaveState('saving');
+    onSave().then(
+      () => mounted.current && setSaveState('saved'),
+      (e) => {
+        console.warn('[soma] save to Dawa zangu failed', e);
+        if (mounted.current) setSaveState('failed');
+      },
+    );
+  };
   const styles = useMemo(() => makeStyles(p), [p]);
   const plan = useMemo(() => buildSpeechPlan(lines), [lines]);
   const { read, details } = useMemo(() => splitDetails(lines), [lines]);
@@ -52,6 +73,7 @@ export function ReadingScreen({ speech, speechState, lines, onBack, onAsk }: Pro
   const unsureText = bi('Mstari huu sijaweza kuusoma vizuri', "I couldn't read this line clearly. Ask the pharmacist.");
   const moreDetails = bi('Maelezo zaidi', 'More details');
   const notAloud = bi('Hayasomwi kwa sauti', 'Not read aloud');
+  const saveFailed = bi('Haikuhifadhiwa. Jaribu tena.', "Couldn't save. Try again.");
   const couldntRead = bi('Sijaweza kusoma', 'Couldn’t read');
 
   const start = useCallback(
@@ -162,6 +184,24 @@ export function ReadingScreen({ speech, speechState, lines, onBack, onAsk }: Pro
             }}
           />
         )}
+        {onSave ? (
+          <View>
+            <BigButton
+              testID="reading-save"
+              tone="ask"
+              icon={saveState === 'saved' ? 'check' : 'content-save'}
+              sw={saveState === 'saved' ? 'Imehifadhiwa kwenye Dawa zangu' : 'Hifadhi kwenye Dawa zangu'}
+              en={saveState === 'saved' ? 'Saved to My medicines' : 'Save to My medicines'}
+              disabled={saveState === 'saving' || saveState === 'saved'}
+              onPress={save}
+            />
+            {saveState === 'failed' ? (
+              <Text style={styles.saveFailed} accessibilityRole="alert" testID="reading-save-failed">
+                {saveFailed.main} · {saveFailed.sub}
+              </Text>
+            ) : null}
+          </View>
+        ) : null}
         <BigButton
           testID="reading-back"
           tone="plain"
@@ -207,6 +247,7 @@ function makeStyles(p: Palette) {
     detailsHeading: { fontFamily: fonts.bold, fontSize: type.hint, color: p.textMuted },
     detailsNote: { fontFamily: fonts.regular, fontSize: type.hint, color: p.textMuted },
     detailText: { fontFamily: fonts.regular, fontSize: type.hint, color: p.textMuted },
+    saveFailed: { fontFamily: fonts.bold, fontSize: type.body, color: p.warning, marginTop: space.xs },
     actions: { padding: space.md, gap: space.md },
     row: { flexDirection: 'row', gap: space.md },
     half: { flex: 1, paddingHorizontal: space.md },

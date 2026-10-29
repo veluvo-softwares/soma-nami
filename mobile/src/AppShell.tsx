@@ -8,6 +8,8 @@ import type { ModelClient } from './model-store/ensureModels';
 import type { ModelEntry } from './model-store/manifest';
 import { canRead } from './model-store/modelsState';
 import { useModels } from './model-store/useModels';
+import { MedicinesProvider } from './medicines/MedicinesContext';
+import { MemoryMedicineStorage, type MedicineStorage } from './medicines/medicines';
 import type { ReaderServices } from './reader/types';
 import { SettingsProvider, useSettings } from './settings/SettingsContext';
 import { MemorySettingsStorage, type SettingsStorage } from './settings/settings';
@@ -23,6 +25,8 @@ interface Props {
   reader: ReaderServices;
   /** Where the caregiver's choices are saved. The app passes a file on the phone. */
   settingsStorage?: SettingsStorage;
+  /** Where Dawa zangu (saved medicines and their photos) is kept. The app passes files on the phone. */
+  medicineStorage?: MedicineStorage;
   /** Forces a theme over the saved choice (tests and previews). */
   theme?: ThemeName;
 }
@@ -38,13 +42,16 @@ function KeepAwake() {
  * phone. Until then the models screen is all there is. Caregiver setup
  * (language, voice speed, theme, helper's number, models) opens from Home.
  */
-export function AppShell({ client, manifest, reader, settingsStorage, theme }: Props) {
+export function AppShell({ client, manifest, reader, settingsStorage, medicineStorage, theme }: Props) {
   // Without storage (tests) choices last until the app closes.
   const [fallback] = useState(() => new MemorySettingsStorage());
+  const [medicineFallback] = useState(() => new MemoryMedicineStorage());
   return (
     <SettingsProvider storage={settingsStorage ?? fallback} override={theme ? { theme } : undefined}>
       <Themed>
-        <Shell client={client} manifest={manifest} reader={reader} />
+        <MedicinesProvider storage={medicineStorage ?? medicineFallback}>
+          <Shell client={client} manifest={manifest} reader={reader} />
+        </MedicinesProvider>
       </Themed>
     </SettingsProvider>
   );
