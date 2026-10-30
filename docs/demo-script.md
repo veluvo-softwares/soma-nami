@@ -29,7 +29,7 @@ Each step says whether it has been **tested on the phone** or **not yet**. Recor
 
 ## Left out on purpose
 
-The app does **not** do these yet, so the video must not show or claim them: the pharmacist hand-off over Pears (built and self-tested on a server only; not reachable from Home, not tried on two phones, peer identity not pinned), and anything on Android (not tested). Mention them only as "next" in the closing line.
+The app does **not** do these yet, so the video must not show or claim them: the pharmacist hand-off over Pears (built and self-tested on a server only; not reachable from Home, not tried on two phones, peer identity not pinned), and Android speed (tested only on a low-end Galaxy A04, where a read takes about 8 minutes). Mention them only as "next" in the closing line.
 
 ## Claims that must stay true
 
