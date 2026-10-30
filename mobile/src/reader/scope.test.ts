@@ -183,6 +183,56 @@ describe('reading scope: what is read aloud, and in which order', () => {
   });
 });
 
+// A pharmacy dispensing label (synthetic: invented patient, codes and pharmacy), as a
+// hospital or chemist prints it on the box, OCR'd the way QVAC read a real one on 30 Oct:
+// the strength misread ("60 Bmg"), "TWO" unsure, and the box's own big print beside it.
+const DISPENSING_LABEL = label([
+  ['to', 70],
+  ['Mfanodol MR 60 Bmg Tablets 10s', 30],
+  ['MHET / 3403 31/01/28', 26],
+  ['TAKE 1 Iablet (1 TAB', 26],
+  ['IVO TIMES PER DAY (ORAL)', 26, 0.17],
+  ['JUMA AMINA WANJIKU AB01234567 NC12345678', 26],
+  ['INV : PW123', 26],
+  ['RX #: KR00012345', 26],
+  ['VER:  MFANO01 11/02/26-1516', 26],
+  ['Mfano Pharmacy Nairobi T:+254 700 000 000', 26],
+]);
+
+describe('reading scope: a pharmacy dispensing label', () => {
+  it('reads the medicine and how to take it; the patient, the pharmacy fields and the phone are details', () => {
+    const groups = groupsOf(DISPENSING_LABEL);
+    expect(groups['Mfanodol MR 60 Bmg Tablets 10s']).toBe('name');
+    expect(groups['TAKE 1 Iablet (1 TAB']).toBe('dose');
+    expect(groups['IVO TIMES PER DAY (ORAL)']).toBe('dose');
+    for (const detail of [
+      'JUMA AMINA WANJIKU AB01234567 NC12345678',
+      'INV : PW123',
+      'RX #: KR00012345',
+      'VER:  MFANO01 11/02/26-1516',
+      'Mfano Pharmacy Nairobi T:+254 700 000 000',
+    ]) {
+      expect([detail, groups[detail]]).toEqual([detail, 'detail']);
+    }
+  });
+
+  it('a two-letter scrap of the box print ("to") is never taken for the name', () => {
+    expect(groupsOf(DISPENSING_LABEL)['to']).toBe('detail');
+  });
+
+  it('the patient\'s name and IDs are never spoken', () => {
+    const said = spoken(DISPENSING_LABEL).join(' | ');
+    expect(said).not.toMatch(/JUMA|AB01234567|KR00012345|PW123|\+254/);
+    expect(said).toMatch(/Mfanodol/);
+    expect(said).toMatch(/TAKE 1/);
+  });
+
+  it('a dose line with an ID-like code on it is still read', () => {
+    const groups = groupsOf(label([['Take 1 tablet twice daily AB01234567', 26]]));
+    expect(groups['Take 1 tablet twice daily AB01234567']).toBe('dose');
+  });
+});
+
 describe('only the label: text around it in the photo is dropped', () => {
   // The box photographed on a table, inside the frame, with other text around it:
   // a newspaper headline at the top, another pack's name at the side, a phone's clock.
