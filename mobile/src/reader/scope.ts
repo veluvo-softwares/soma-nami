@@ -63,6 +63,18 @@ const STORAGE = /\b(store|storage|protect(ed)? from|keep (in|at|below|dry|cool|t
 const FORM =
   /\b(tablets?|capsules?|caplets?|syrup|suspension|solution|injection|cream|ointment|gel|drops|sachets?|lozenges?|b\.?p\.?|usp)\b/i;
 
+/**
+ * The pharmacy's own fields on a dispensing label (the sticker a hospital or
+ * chemist prints for one patient): invoice, prescription and verification
+ * numbers, the patient's ID, the pharmacy's phone. None says how to take the
+ * medicine, and the patient's name and IDs should not be read out.
+ */
+const DISPENSING_FIELD = /^\W*(inv(oice)?|rx|ver(ified)?|patient|pt|mrn|ip\s*no|op\s*no|receipt|served by|dispensed by)\b\s*[#:.]?/i;
+/** A phone number ("T:+254 111 011 888", "Tel: 0700 000000"). */
+const PHONE = /(\+\s*254[\s\d]{6,}|\bt(el)?\s*[:.]\s*\+?\s*\d)/i;
+/** An ID or record code: letters then six or more digits ("AK02026672", "NC31829410"). */
+const ID_CODE = /\b[a-z]{1,4}\d{6,}\b/i;
+
 /** A pack count on its own ("100 Tablets", "3 x 10 tablets", "100 ml"). */
 const COUNT_LINE =
   /^\W*(\d+)\s*(x\s*\d+\s*)?(tablets?|capsules?|caplets?|sachets?|ampoules?|vials?|lozenges?|pessaries|suppositories|softgels?|vidonge|ml)\W*$/i;
@@ -83,6 +95,9 @@ function groupByText(line: LabelLine): LineGroup | null {
   if (hasExpiry(text)) return 'expiry';
   if (lineRole(line) === 'detail') return 'detail';
   const t = spokenText(text);
+  // Dispensing-label fields; a line that also says how to take the medicine is still read.
+  if (DISPENSING_FIELD.test(t)) return 'detail';
+  if ((PHONE.test(t) || ID_CODE.test(t)) && !STARTS_DOSE.test(t) && !WARNING.test(t) && !DOSE.test(t)) return 'detail';
   const count = COUNT_LINE.exec(t);
   if (count) {
     // A pack size is a detail; a small count alone on a line may be the dose, split by OCR.
@@ -95,6 +110,9 @@ function groupByText(line: LabelLine): LineGroup | null {
   if (DOSE.test(t)) return 'dose';
   if (STORAGE.test(t)) return 'detail';
   if (STRENGTH.test(t)) return 'name';
+  // "Etoflam MR 60/8mg Tablets 10s" with the strength misread ("60 Bmg"): a short
+  // line naming the form, with no dosing words, is the product line.
+  if (FORM.test(t) && words(t) <= 8 && !line.lowConfidence) return 'name';
   // A number on a line no rule claims could be the dose ("1 - 0 - 1", "Q6H"):
   // read it. On an unreadable line it is announced as unreadable.
   if (/\d/.test(t)) return 'dose';
@@ -113,9 +131,9 @@ function groupByText(line: LabelLine): LineGroup | null {
  */
 export function lineGroups(lines: readonly LabelLine[]): LineGroup[] {
   const groups = lines.map(groupByText);
-  /** Lines no text rule claimed, with some letters on them: readable ones, or unreadable ones. */
+  /** Lines no text rule claimed with a word on them (three letters in a row, so a two-letter scrap of box print like "to" is not a name): readable ones, or unreadable ones. */
   const open = (readable: boolean) =>
-    lines.flatMap((l, i) => (groups[i] === null && l.lowConfidence === !readable && /[a-z]{2}/i.test(l.text) ? [i] : []));
+    lines.flatMap((l, i) => (groups[i] === null && l.lowConfidence === !readable && /[a-z]{3}/i.test(l.text) ? [i] : []));
 
   const pickNames = (candidates: number[]): number[] => {
     if (candidates.length === 0) return [];
