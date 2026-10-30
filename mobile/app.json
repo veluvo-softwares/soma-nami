@@ -67,6 +67,7 @@
       "./plugins/withNoNativeDebugSymbols",
       "./plugins/withAndroidGradleProperties",
       "./plugins/withIosBuildFixes",
+      "./plugins/withSceneLifecycle",
       "./plugins/withQvacCpuOnly",
       "expo-camera",
       [
