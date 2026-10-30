@@ -83,7 +83,8 @@ export function ReadFlow({ services, onOpenSetup, now }: Props) {
     [speech, services],
   );
 
-  const readPhoto = async (raw: Photo) => {
+  /** `fromCamera`: a camera photo can be aimed again, so it may get a framing hint; a picked photo is read as it is. */
+  const readPhoto = async (raw: Photo, fromCamera: boolean) => {
     // The camera or picker can finish after the user pressed Back.
     if (screen.current !== 'aiming') return;
     const id = ++request.current;
@@ -95,7 +96,7 @@ export function ReadFlow({ services, onOpenSetup, now }: Props) {
       lastPhoto.current = photo;
       const blocks = await services.recognize(photo.uri);
       const lines = toLines(blocks);
-      const assessment = assessPhoto(lines, photo);
+      const assessment = assessPhoto(lines, photo, { framing: fromCamera });
       console.log(
         `[soma] ocr ${Date.now() - t0} ms, ${photo.width}x${photo.height}, ${blocks.length} blocks, ${lines.length} lines -> ${assessment.kind}`,
       );
@@ -109,7 +110,7 @@ export function ReadFlow({ services, onOpenSetup, now }: Props) {
   const pick = async () => {
     try {
       const photo = await services.pickPhoto();
-      if (photo) await readPhoto(photo);
+      if (photo) await readPhoto(photo, false);
     } catch (e) {
       console.warn('[soma] pick failed', e);
       void speech.say('error');
@@ -183,7 +184,7 @@ export function ReadFlow({ services, onOpenSetup, now }: Props) {
           speech={speech}
           hint={state.hint}
           canReadAnyway={state.found.length > 0}
-          onPhoto={(p) => void readPhoto(p)}
+          onPhoto={(p) => void readPhoto(p, true)}
           onPick={() => void pick()}
           onReadAnyway={() => dispatch({ type: 'read-anyway' })}
           onBack={home}

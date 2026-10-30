@@ -131,6 +131,16 @@ describe('framingHint', () => {
     expect(a).toMatchObject({ kind: 'hint', hint: 'hint_left' });
     expect(a.lines).toHaveLength(PARACETAMOL.length);
   });
+
+  it('a photo picked from the library is read as it is: no hint to move a camera', () => {
+    const a = assessPhoto(lines(PARACETAMOL, { left: 0 }), PHOTO_SIZE, { framing: false });
+    expect(a).toMatchObject({ kind: 'read' });
+    expect(a.lines).toHaveLength(PARACETAMOL.length);
+  });
+
+  it('a picked photo with no text still says so', () => {
+    expect(assessPhoto([], PHOTO_SIZE, { framing: false })).toMatchObject({ kind: 'hint', hint: 'hint_no_text' });
+  });
 });
 
 describe('framingHint ignores stray text outside the label', () => {

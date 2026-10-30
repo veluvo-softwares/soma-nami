@@ -6,12 +6,18 @@ import { blocksFor, FakeReaderServices } from '../../reader/testing';
 import { JobTimeoutError } from '../../reader/exclusiveModels';
 
 const mockTakePicture = jest.fn();
+let mockPictureSize: string | undefined;
+type MockCameraProps = { onCameraReady?: () => void; pictureSize?: string };
 let mockPermission: { granted: boolean; canAskAgain: boolean } | null = { granted: true, canAskAgain: true };
 
 jest.mock('expo-camera', () => {
   const React = jest.requireActual('react');
-  const CameraView = React.forwardRef(({ onCameraReady }: { onCameraReady?: () => void }, ref: unknown) => {
-    React.useImperativeHandle(ref, () => ({ takePictureAsync: mockTakePicture }));
+  const CameraView = React.forwardRef(({ onCameraReady, pictureSize }: MockCameraProps, ref: unknown) => {
+    mockPictureSize = pictureSize;
+    React.useImperativeHandle(ref, () => ({
+      takePictureAsync: mockTakePicture,
+      getAvailablePictureSizesAsync: async () => ['Low', 'High', '1920x1080', 'Photo'],
+    }));
     React.useEffect(() => {
       onCameraReady?.();
     }, [onCameraReady]);
@@ -374,6 +380,16 @@ describe('ReadFlow: photo -> OCR -> display and speech', () => {
     unmount();
     expect(services.speech.stops).toBeGreaterThan(0);
     expect(services.released).toBe(1);
+  });
+});
+
+describe('ReadFlow: camera picture size', () => {
+  it('asks the camera for full-size photos (the "Photo" preset on iOS), not its ~1080p default', async () => {
+    setup();
+    await settle();
+    fireEvent.press(screen.getByTestId('home-read'));
+    await settle();
+    expect(mockPictureSize).toBe('Photo');
   });
 });
 

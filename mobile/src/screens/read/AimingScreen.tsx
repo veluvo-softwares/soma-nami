@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { BigButton } from '../../components/BigButton';
-import { AIM_FRAME } from '../../reader/image';
+import { AIM_FRAME, bestPictureSize } from '../../reader/image';
 import type { Photo } from '../../reader/types';
 import { useBi } from '../../settings/SettingsContext';
 import { PHRASES, type PhraseId } from '../../speech/phrases';
@@ -34,6 +34,8 @@ export function AimingScreen({ speech, hint, canReadAnyway, onPhoto, onPick, onR
   const camera = useRef<CameraView>(null);
   const [ready, setReady] = useState(false);
   const [capturing, setCapturing] = useState(false);
+  // Full-size photos: the camera's default size was too coarse for small print (see bestPictureSize).
+  const [pictureSize, setPictureSize] = useState<string | undefined>(undefined);
   // The preview's size on screen: the photo is cropped to the frame drawn on it.
   const previewSize = useRef<{ width: number; height: number } | null>(null);
   const granted = permission?.granted ?? false;
@@ -109,7 +111,17 @@ export function AimingScreen({ speech, hint, canReadAnyway, onPhoto, onPick, onR
               ref={camera}
               style={StyleSheet.absoluteFill}
               facing="back"
-              onCameraReady={() => setReady(true)}
+              pictureSize={pictureSize}
+              onCameraReady={() => {
+                setReady(true);
+                const cam = camera.current;
+                // Not every camera offers the list (web, test doubles): then keep its default size.
+                if (typeof cam?.getAvailablePictureSizesAsync !== 'function') return;
+                cam
+                  .getAvailablePictureSizesAsync()
+                  .then((sizes) => setPictureSize(bestPictureSize(sizes)))
+                  .catch((e) => console.warn('[soma] picture sizes unavailable', e));
+              }}
             />
           ) : null}
           <View pointerEvents="none" style={styles.frame} />

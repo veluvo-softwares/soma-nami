@@ -81,3 +81,23 @@ export function frameCrop(image: Size, view: Size, frame: FrameInsets = AIM_FRAM
   if (x2 <= x1 || y2 <= y1) return null;
   return { originX: x1, originY: y1, width: x2 - x1, height: y2 - y1 };
 }
+
+/**
+ * The picture size to ask the camera for: the most pixels it offers. iOS lists
+ * capture presets ("Photo" is the full sensor, 12 MP on the iPhone 12) next to
+ * fixed sizes ("1920x1080"); Android lists "WxH" sizes. expo-camera's default
+ * on iOS is a video-like ~1080p preset, and at that size a dispensing label's
+ * typewriter print was too coarse for OCR (30 Oct): the same label read well
+ * from a full-size photo. Returns undefined when nothing usable is listed.
+ */
+export function bestPictureSize(sizes: readonly string[]): string | undefined {
+  if (sizes.includes('Photo')) return 'Photo';
+  let best: { size: string; area: number } | undefined;
+  for (const size of sizes) {
+    const m = /^(\d+)x(\d+)$/.exec(size);
+    if (!m) continue;
+    const area = Number(m[1]) * Number(m[2]);
+    if (!best || area > best.area) best = { size, area };
+  }
+  return best?.size;
+}
