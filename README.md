@@ -116,7 +116,8 @@ QVAC runs on the CPU on iOS on purpose. QVAC's iOS build compiles its Metal shad
 | Device | OS | Result |
 |---|---|---|
 | iPhone 12 (4 GB) | iOS 26.6.1, built with Xcode 27.0 | Tested by hand 25 and 26 Oct (Release build, airplane mode): clean paracetamol and small-print ibuprofen labels were read end to end; a hard photo and a handwritten dose went to Not sure, the safe outcome. Models download and the app reports ready. 29 Oct, TestFlight build 3 (on Wi-Fi): read aloud, Ask buttons, Tafsiri and saving to Dawa zangu run on the phone (results under "What it does"); some text around the label was read and one clear label went to Not sure, which led to #32. |
-| Any Android phone | Android 12+, arm64 | **Built, not tested on a physical device.** An APK is built on EAS and published to the releases repo, but no result from an Android phone has been recorded. Treat Android as untested. |
+| Samsung Galaxy A04 (low-end, MediaTek Helio P35) | Android (version not recorded), arm64 | Tested by hand 28 Oct with an EAS-built APK (`main` that day, before #31 to #35): it installs and opens quickly, and a label was read end to end with no crash or freeze. It is **very slow** on this phone: about 4 minutes of OCR ("Nasoma... subiri kidogo"), about 4 more minutes before the first word is spoken, and long pauses between lines. It shows the app runs on a low-end Android phone, not that it is usable on one. |
+| Other Android phones | Android 12+, arm64 | Not tested. Mid-range phones (faster CPUs, more memory) have not been tried, and neither have builds after 28 Oct. |
 
 Not tested on a device yet: hold-to-talk, the OCR timeout, the iCloud exclusion, the crop and reading scope (#32), the new Reading screen (#31), the Ask and Tafsiri fixes (#34) and notes (#33). They have unit and component tests. VoiceOver has not been used with the new screens. Pears has been self-tested on a server only. The Swahili clips have not been judged by ear.
 
@@ -129,7 +130,7 @@ Measured on the iPhone 12 in a Release build (Xcode memory gauge), 26 Oct:
 - Ask with buttons loads no model, so it adds no model memory. Hold-to-talk loads Whisper small (264 MB file) for the transcription step only; its memory and speed on the iPhone 12 are **not measured**.
 - Tafsiri loads TranslatePsy (672 MB file) for the translate step and unloads it straight after. Its memory and speed on the iPhone 12 are **not measured**.
 
-On a one-core server, OCR took 78 s (spike report). Android memory has not been measured.
+On a one-core server, OCR took 78 s (spike report). On the Galaxy A04 a read took about 8 minutes from the photo to the first spoken word (see "Tested devices"). Android memory has not been measured.
 
 ## Licences
 
@@ -169,7 +170,7 @@ The code, Swahili phrase text, matching rules and tests were written during the 
 
 ## Roadmap
 
-Next steps: checking hold-to-talk and the fixes since build 3 on a phone, **recorded voice notes** on saved medicines (a caregiver's voice in any language, since text notes can't be spoken) (and switching to Whisper base, about 3x faster, if Whisper small is too slow on the CPU); finishing the pharmacist hand-off over Pears (add an entry button on Home, link the native addons into the iOS and Android builds, check it on two phones in airplane mode, and **pin the peer's identity** so the 4-digit code isn't the only protection). Beyond that: Kikuyu. English to Kikuyu translation models exist (C-elo Labs, DeepSahel), but there is no open, offline Kikuyu voice yet, which is the blocker. See [docs/scope.md](docs/scope.md) section 9.
+Next steps: checking hold-to-talk and the fixes since build 3 on a phone, making reading usable on low-end Android phones (the Galaxy A04 takes about 8 minutes per label) and testing a mid-range one, **recorded voice notes** on saved medicines (a caregiver's voice in any language, since text notes can't be spoken) (and switching to Whisper base, about 3x faster, if Whisper small is too slow on the CPU); finishing the pharmacist hand-off over Pears (add an entry button on Home, link the native addons into the iOS and Android builds, check it on two phones in airplane mode, and **pin the peer's identity** so the 4-digit code isn't the only protection). Beyond that: Kikuyu. English to Kikuyu translation models exist (C-elo Labs, DeepSahel), but there is no open, offline Kikuyu voice yet, which is the blocker. See [docs/scope.md](docs/scope.md) section 9.
 
 ## License
 
