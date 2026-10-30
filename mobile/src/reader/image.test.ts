@@ -1,4 +1,4 @@
-import { AIM_FRAME, FRAME_SLACK, fitLongSide, frameCrop, uriToPath } from './image';
+import { AIM_FRAME, bestPictureSize, fitLongSide, FRAME_SLACK, frameCrop, uriToPath } from './image';
 import { encodeWav } from '../speech/wav';
 
 describe('fitLongSide', () => {
@@ -101,5 +101,18 @@ describe('frameCrop: the part of a camera photo inside the aiming frame', () => 
   it('returns null for an unknown size, so the photo is read uncropped', () => {
     expect(frameCrop({ width: 0, height: 100 }, { width: 300, height: 300 })).toBeNull();
     expect(frameCrop({ width: 1000, height: 1000 }, { width: 0, height: 0 })).toBeNull();
+  });
+});
+
+describe('bestPictureSize', () => {
+  it('takes the full-sensor "Photo" preset on iOS', () => {
+    expect(bestPictureSize(['Low', 'Medium', 'High', '1920x1080', '3840x2160', 'Photo'])).toBe('Photo');
+  });
+  it('otherwise the size with the most pixels', () => {
+    expect(bestPictureSize(['1280x720', '4032x3024', '1920x1080'])).toBe('4032x3024');
+  });
+  it('nothing usable: leave the camera default', () => {
+    expect(bestPictureSize([])).toBeUndefined();
+    expect(bestPictureSize(['High', 'Medium'])).toBeUndefined();
   });
 });

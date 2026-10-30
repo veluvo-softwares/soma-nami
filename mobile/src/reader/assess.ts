@@ -199,8 +199,10 @@ export function unreadableShare(lines: readonly LabelLine[]): number {
  * Decides what happens to a photo once OCR has returned its lines. The lines
  * it hands on are the label's only (labelLines). The handwriting check looks
  * at every line, so a dose note beside the label can't slip through.
+ * `framing: false` (a photo picked from the library) skips the hints that ask
+ * the user to move the camera, which can't apply to a photo already taken.
  */
-export function assessPhoto(allLines: LabelLine[], size: ImageSize): Assessment {
+export function assessPhoto(allLines: LabelLine[], size: ImageSize, { framing = true } = {}): Assessment {
   if (allLines.length === 0) return { kind: 'hint', hint: 'hint_no_text', lines: allLines };
   const lines = labelLines(allLines);
 
@@ -210,7 +212,7 @@ export function assessPhoto(allLines: LabelLine[], size: ImageSize): Assessment 
     return { kind: 'not-sure', reason: 'mostly-unreadable', lines };
   }
 
-  const hint = framingHint(lines, size);
+  const hint = framing ? framingHint(lines, size) : null;
   if (hint) return { kind: 'hint', hint, lines };
   return { kind: 'read', lines };
 }
